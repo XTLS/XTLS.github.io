@@ -1,0 +1,102 @@
+title = "Project X"
+# theme = "docsy"
+theme = "docport"
+baseURL = "https://xtls.github.io"
+languageCode = "zh-cn"
+DefaultContentLanguage = "en"
+pygmentsCodeFences = true
+pygmentsStyle = "monokai"
+
+disableAssetsBusting = false 
+
+defaultContentLanguageInSubdir= false
+enableMissingTranslationPlaceholders = false
+
+# googleanalytics = "UA-123-45"
+
+disableKinds = ["taxonomy", "taxonomyTerm", "category", "RSS"]
+
+# Keep this as is
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+# Site params
+[params]
+ordersectionsby = "weight" # ordersectionsby = "title"
+color_main = "#737373"
+color_second = "#E24800"
+# color_second = "#e66a4e"
+disableSearch = true # default is false
+disableNavChevron = true # set true to hide next/prev chevron, default is false
+menushortcutsnewtab = false # set true to open shortcuts links to a new tab/window
+
+editURL = "https://github.com/XTLS/XTLS.github.io/tree/main/content/"
+enableGitInfo = true
+
+author = "Project X" 
+description = "Project X Documents" 
+
+disableInlineCopyToClipBoard = false
+
+[mediaTypes]
+  [mediaTypes."application/netlifyconfig"]
+    suffixes = ["yml"]
+
+[outputFormats]
+[outputFormats.netlifyyaml]
+mediaType = "application/netlifyconfig"
+isPlainText = true
+isHTML = false
+notAlternative = true
+
+[markup.goldmark.renderer]
+unsafe = true
+
+# Code highlight configuration
+[markup.highlight]
+codeFences = true
+guessSyntax = true
+hl_Lines = ""
+lineNoStart = 1
+lineNos = false
+lineNumbersInTable = true
+noClasses = true
+style = "monokai"
+tabWidth = 2
+
+#
+# top menu shotcuts
+#
+
+[[menu.shortcuts]]
+name = "What's New"
+# identifier = "ds"
+url = "/about/new"
+weight = 9
+
+[[menu.shortcuts]]
+name = "Github"
+# identifier = "ds"
+url = "https://github.com/XTLS"
+weight = 10
+
+[[menu.shortcuts]]
+name = "Download"
+url = "https://github.com/XTLS/Xray-core/releases"
+weight = 11
+
+[[menu.shortcuts]]
+name = "Documentation"
+# identifier = "hugodoc"
+url = "https://xtls.github.io/"
+weight = 20
+
+# [[menu.shortcuts]]
+# name = "Credits"
+# url = "/docport-theme/credits/"
+# weight = 30
+
+# [[menu.shortcuts]]
+# name = "<i class='fas fa-tags'></i> Tags"
+# url = "/tags"
+# weight = 30
