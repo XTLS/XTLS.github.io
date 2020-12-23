@@ -6,7 +6,8 @@
 
 ### 网站内容
 
-网站包含了 [project X 文档网站](https://xtls.github.io/) 所呈现的所有内容.
+网站包含了 [project X 文档网站](https://xtls.github.io/) 所呈现的所有内容.  
+
 
 ### 文档的组织结构
 网站的文章内容在 content 目录下, 具体的组织结构如下:
@@ -30,7 +31,7 @@
 - 其余的 page*.md 作为此章节的子页面
 - 每个页面文件可以编辑元数据设置页面的具体细节
 
-可以在 [Hugo](https://gohugo.io/) 和 [DocPort](https://docport.netlify.app/docport-theme/) 的网站上获得更多如何编辑页面的咨询.
+可以在 [Hugo](https://gohugo.io/) 和 [DocPort](https://docport.netlify.app/docport-theme/) 的网站上获得更多如何编辑页面的咨询.  
 
 ### 目录与主菜单对应关系
 目录名称|菜单名称
@@ -44,7 +45,10 @@ QA|常见问答
 caseslip|大案牍术
 links|常用链接
 
-部分菜单还存在二级菜单, 直接查看其下内容即可.
+部分菜单还存在二级菜单, 直接查看其下内容即可.  
+
+
+## 帮助我们改进网站
 
 ### 改进网站内容
 
@@ -58,10 +62,10 @@ links|常用链接
 
 ### 自动构建
 
-当成功向仓库提交了修改后, 会自动重新构建 [project X 文档网站](https://xtls.github.io/)
+当成功向仓库提交了修改或 PR 被 merge 后, 会自动重新构建 [project X 文档网站](https://xtls.github.io/)
 只需稍等片刻,就可以在网站上看到修改的最新呈现.
 
-### 致谢
+## 致谢
 - [Hugo](https://gohugo.io/)
 - [DocPort](https://docport.netlify.app/docport-theme/)
 - 每一位帮助我们改进文档的朋友!
