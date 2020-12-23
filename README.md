@@ -62,7 +62,8 @@ links|常用链接
 
 ### 自动构建
 
-当成功向仓库提交了修改或 PR 被 merge 后, 会自动重新构建 [project X 文档网站](https://xtls.github.io/)
+当成功向仓库提交了修改或 PR 被 merge 后, 会自动重新构建 [project X 文档网站](https://xtls.github.io/)  
+
 只需稍等片刻,就可以在网站上看到修改的最新呈现.
 
 ## 致谢
