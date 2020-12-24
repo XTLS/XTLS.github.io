@@ -32,7 +32,7 @@ weight: 1
 - 📩 在[Github issues](https://github.com/XTLS/Xray-core/issues)或[讨论区](https://github.com/XTLS/Xray-core/discussions)提交建设性或有意义的issue/讨论.
 - 📝 写下您的使用心得并提交至 Xray 的[文档网站](https://github.com/XTLS/XTLS.github.io).
 - 💬 在Telegram群帮助群友/灌水.
-- **...事实上,每一分给予 Xray 的正能量都会让Xray变得更强大**
+- **...事实上,每一份给予 Xray 的正能量都会让Xray变得更强大**
 <br />
 <br />
 ### Telegram
