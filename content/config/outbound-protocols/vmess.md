@@ -7,7 +7,7 @@ weight: 7
 
 # VMess
 
-[VMess](../../developer/protocols/vmess.md) 是一个加密传输协议，通常作为 Xray 客户端和服务器之间的桥梁。
+[VMess](../../../develop/protocols/vmess) 是一个加密传输协议，通常作为 Xray 客户端和服务器之间的桥梁。
 
 {{% notice danger important %}}
 VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在 90 秒之内，时区无关。在 Linux 系统中可以安装`ntp`服务来自动同步系统时间。</br>

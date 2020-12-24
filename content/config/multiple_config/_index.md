@@ -28,7 +28,7 @@ Xray 程序支持使用多个配置文件。
 $ xray run -confdir /etc/xray/confs
 ```
 
-也可使用 [环境变量](env.md#多配置目录) `Xray.location.confdir` 或 `Xray_LOCATION_CONFDIR` 指定 `confdir`。
+也可使用 `Xray.location.confdir` 或 `Xray_LOCATION_CONFDIR` 指定 `confdir`。
 
 参数 `-confdir` 的作用优先于环境变量，如果参数指定了有效的目录则不再读取环境变量中的路径。
 
