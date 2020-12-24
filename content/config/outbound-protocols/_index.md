@@ -6,7 +6,7 @@ description: Project X 的文档.
 hide:
 - toc
 # post: "&nbsp;\U0001F44B"
-title: ounbound可用协议列表
+title: outbound可用协议列表
 weight: 6
 ---
 
