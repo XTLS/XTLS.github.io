@@ -16,7 +16,7 @@ weight: 2
 
 {{% notice dark %}}[vless](./vless){{% /notice %}}
 VLESS 是一个无状态的轻量传输协议，可以作为 Xray 客户端和服务器之间的桥梁。
-{{% notice dark %}}[vmess](./vmess){{% /notice %}}
+{{% notice dark %}}[VMess](./vmess){{% /notice %}}
 VMess 是一个加密传输协议，可以作为 Xray 客户端和服务器之间的桥梁。
 {{% notice dark %}}[Mux.Cool](./muxcool){{% /notice %}}
 Mux.Cool 协议是一个多路复用传输协议，用于在一条已建立的数据流中传输多个各自独立的数据流。

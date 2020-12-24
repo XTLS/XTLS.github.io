@@ -21,7 +21,7 @@ HTTP 协议
 标准 Socks 协议实现，兼容 [Socks 4](http://ftp.icm.edu.pl/packages/socks/socks4/SOCKS4.protocol)、Socks 4a 和 [Socks 5](http://ftp.icm.edu.pl/packages/socks/socks4/SOCKS4.protocol)。
 {{% notice dark %}}[vless](./vless){{% /notice %}}
 VLESS 是一个无状态的轻量传输协议，可以作为 Xray 客户端和服务器之间的桥梁。
-{{% notice dark %}}[vmess](./vmess){{% /notice %}}
+{{% notice dark %}}[VMess](./vmess){{% /notice %}}
 [VMess](../../developer/protocols/vmess.md) 是一个加密传输协议，，可以作为 Xray 客户端和服务器之间的桥梁。
 {{% notice dark %}}[trojan](./trojan){{% /notice %}}
 [Trojan](https://trojan-gfw.github.io/trojan/protocol)协议
