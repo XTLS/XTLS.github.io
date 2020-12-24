@@ -11,11 +11,11 @@ weight: 1
 
 {{% /panel %}}
 
-{{% panel theme="warning" header="**Q: 我在VPS上运行了脚本, 好像安装好了, 可是似乎没反应?/系统服务器不能启动?/我也不知道有没有安装成功?** " %}}
+{{% panel theme="warning" header="**Q: 我在VPS上运行了脚本, 好像安装好了, 可是似乎没反应?/系统服务不能启动?/我也不知道有没有安装成功?** " %}}
 
 使用命令 'journalctl -u xray' 查看 xray 的相关日志。<br />
 或者<br /> 
-终端命令行中执行 'xray run -c 您的config.json' 文件路径 来查看相关信息
+终端命令行中执行 'xray run -c 您的config.json文件路径' 来查看相关信息
 
 {{% /panel %}}
 
