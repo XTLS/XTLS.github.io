@@ -75,7 +75,7 @@ url = "/about/new"
 weight = 9
 
 [[menu.shortcuts]]
-name = "Github"
+name = "GitHub"
 # identifier = "ds"
 url = "https://github.com/XTLS"
 weight = 10
