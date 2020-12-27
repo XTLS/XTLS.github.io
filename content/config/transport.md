@@ -223,6 +223,7 @@ CipherSuites用于配置受支持的密码套件列表, 每个套件名称之间
 
 ```json
 {
+    "ocspStapling": 3600,
     "usage": "encipherment",
     "certificateFile": "/path/to/certificate.crt",
     "keyFile": "/path/to/key.key",
@@ -276,6 +277,8 @@ CipherSuites用于配置受支持的密码套件列表, 每个套件名称之间
     ]
 }
 ```
+{{% notice dark %}}  `ocspStapling`: number {{% /notice %}}
+
 
 {{% notice dark %}}  `usage`: "encipherment" | "verify" | "issue"{{% /notice %}}
 
