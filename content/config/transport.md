@@ -277,8 +277,9 @@ CipherSuites用于配置受支持的密码套件列表, 每个套件名称之间
     ]
 }
 ```
-{{% notice dark %}}  `ocspStapling`: number {{% /notice %}}
+{{% notice dark %}}  `ocspStapling`: number {{% /notice %}} 
 
+ocspStapling 的缓存时间， 单位：秒
 
 {{% notice dark %}}  `usage`: "encipherment" | "verify" | "issue"{{% /notice %}}
 
