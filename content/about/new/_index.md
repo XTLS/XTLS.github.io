@@ -20,7 +20,7 @@ weight: 1
 - 你可以用你喜欢的格式写配置文件了，比如yaml，比如toml...
 - （VLESS 的 UDP fullcone和更多增强很快就到！）
 - 无须再担心证书验证被墙，OCSP stapling 已经上线!
-- kirin带来了很多脚本更新.[脚本在此](https://github.com/XTLS/Xray-install)
+- kirin带来了一大波   脚本更新.[脚本在此](https://github.com/XTLS/Xray-install)
 - 还有更多美味小樱桃！（不用问，更新品尝就对了）
 
 <br />
