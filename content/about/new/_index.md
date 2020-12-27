@@ -9,6 +9,36 @@ post: "&nbsp;"
 title: 大史记
 weight: 1
 ---
+
+## 2020.12.25
+---
+圣诞节快乐！
+
+###  [v1.1.5](https://github.com/XTLS/Xray-core/releases/tag/v1.1.5)
+---
+- 游戏玩家的圣诞礼物！你可以用xray爽快的打游戏啦！因为有了 SS/trojan UDP fullcone 
+- （VLESS 的 UDP fullcone和更多增强很快就到！）
+- 你可以用你喜欢的格式写配置文件了，比如yaml，比如toml...
+- 无须再担心证书验证被墙，OCSP stapling 已经上线!
+- 还有更多美味小樱桃！（不用问，更新品尝就对了）
+
+<br />
+
+## 2020.12.24
+因为某些不可描述的原因，Xray 的文档网站已在发布日前偷跑上线。<br>
+网址为：[没错你正在看的就是](https://xtls.github.io)
+
+大家可以查阅各种内容也欢迎纠错/提出建议（可发往文档github仓库的issue区）
+
+文档网站需要不断完善和增加内容，以及完善设计。<br>
+因此更欢迎大家一起为文档建设添砖加瓦。<br>
+[文档的仓库](https://github.com/XTLS/XTLS.github.io)
+
+仓库的readme中有简略教程说明如何帮助xray改进文档网站.<br>
+欢迎大家查看，纠错，修改，增加心得。
+
+<br />
+
 ## 2020.12.23
 Xray-core Shadowsocks UDP FullCone 测试版, [TG群](https://t.me/projectXray)火热测试中
 
