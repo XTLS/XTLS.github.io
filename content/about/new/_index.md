@@ -10,6 +10,11 @@ title: 大史记
 weight: 1
 ---
 
+## 2020.12.29
+透明代理的游戏玩家利好！ Xray-core tproxy 入站， socks出站 UDP FullCone 测试版, [TG群](https://t.me/projectXray)火热测试中
+
+<br />
+
 ## 2020.12.25
 ---
 圣诞节快乐！
