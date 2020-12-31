@@ -9,6 +9,11 @@ post: "&nbsp;"
 title: 大史记
 weight: 1
 ---
+## 2021.01.01
+
+【祝大家新年快乐，嗨皮牛耶！】
+
+<br />
 
 ## 2020.12.29
 透明代理的游戏玩家利好！ Xray-core tproxy 入站， socks出站 UDP FullCone 测试版, [TG群](https://t.me/projectXray)火热测试中
