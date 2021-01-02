@@ -28,7 +28,7 @@ weight: 1
   - 日趋完善的功能!
   - 可怕的生命力与社区亲和力！
 - Xray 将继续保持前行！ 因此 [Xray 需要更多的英雄！！](https://github.com/XTLS/Xray-core/discussions/56)！
-- PS：请品，请细品[release notes](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0)每一句。我觉得@rprxx 夹带了一些 ~~（啊，有人敲门...我一会和你们说）~~
+- PS：请品，请细品[release notes](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0)每一句。似乎有一个小秘密小彩蛋 ~~（啊，有人敲门...我一会和你们说）~~
 
 <br />
 
