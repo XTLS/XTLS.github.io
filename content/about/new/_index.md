@@ -12,8 +12,9 @@ weight: 1
 
 ## 2021.01.03
 ---
-文档仓库第一个PR。<br>
+- 文档仓库第一个PR。<br>
 [透明代理（TProxy）配置教程 ](../../documents/level-2/tproxy) ，感谢<img src="https://avatars2.githubusercontent.com/u/41363844?s=32" width="32px" height="32px" alt="a"/> [@BioniCosmos](https://github.com/BioniCosmos)
+- tg群突破2500。
 
 <br />
 
