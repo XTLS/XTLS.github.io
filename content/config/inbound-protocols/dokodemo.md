@@ -50,9 +50,12 @@ Dokodemo door（任意门）可以监听一个本地端口，并把所有进入�
 
 用户等级，连接会使用这个用户等级对应的[本地策略](../../policy#levelpolicyobject)。
 
-userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
+userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如不指定, 默认为 0。
 
 <br />
 
 ## 透明代理配置样例
+
 ---
+
+此部分请参考[透明代理（TProxy）配置教程](https://xtls.github.io/documents/level-2/tproxy)
