@@ -55,4 +55,7 @@ userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. �
 <br />
 
 ## 透明代理配置样例
+
 ---
+
+此部分请参考[透明代理（TProxy）配置教程](https://xtls.github.io/documents/level-2/tproxy)。
