@@ -22,8 +22,11 @@ weight: 1
 
 <font size=3>[【第1章】 前言罗嗦篇](./ch01-preface) -  机场还是自建？这是个问题</font>
 
-<font size=3>[【第2章】 原料准备篇]() -  coming soon</font>
+<font size=3>[【第2章】 原料准备篇](./ch02-preparation) -  工欲善其事，必先利其器</font>
 
-{{% badge warning %}}In progress{{% /badge %}}
+<font size=3>[【第3章】 远程登录篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
+
+
+
 
 {{% /notice %}}
