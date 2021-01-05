@@ -80,3 +80,35 @@ D:/Xray run -c D:/Xray.json `
 {{% /panel %}}
 
 <br />
+
+{{% panel theme="warning" header="**Q: 如何配置才能在myssl或者ssllibs得到双A+的评价？** " %}}
+
+首先，这不是必需的，即便没有双A+，甚至只有B，也并不意味着不安全。
+
+你现在可以这样做:
+
+1. 前提, 你的证书是ECC证书, 比如你用acme.sh可以这样获取
+```
+./acme.sh --issue -d "your.domain" -w /var/www/html -k ec-256 --cert-file /etc/xray/"your.domain"/"your.domain".cer --key-file /etc/xray/"your.domain"/"your.domain".key --fullchain-file /etc/xray/"your.domain"/fullchain.cer --force
+
+```
+
+<br /> 
+
+2. 只需简单的在 **服务端的** TLS 配置 (streamsettings中的tlsSettings/xtlsSettings) 中加入
+```
+"minVersion": "1.2"
+```
+**即可在myssl或ssllabs上获得A**
+
+ <br /> 
+
+3. 然后在回落的网站服务器上开启HSTS,如 Nginx 只需配置   
+```
+add_header Strict-Transport-Security "max-age=63072000" always;
+```
+**即可在myssl或ssllabs上获得A+**
+
+{{% /panel %}}
+
+<br />
