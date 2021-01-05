@@ -18,7 +18,7 @@ Fallback 是 Xray 的最强大功能之一, 可有效防止主动探测, 自由�
 
 {{% /panel %}}
 
-{{% panel theme="warning" header="**Q: 我还是上一题的提问者, 那么我如何使用gproxy protocal,达到所有日志都有源IP的目的呢?** " %}}
+{{% panel theme="warning" header="**Q: 我还是上一题的提问者, 那么我如何使用proxy protocol,达到所有日志都有源IP的目的呢?** " %}}
 
 ~~等待好心人写一篇小小白白话文~~
 
