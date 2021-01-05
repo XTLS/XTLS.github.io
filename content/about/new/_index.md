@@ -10,9 +10,15 @@ title: 大史记
 weight: 1
 ---
 
+## 2021.01.05
+---
+- 文档网站正在悄悄的进行着某些神秘的变化。。。，🙊🙊🙊
+
+<br />
+
 ## 2021.01.03
 ---
-- 文档仓库第一个PR。<br>
+- 文档仓库第一个PR。🎉<br>
 [透明代理（TProxy）配置教程 ](../../documents/level-2/tproxy) ，感谢<img src="https://avatars2.githubusercontent.com/u/41363844?s=32" width="32px" height="32px" alt="a"/> [@BioniCosmos](https://github.com/BioniCosmos)
 - tg群突破2500。
 
@@ -21,12 +27,12 @@ weight: 1
 ## 2021.01.01
 ---
 
-【祝大家新年快乐，嗨皮牛耶！】
+【祝大家新年快乐，嗨皮牛耶！】🎆🎇🎆
 
 ###  [v1.2.0](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0)
 ---
 
-在元旦的最后几分钟，v1.2.0它来了，带着周五必更的惯例，带着各位贡献大佬的心血以及 @rprxx 的黑眼圈，不负众望的来了!
+🎁在元旦的最后几分钟，v1.2.0它来了，带着周五必更的惯例，带着各位贡献大佬的心血以及 @rprxx 的黑眼圈，不负众望的来了!
 - 圣诞礼物[v1.1.5](https://xtls.github.io/about/new/#20201225)后的元旦礼物🎁，游戏玩家大福利，全面 FullCone。
 - （UDP还会继续增强！）
 - 如果你已经拆过圣诞礼物，这次还有比圣诞礼物更精美的包装和小糖果哦。（同样不用问，更新品尝就对了）
