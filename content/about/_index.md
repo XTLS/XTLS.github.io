@@ -61,6 +61,6 @@ weight: 1
 <br /><br />
 ### Stargazers over time
 ---
-{{% badge info %}}Project X 的 GitHub 主仓库 Xray-core 已获 1400+ stars；Project X 群人数破2000，频道订阅数 1000{{% /badge %}}
+{{% badge info %}}Project X 的 GitHub 主仓库 Xray-core 已获 1800+ stars；Project X 群人数破2500，频道订阅数 1000{{% /badge %}}
 
 [![Stargazers over time](https://starchart.cc/XTLS/Xray-core.svg)](https://starchart.cc/XTLS/Xray-core)
