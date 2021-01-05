@@ -112,6 +112,3 @@ weight: 1
 `⬛⬜⬜⬜⬜⬜⬜⬜` **`12.5%`**
 
 
-{{% notice dark %}}
-<font size=3> >> [【第2章】 原料准备篇](./ch02-preparation)</font>
-{{% /notice %}}
