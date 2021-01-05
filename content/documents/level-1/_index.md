@@ -5,8 +5,8 @@ description: Project X 的文档.
 # head: <hr/>
 hide:
 - toc
-post: "&nbsp;📙"
-title: 小小白白话文
+post: "&nbsp;"
+title: 入门技巧
 weight: 2
 ---
 {{% alert theme="warning" %}}**这个章节是入门级的Xray使用心得分享, 如果您想掌握Xray的使用技巧, 可以从这里开始**{{% /alert %}}
