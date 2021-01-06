@@ -13,9 +13,9 @@ weight: 3
 
 ## 3.1 远程登录VPS (PuTTY)
 
-首先，鉴于零基础人群中Windows的用户基数最大，所以本文默认以Windows为例。
+首先，鉴于零基础人群中Windows的用户基数最大，所以本文以Windows为例进行展示。
 
-其次，虽然Windows 10之后的PowerShell和WSL也可以达到很好的SSH操作体验。但是因为并非所有版本的Windows都有最新的组件，顾本文还是以老牌的PuTTY为例，进行SSH远程登录的操作详解。（使用其他工具的话、在SSH登陆之后的操作都是一样的）
+其次，虽然Windows 10之后的PowerShell和WSL也可以达到很好的SSH操作体验。但是因为并非所有版本的Windows都有最新的组件，故本文还是以老牌的PuTTY为例，进行SSH远程登录的操作详解。（使用其他工具的话、在SSH登陆之后的操作都是一样的）
 
 下面就跟我一步步操作吧。
 
@@ -31,7 +31,7 @@ weight: 3
 
     <img src="../ch03-img03-putty-keepalive.png"  alt="防止频繁断线"/>
 
-4. 点击 Open 就会进入SSH连接窗口，对应下图输入用户名与密码，与你的VPS远程主机建立连接。（本文假设默认用户名是 `root`）
+4. 点击 Open 就会进入SSH连接窗口，对应下图输入用户名与密码，与你的VPS远程主机建立连接。（本文假设默认用户名是 `root`，另外，在Linux系统输入密码的时候，是不会出现 `******` 这种提示符的（避免密码长度泄漏），不是你的键盘坏掉了哦！）
 
     <img src="../ch03-img04-ssh-login.png"  alt="SSH远程登录"/>
 
