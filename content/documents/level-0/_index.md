@@ -24,8 +24,9 @@ weight: 1
 
 <font size=3>[【第2章】 原料准备篇](./ch02-preparation) -  工欲善其事，必先利其器</font>
 
-<font size=3>[【第3章】 远程登录篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
+<font size=3>[【第3章】 远程登录篇](./ch03-ssh) -  一桥飞架南北，天堑变通途</font>
 
+<font size=3>[【第4章】 安全防护篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
 
 
 
