@@ -10,6 +10,14 @@ title: 大史记
 weight: 1
 ---
 
+## 2021.01.07
+---
+- [project X 的第一个block，挂一下尸体](https://github.com/XTLS/Xray-core/issues/133#issuecomment-756148180)
+- 礼貌和尊重本应是社区不需要明说的准则之一。
+
+<br />
+
+
 ## 2021.01.05
 ---
 - 文档网站正在悄悄的进行着某些神秘的变化。。。，🙊🙊🙊
