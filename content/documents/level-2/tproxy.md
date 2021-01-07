@@ -443,7 +443,7 @@ WantedBy=sysinit.target
 
 之后编辑 `/lib/systemd/system/netfilter-persistent.service`。
 
-```int
+```ini
 [Unit]
 Description=netfilter persistent configuration
 DefaultDependencies=no
