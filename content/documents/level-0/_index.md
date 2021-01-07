@@ -26,8 +26,9 @@ weight: 1
 
 <font size=3>[【第3章】 远程登录篇](./ch03-ssh) -  一桥飞架南北，天堑变通途</font>
 
-<font size=3>[【第4章】 安全防护篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
+<font size=3>[【第4章】 安全防护篇](./ch04-security) -  安全不注意，亲人两行泪 </font>
 
+<font size=3>[【第5章】 网站建设篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
 
 
 {{% /notice %}}
