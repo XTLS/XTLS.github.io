@@ -25,6 +25,6 @@ weight: 4
 
 
 {{% notice dark %}}
-<font size=3>[[透明代理]通过gid规避Xray流量](./) by <img src="https://avatars2.githubusercontent.com/u/57820613?s=32" width="32px" height="32px" alt="a"/> [@kirin](https://github.com/kirin10000)</font>
+<font size=3>[[透明代理]通过gid规避Xray流量](./iptables_gid.md) by <img src="https://avatars2.githubusercontent.com/u/57820613?s=32" width="32px" height="32px" alt="a"/> [@kirin](https://github.com/kirin10000)</font>
 {{% /notice %}}
 在iptables/nftables实现的透明代理中，一种新的规避Xray流量的方式
