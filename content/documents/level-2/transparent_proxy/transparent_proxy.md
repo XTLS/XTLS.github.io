@@ -38,7 +38,7 @@ iptables与nftables实现透明代理的原理相同，下文统一使用iptable
 # iptables实现透明代理原理
 Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 
-![Netfilter](./netfilter.png)
+![Netfilter](../netfilter.png)
 
 **假设使用路由器作为网关(即我们平时的上网方式)，那么：**
 
