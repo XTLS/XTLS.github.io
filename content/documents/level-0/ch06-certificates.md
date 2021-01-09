@@ -49,7 +49,7 @@ weight: 6
 
 5. 到这一步的完整流程如下图：
 
-    <img src="../ch06-img01-acme-install.gif"  alt="网页设置演示"/>
+    <img src="../ch06-img01-acme-install.gif"  alt="acme.sh安装演示"/>
 
 
 ## 6.3 申请证书
