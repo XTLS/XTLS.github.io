@@ -54,6 +54,16 @@ go env -w GOPROXY=https://goproxy.io,direct
 ```bash
 CGO_ENABLED=0 go build -o xray -trimpath -ldflags "-s -w -buildid=" ./main
 ```
+
+如果需要编译可以进行debug的程序,即可以用dlv附加到运行的程序进行调试, 请去掉 ldflags 中的 '-w -s' 选项.
+
+{{% notice info %}}
+**TIP**\
+-w 禁止生成debug信息,注意使用该选项后，无法使用 gdb 进行调试<br />
+-s 禁用符号表<br />
+PS:其实用vscode调试似乎更方便.
+{{% /notice %}}
+
 <br />
 
 #### 交叉编译
