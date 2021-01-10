@@ -165,7 +165,7 @@ weight: 7
 
 3. 使用`nano`创建Xray的配置文件
     ```
-    $ sudo nano /usr/local/etc/config.json
+    $ sudo nano /usr/local/etc/xray/config.json
     ```
 
 4. 将下面的文件全部复制进去，并将之前生成的`UUID`填入第61行 `"id": "",` 之中。（填好之后的样子是 `"id": "uuiduuid-uuid-uuid-uuid-uuiduuiduuid"`），本文的这个配置文件中增加了我的各种啰嗦注解，以方便你理解每一个配置模块的功能是什么。
