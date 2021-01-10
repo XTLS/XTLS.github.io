@@ -10,6 +10,14 @@ title: 大史记
 weight: 1
 ---
 
+## 2021.01.10
+---
+- [小小白白话文](https://xtls.github.io/documents/level-0/)连载上线了,瓜老师连载了7章小小白白话文, 手把手教你从什么都不会到熟练配置Xray
+- [透明代理](https://xtls.github.io/documents/level-2/)增加了更多文章
+- 还有很多细节修改,感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000), 
+
+<br />
+
 ## 2021.01.07
 ---
 - 礼貌和尊重本应是社区不需要明说的准则之一。
