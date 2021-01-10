@@ -12,9 +12,11 @@ weight: 1
 
 ## 2021.01.10
 ---
-- [小小白白话文](https://xtls.github.io/documents/level-0/)连载上线了,瓜老师连载了7章小小白白话文, 手把手教你从什么都不会到熟练配置Xray
-- [透明代理](https://xtls.github.io/documents/level-2/)增加了更多文章
-- 还有很多细节修改,感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000), 
+- [小小白白话文](https://xtls.github.io/documents/level-0/)连载上线啦,🍉老师呕心沥血之作, 手把手教你从什么都不会到熟练配置Xray! 
+- (可能是整个互联网上, 最详细最有耐心的教你从0开始配置的教程)
+- [透明代理](https://xtls.github.io/documents/level-2/)也增加了更多文章.
+- 还有很多细节修改, 文档将会越来越规范! 
+- 感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000), 
 
 <br />
 
