@@ -82,14 +82,13 @@ userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. �
 
 目前入站协议中有以下流控模式可选：
 
-- `xtls-rprx-origin`：最初的流控模式，此时客户端仅可选择 `xtls-rprx-origin` 和 `xtls-rprx-origin-udp443` 这两种流控模式>。该模式纪念价值大于实际使用价值
-
+- `xtls-rprx-origin`：最初的流控模式，此时客户端仅可选择 `xtls-rprx-origin` 和 `xtls-rprx-origin-udp443` 这两种流控模式。该模式纪念价值大于实际使用价值
 - `xtls-rprx-direct`：**推荐**，所有平台皆可使用的典型流控方式，此时客户端可选择任何流控模式
 
 {{% notice warning %}}
 **注意**
 
-当 `flow` 被指定时，还需要将该入站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`>。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
+当 `flow` 被指定时，还需要将该入站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
 
 此外，目前 XTLS 仅支持 TCP、mKCP、DomainSocket 这三种传输方式。
 {{% /notice %}}

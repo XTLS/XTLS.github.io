@@ -88,7 +88,6 @@ level 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如�
 目前入站协议中有以下流控模式可选：
 
 - `xtls-rprx-origin`：最初的流控模式，此时客户端仅可选择 `xtls-rprx-origin` 和 `xtls-rprx-origin-udp443` 这两种流控模式。该模式纪念价值大于实际使用价值
-
 - `xtls-rprx-direct`：**推荐**，所有平台皆可使用的典型流控方式，此时客户端可选择任何流控模式
 
 {{% notice warning %}}

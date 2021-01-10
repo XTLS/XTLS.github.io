@@ -24,7 +24,7 @@ VLESS 是一个无状态的轻量传输协议，可以作为 Xray 客户端和�
 {{% notice dark %}}[VMess](./vmess){{% /notice %}}
 [VMess](../../develop/protocols/vmess) 是一个加密传输协议，，可以作为 Xray 客户端和服务器之间的桥梁。
 {{% notice dark %}}[Trojan](./trojan){{% /notice %}}
-[Trojan](https://trojan-gfw.github.io/trojan/protocol)协议
+[Trojan](https://trojan-gfw.github.io/trojan/protocol) 协议
 {{% notice dark %}}[Shadowsocks](./shadowsocks){{% /notice %}}
 [Shadowsocks](https://zh.wikipedia.org/wiki/Shadowsocks) 协议。
 
