@@ -16,7 +16,13 @@ weight: 1
 - (可能是整个互联网上, 最详细最有耐心的教你从0开始配置的教程)
 - [透明代理](https://xtls.github.io/documents/level-2/)也增加了更多文章.
 - 还有很多细节修改, 文档将会越来越规范! 
-- 感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000), 
+- 感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000)
+
+###  [v1.2.1](https://github.com/XTLS/Xray-core/releases/tag/v1.2.1)
+---
+- 大量的 UDP 相关修复, 甚至可以在育碧的土豆服务器上玩彩虹六号! 
+- Google Voice 应该也可以正常使用 v2rayNG 拨打了.
+- 日志现在看起来更顺眼.
 
 <br />
 
