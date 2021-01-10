@@ -23,16 +23,16 @@ weight: 1
 <br />
 ### 开发者
 ---
-{{% alert light %}}**It doesn't matter who we are, what matters is that we will keep riding and not look back.**{{% /alert %}}
+{{% alert light %}}**It doesn't matter who we are. What matters is that we will keep riding and not look back.**{{% /alert %}}
 <br />
 ### 帮助Xray变得更强
 ---
 欢迎帮助Xray变得更强！
 - 🖥️ 帮助开发和测试 Xray, 提交高质量的 Pull request.
-- 📩 在[Github issues](https://github.com/XTLS/Xray-core/issues)或[讨论区](https://github.com/XTLS/Xray-core/discussions)提交建设性或有意义的issue/讨论.
+- 📩 在 [GitHub Issues](https://github.com/XTLS/Xray-core/issues) 或[讨论区](https://github.com/XTLS/Xray-core/discussions)发起建设性或有意义的 issue/讨论.
 - 📝 写下您的使用心得并提交至 Xray 的[文档网站](https://github.com/XTLS/XTLS.github.io).
-- 💬 在Telegram群帮助群友/灌水.
-- **...事实上,每一份给予 Xray 的正能量都会让Xray变得更强大**
+- 💬 在 Telegram 群帮助群友/灌水.
+- **...事实上,每一份给予 Xray 的正能量都会让 Xray 变得更强大**
 <br />
 <br />
 ### Telegram
@@ -52,7 +52,7 @@ weight: 1
 - 感谢各类脚本、Docker 镜像、客户端支持...感谢所有帮忙完善生态的大佬们！
 - 感谢为 Xray 网站和文档添砖加瓦的朋友们.
 - 感谢提出有意义的建议和意见的朋友们.
-- 感谢Telegram群每一位帮助群友的朋友们.
+- 感谢 Telegram 群每一位帮助群友的朋友们.
 <br />
 <br />
 ### License

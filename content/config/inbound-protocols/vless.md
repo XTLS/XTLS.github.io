@@ -22,7 +22,8 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
     {
       "id": "27848739-7e62-4138-9fd3-098a63964b6b",
       "level": 0,
-      "email": "love@xray.com"
+      "email": "love@xray.com",
+      "flow": "xtls-rprx-direct"
     }
   ],
   "decryption": "none",
@@ -38,7 +39,7 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
 
 一个数组，代表一组服务端认可的用户.
 
-其中每一项是一个用户[ClientObject](#clientobject)。
+其中每一项是一个用户 [ClientObject](#clientobject)。
 
 {{% notice dark %}} `decryption`: "none"{{% /notice %}}
 现阶段需要填 `"none"`，不能留空。</br>
@@ -61,7 +62,8 @@ decryption 和 vmess 协议的 encryption 的位置不同，是因为若套一�
 {
   "id": "27848739-7e62-4138-9fd3-098a63964b6b",
   "level": 0,
-  "email": "love@xray.com"
+  "email": "love@xray.com",
+  "flow": "xtls-rprx-direct"
 }
 ```
 
@@ -78,6 +80,23 @@ level 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如�
 {{% notice dark %}} `email`: string{{% /notice %}}
 
 用户邮箱，用于区分不同用户的流量（日志、统计）。
+
+{{% notice dark %}} `flow`: string{{% /notice %}}
+
+流控模式，用于选择 XTLS 的算法。
+
+目前入站协议中有以下流控模式可选：
+
+- `xtls-rprx-origin`：最初的流控模式，此时客户端仅可选择 `xtls-rprx-origin` 和 `xtls-rprx-origin-udp443` 这两种流控模式。该模式纪念价值大于实际使用价值
+- `xtls-rprx-direct`：**推荐**，所有平台皆可使用的典型流控方式，此时客户端可选择任何流控模式
+
+{{% notice warning %}}
+**注意**
+
+当 `flow` 被指定时，还需要将该入站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
+
+此外，目前 XTLS 仅支持 TCP、mKCP、DomainSocket 这三种传输方式。
+{{% /notice %}}
 
 </br>
 
