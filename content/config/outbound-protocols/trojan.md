@@ -83,7 +83,7 @@ Trojan 被设计工作在正确配置的加密 TLS 隧道
 {{% notice warning %}}
 **注意**
 
-当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`>。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
+当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
 
 此外，目前 XTLS 仅支持 TCP、mKCP、DomainSocket 这三种传输方式。
 {{% /notice %}}
@@ -91,7 +91,7 @@ Trojan 被设计工作在正确配置的加密 TLS 隧道
 {{% notice %}}
 **关于 `xtls-rprx-*-udp443` 流控模式**
 
-VLESS 和 Trojan 协议使用 TCP 传输 UDP，即 UDP over TCP，但 XTLS 不会对 UoT 的数据进行处理。所以为了防止上层应用使用 QUIC，启用 XTLS >时客户端会自动拦截 UDP/443 的请求。若不需要拦截，请在客户端填写 `xtls-rprx-*-udp443`，服务端不变。
+VLESS 和 Trojan 协议使用 TCP 传输 UDP，即 UDP over TCP，但 XTLS 不会对 UoT 的数据进行处理。所以为了防止上层应用使用 QUIC，启用 XTLS 时客户端会自动拦截 UDP/443 的请求。若不需要拦截，请在客户端填写 `xtls-rprx-*-udp443`，服务端不变。
 {{% /notice %}}
 
 {{% notice danger important %}}

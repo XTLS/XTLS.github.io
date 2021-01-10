@@ -116,7 +116,7 @@ VLESS 的用户 ID，必须是一个合法的 UUID，你可以用 [在线工具]
 {{% notice warning %}}
 **注意**
 
-当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`>。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
+当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
 
 此外，目前 XTLS 仅支持 TCP、mKCP、DomainSocket 这三种传输方式。
 {{% /notice %}}

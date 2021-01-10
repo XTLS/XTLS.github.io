@@ -297,7 +297,9 @@ weight: 2
 }
 ```
 
-{{% notice %}} **TIP**
+{{% notice %}}
+**TIP**
+
 本配置会劫持所有发往 53 端口的流量以解决 DNS 污染问题，所以客户端和本机的 DNS 服务器的地址可以随意配置。
 
 此外，由于内置的 `geoip.dat` 文件无法完美实现路由分流，故在配置文件中格外添加了一些 IP。
@@ -313,7 +315,9 @@ weight: 2
 
 ## Netfilter 配置
 
-{{% notice warning %}} **注意**
+{{% notice warning %}}
+**注意**
+
 nftables 配置与 iptables 配置二选一，不可同时使用。
 {{% /notice %}}
 
@@ -357,7 +361,9 @@ table ip xray {
         }
 }
 ```
-{{% notice %}} **使用方法**
+{{% notice %}}
+**使用方法**
+
 将上述配置写入一个文件（如 `nft.conf`），之后将该文件赋予可执行权限，最后使用 root 权限执行该文件即可（`# ./nft.conf`）。
 {{% /notice %}}
 {{% /tab %}}
