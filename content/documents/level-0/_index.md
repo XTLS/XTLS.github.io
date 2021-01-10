@@ -32,7 +32,9 @@ weight: 1
 
 <font size=3>[【第6章】 证书管理篇](./ch06-certificates) -  领证的才是合法的</font>
 
-<font size=3>[【第7章】 Xray服务器篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
+<font size=3>[【第7章】 Xray服务器篇](./ch07-xray-server) -  终于等到你 </font>
+
+<font size=3>[【第8章】 Xray客户端篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
 
 
 {{% /notice %}}
