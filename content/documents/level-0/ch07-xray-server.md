@@ -385,7 +385,7 @@ weight: 7
 {{% /notice %}}
 
 6. 啰嗦了这么多，就是因为围绕 `BBR` 忽悠小白的错误概念和坑人脚本实在是太多了。我希望你们现在对 `BBR` 有了相对清晰的理解。接下来，我们就动手安装最新的Debian内核并开启`BBR` 吧！（真的很简单）
-    1. 给Debian10添加官方 `backports` 源，获取更新的软件库
+    1. 给 Debian 10 添加官方 `backports` 源，获取更新的软件库
         ```
         $ sudo nano /etc/apt/sources.list
         ```
