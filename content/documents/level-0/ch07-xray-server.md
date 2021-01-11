@@ -393,7 +393,7 @@ weight: 7
 
     4. 修改`sysctl.conf`开启`BBR`
         ```
-        $ sudo nano /etc/sysctl.conf
+        $ sudo nano /etc/sysctl.d/99-sysctl.conf
         ```
 
     5. 把下面的内容添加进去
