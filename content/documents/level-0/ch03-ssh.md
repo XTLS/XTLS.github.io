@@ -27,7 +27,11 @@ weight: 3
 
     <img src="../ch03-img02-putty-settings.png"  alt="设置PuTTY"/>
 
-3. 我建议将 `Connection` 中的 `keepalive` 设置为 `60` 秒，防止你一段时间没有操作之后SSH自动断线。另外务必再次保存设置。（对PuTTY的任何设置更新都要再次保存，不然关闭后就会丢失）
+3. 我建议将 `Connection` 中的 `keepalive` 设置为 `60` 秒，防止你一段时间没有操作之后SSH自动断线。另外务必再次保存设置。
+
+    {{% notice warning  %}}
+**注意：** 对PuTTY的任何设置更新都要再次手动保存Session，不然关闭后就会丢失
+{{% /notice %}}
 
     <img src="../ch03-img03-putty-keepalive.png"  alt="防止频繁断线"/>
 
