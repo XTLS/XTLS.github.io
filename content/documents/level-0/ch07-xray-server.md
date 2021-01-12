@@ -440,7 +440,7 @@ weight: 7
     ```
     server {
             listen 127.0.0.1:8080;
-            root /var/www/website/html;
+            root /home/vpsadmin/www/webpage;
             index index.html;
             add_header Strict-Transport-Security "max-age=63072000" always;
     }
@@ -480,12 +480,22 @@ weight: 7
 
 ## 7.10 重要勘误
 
-初版中`Xray`配置文件`config.json`文件夹位置错误。若你已经根据之前的位置进行了操作，`Xray`会无法正确启动。故勘误说明于此，请自查，造成不便十分抱歉！
+1. 初版中`Xray`配置文件`config.json`文件夹位置错误。若你已经根据之前的位置进行了操作，`Xray`会无法正确启动。故勘误说明于此，请自查，造成不便十分抱歉！
 
-- 正确位置：`/usr/local/etc/xray/config.json`
-- 错误位置：`/usr/local/etc/config.json`
+    - 正确位置：`/usr/local/etc/xray/config.json`
+    - 错误位置：`/usr/local/etc/config.json`
 
-受影响章节：
+    受影响章节：
 
-- 7.4 配置`Xray` - 3. 使用`nano`创建`Xray`的配置文件
-- 7.8 服务器优化之二 - 6. 修改`Xray`的回落设置
+    - 7.4 配置`Xray` - 3. 使用`nano`创建`Xray`的配置文件
+    - 7.8 服务器优化之二 - 6. 修改`Xray`的回落设置
+
+
+2. 初版中修改`Nginx`配置文件`nginx.conf`时内容错误（网页文件夹位置错误），若你已经根据之前的位置进行了操作，`Nginx`会无法找到正确的网站。请自查，造成不便十分抱歉！
+
+    - 正确文件夹位置：`root /home/vpsadmin/www/webpage;`
+    - 错误文件夹位置：`root /var/www/website/html`
+
+    受影响章节：
+
+    - 7.8 服务器优化之二 - 4. 在与 `80` 端口同级的位置增加一个本地端口监听来提供网页展示
