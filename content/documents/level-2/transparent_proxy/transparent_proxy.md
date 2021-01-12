@@ -1,11 +1,18 @@
-# 什么是透明代理
+---
+date: "2020-12-23T00:00:00.000Z"
+description: Project X 的文档.
+title: 透明代理入门 
+weight: 1
+---
+
+## 什么是透明代理
 透明代理简单地说就是不让被代理的设备感觉到自己被代理了。简单地说就是，被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备已经被代理了。
 
 这也意味着，代理的软件运行在别的地方，比如运行在路由器中，通过路由器上网的设备就自动被代理了。
-# 透明代理的实现
+## 透明代理的实现
 透明代理的实现目前主要有两种方式：
 
-## tun2socks
+### tun2socks
 
 可用Windows/Linux(包括安卓)实现。因为实现过程比较简单，很少有教程，我这里简单描述一下。
 
@@ -27,15 +34,15 @@
 
 3. 热点设置 -> 允许热点使用VPN(部分安卓系统可能没有这个选项)
 
-## iptables/nftables
+### iptables/nftables
 
 iptables与nftables实现透明代理的原理相同，下文统一使用iptables。
 
 基于iptables的透明代理实现只能用于Linux系统(包括openwrt/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
 
-现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： **[新 V2Ray 白话文指南-透明代理](https://guide.v2fly.org/app/transparent_proxy.html)** 、 **[新 V2Ray 白话文指南-透明代理(TPROXY)](https://guide.v2fly.org/app/tproxy.html)** 、 **[透明代理（TProxy）配置教程](https://xtls.github.io/documents/level-2/tproxy)** 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
+现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： **[新 V2Ray 白话文指南-透明代理](https://guide.v2fly.org/app/transparent_proxy.html)** 、 **[新 V2Ray 白话文指南-透明代理(TPROXY)](https://guide.v2fly.org/app/tproxy.html)** 、 **[透明代理（TProxy）配置教程](../../tproxy)** 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
 
-# iptables实现透明代理原理
+## iptables实现透明代理原理
 Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 
 ![Netfilter](../netfilter.png)
@@ -55,7 +62,7 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 `网关本机->OUTPUT链->POSTINGROUTING链`
 
 **通过使用iptables操控`PREROUTING链`和`OUTPUT链`的流量走向，转发到Xray，就可以代理局域网设备和网关本机。**
-# 透明代理难在哪里
+## 透明代理难在哪里
 
 透明代理的难点就在于路由，所谓路由，就是区分哪些流量是直连的，哪些该被代理，所以我个人认为叫做**分流**更加合适。
 
@@ -71,8 +78,8 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 
 上面说的三篇教程，都是在第四阶段。所以新手直接阅读可能显得有点难懂。
 
-# 从零开始一步步实现基于iptables-tproxy的透明代理
-## 在开始之前，你需要有一定的基础知识：
+## 从零开始一步步实现基于iptables-tproxy的透明代理
+### 在开始之前，你需要有一定的基础知识：
 1. 大概知道什么是TCP/IP协议、域名和DNS服务器
 
 2. 知道什么是WAN口，LAN口，LAN_IP，WAN_IP以及DHCP服务器。对于旁路由，只有一个网口，这里称其为LAN口
@@ -80,7 +87,7 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 3. 对Linux系统有最基础的了解(知道怎么运行命令)
 
 4. 能够手写客户端json文件配置，至少要能看懂
-## 前期准备工作
+### 前期准备工作
 **1. 准备一个运行Linux系统的网关**
 
 比如，刷了OpenWRT的路由器
@@ -116,7 +123,7 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 }
 ```
 我们由易到难，不写routing，只写一个inbound一个outbound。
-## 首先，我们先试试做到第一阶段
+### 首先，我们先试试做到第一阶段
 将所有`PREROUTING链`的流量，都转发到Xray中。
 
 运行Xray，执行以下指令：
@@ -146,7 +153,7 @@ iptables -t mangle -A PREROUTING -j XRAY
 然后你会发现，虽然ssh连接断开了，但是透明代理已经可用了。只要我们修改系统dns为公共dns，就能正常上网了(因为现在网关访问不了，所以dns设置为网关是不行的)。
 
 至此，第一阶段就完成了。之所以无法访问网关，是因为代理规则代理了全部流量，包括访问网关的流量。试想在VPS上访问你本地的网关，肯定是访问不了的。
-## 接下来我们试试实现第二阶段
+### 接下来我们试试实现第二阶段
 重启网关，运行Xray，执行以下指令：
 ```bash
 ip rule add fwmark 1 table 100
@@ -165,7 +172,7 @@ iptables -t mangle -A PREROUTING -j XRAY
 
 至此，第二阶段完成。网关已经可以访问，ssh不会断开。
 
-## 第三阶段
+### 第三阶段
 
 我们平时用的DNS一般来自路由器，但这个iptables规则只代理了局域网中的设备，却没有代理网关本机，这样返回的DNS查询结果可能是错误的或者污染的。
 
@@ -210,24 +217,24 @@ iptables -t mangle -A OUTPUT ! -p icmp -j XRAY_MASK
 
 3. 通过gid规避(推荐)
 
-参考 **[[透明代理]通过gid规避Xray流量](../iptables_gid.md)**
+参考 **[[透明代理]通过gid规避Xray流量](../../iptables_gid)**
 
 这样就完成了第三阶段的代理，也就是平时说的全局代理。但是记得把网关的DNS服务器设置为国外的DNS服务器，否则可能依然返回被污染的结果。
 
-## 第四阶段
+### 第四阶段
 其实，并不是所有人都需要实现第四阶段。全局代理对于大部分情况已经适用。
 
 特别是对于旁路由而言。需要代理时，将网关调成旁路由的IP，不需要代理时，将网关换回主路由IP。
 
 至于第四阶段的具体实现，那三篇白话文教程讲的都是。在理解了上面的内容后，再去看那三篇白话文教程，就比较容易理解了。
-## 代理ipv6
-上面的规则只对ipv4生效，如果还想要代理ipv6请求，则使用ip6tables命令，用法与iptables基本相同。参考 **[[透明代理]通过gid规避Xray流量#4-设置iptables规则](../iptables_gid.md#4-设置iptables规则)**
+### 代理ipv6
+上面的规则只对ipv4生效，如果还想要代理ipv6请求，则使用ip6tables命令，用法与iptables基本相同。参考 **[[透明代理]通过gid规避Xray流量#4-设置iptables规则](../../iptables_gid#4-设置iptables规则)**
 # iptables透明代理的其它注意事项
 1. 如果作为代理的网关作为主路由，要在`PREROUTING链`规则中加一条`iptables -t mangle -A XRAY ! -s 网关LAN_IP地址段 -j RETURN`，即在第一阶段使用、第二阶段被删除的指令。如果不写，WAN口中同网段的其它人可以将网关填写成你的WAN_IP，从而蹭你的透明代理用，还可能带来一定的危险性。
 
 2. **[新 V2Ray 白话文指南-透明代理(TPROXY)#设置网关](https://guide.v2fly.org/app/tproxy.html#设置网关)** 中的第三条说：`手动配置 PC 的网络，将默认网关指向树莓派的地址即 192.168.1.22。此时 PC 应当能正常上网（由于还没设置代理，“正常”是指可以上国内的网站）`。实际上，Ubuntu、CentOS、debian等系统就算开启了IP转发，PC也不能正常上网，这是正常的。事实上只有OpenWRT能做到文中所描述的那样，据 **[@BioniCosmos](https://github.com/BioniCosmos)** 点拨，这是由于一般的Linux系统没有Masquery规则。
 
-3. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../iptables_gid.md#3-配置最大文件大开数运行xray客户端)**
+3. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
 
 4. 关于开启ip_forward，待补充...
 

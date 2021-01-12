@@ -58,9 +58,9 @@ Socks 协议的认证方式，支持 `"noauth"` 匿名方式和 `"password"` 用
 
 {{% notice dark %}} `userLevel`: number{{% /notice %}}
 
-用户等级，连接会使用这个用户等级对应的[本地策略](../../policy#levelpolicyobject)。
+用户等级，连接会使用这个用户等级对应的[本地策略](../../base/policy#levelpolicyobject)。
 
-userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
+userLevel 的值, 对应 [policy](../../base/policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
 
 <br />
 ### AccountObject

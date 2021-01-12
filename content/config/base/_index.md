@@ -22,13 +22,13 @@ weight: 3
 内置的 DNS 服务器. 如果没有配置此项，则使用系统的 DNS 设置。
 {{% notice dark %}}routing: [RoutingObject](./routing){{% /notice %}}
 路由功能。可以设置规则分流数据从不同的outbound发出.
-{{% notice dark %}}policy: [PolicyObject](./policy){{% /notice %}}
+{{% notice dark %}}policy: [PolicyObject](./base/policy){{% /notice %}}
 本地策略，可以设置不同的用户等级和对应的策略设置。
 {{% notice dark %}}inbounds: \[ [InboundObject](./inbounds) \]{{% /notice %}}
 一个数组，每个元素是一个入站连接配置。
 {{% notice dark %}}outbounds: \[ [OutboundObject](./outbounds) \]{{% /notice %}}
 一个数组，每个元素是一个出站连接配置。
-{{% notice dark %}}transport: [TransportObject](./transport){{% /notice %}}
+{{% notice dark %}}transport: [TransportObject](./base/transport){{% /notice %}}
 用于配置 Xray 其它服务器建立和使用网络连接的方式。
 {{% notice dark %}}stats: [StatsObject](./stats){{% /notice %}}
 用于配置流量数据的统计。

@@ -6,7 +6,7 @@ weight: 3
 ---
 
 {{% notice danger important %}}
-推荐写到 [inbounds](../../inbounds) 的 `listen` 处，传输方式可选 TCP、WebSocket、HTTP/2.<br />
+推荐写到 [inbounds](../../base/inbounds) 的 `listen` 处，传输方式可选 TCP、WebSocket、HTTP/2.<br />
 未来这里的 DomainSocket 可能会被弃用。
 {{% /notice %}}
 

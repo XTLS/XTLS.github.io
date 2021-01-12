@@ -83,7 +83,7 @@ Trojan 被设计工作在正确配置的加密 TLS 隧道
 {{% notice warning %}}
 **注意**
 
-当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../transport#streamsettingsobject)。
+当 `flow` 被指定时，还需要将该出站协议的 `streamSettings.security` 一项指定为 `xtls`，`tlsSettings` 改为 `xtlsSettings`。详情请参考 [streamSettings](../../base/transport#streamsettingsobject)。
 
 此外，目前 XTLS 仅支持 TCP、mKCP、DomainSocket 这三种传输方式。
 {{% /notice %}}
@@ -110,6 +110,6 @@ Splice 模式的的使用限制：
 
 {{% notice dark %}} `level`: number{{% /notice %}}
 
-用户等级，连接会使用这个用户等级对应的[本地策略](../../policy#levelpolicyobject)。
+用户等级，连接会使用这个用户等级对应的[本地策略](../../base/policy#levelpolicyobject)。
 
-level 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
+level 的值, 对应 [policy](../../base/policy#policyobject) 中 level 的值. 如不指定, 默认为 0.

@@ -44,13 +44,13 @@ Dokodemo door（任意门）可以监听一个本地端口，并把所有进入�
 
 当值为 `true` 时，dokodemo-door 会识别出由 iptables 转发而来的数据，并转发到相应的目标地址。
 
-可参考 [传输配置](../../transport#sockoptobject) 中的 `tproxy` 设置。
+可参考 [传输配置](../../base/transport#sockoptobject) 中的 `tproxy` 设置。
 
 {{% notice dark %}} `userLevel`: number{{% /notice %}}
 
-用户等级，连接会使用这个用户等级对应的[本地策略](../../policy#levelpolicyobject)。
+用户等级，连接会使用这个用户等级对应的[本地策略](../../base/policy#levelpolicyobject)。
 
-userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
+userLevel 的值, 对应 [policy](../../base/policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
 
 <br />
 
@@ -58,4 +58,4 @@ userLevel 的值, 对应 [policy](../../policy#policyobject) 中 level 的值. �
 
 ---
 
-此部分请参考[透明代理（TProxy）配置教程](https://xtls.github.io/documents/level-2/tproxy)。
+此部分请参考[透明代理（TProxy）配置教程](../../../documents/level-2/tproxy)。

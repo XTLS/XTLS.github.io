@@ -65,7 +65,7 @@ weight: 6
 
 具体的配置内容，视协议不同而不同。详见每个协议中的 `InboundConfigurationObject`。
 
-{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../transport#streamsettingsobject){{% /notice %}}
+{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../base/transport#streamsettingsobject){{% /notice %}}
 
 底层传输方式（transport）是当前 Xray 节点和其它节点对接的方式
 

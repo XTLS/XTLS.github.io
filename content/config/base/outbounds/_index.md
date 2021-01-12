@@ -52,7 +52,7 @@ weight: 7
 当其不为空时，其值必须在所有 `tag` 中 **唯一**。
 {{% /notice %}}
 
-{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../transport#streamsettingsobject){{% /notice %}}
+{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../base/transport#streamsettingsobject){{% /notice %}}
 
 底层传输方式（transport）是当前 Xray 节点和其它节点对接的方式
 
