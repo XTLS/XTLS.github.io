@@ -40,7 +40,7 @@ DNS 服务器配置模块可以配置多个DNS服务器, 并且指定优先匹�
 
 DNS 服务器的处理流程示意图如下：
 
-![](../dns_flow.png?classes=border,shadow)
+![](../dns/dns_flow.png?classes=border,shadow)
 
 <br />
 ## DnsObject
