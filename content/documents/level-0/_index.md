@@ -34,7 +34,9 @@ weight: 1
 
 <font size=3>[【第7章】 Xray服务器篇](./ch07-xray-server) -  终于等到你 </font>
 
-<font size=3>[【第8章】 Xray客户端篇]() </font> {{% badge warning %}} coming soon{{% /badge %}}
+<font size=3>[【第8章】 Xray客户端篇](./ch08-xray-clients) -  新的开始 </font>
+
+<font size=3>[【第9章】 附录](./ch09-appendix) -  考点都在这里 </font>
 
 
 {{% /notice %}}
