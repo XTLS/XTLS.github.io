@@ -14,15 +14,15 @@ weight: 1
 - 将要到来的 UUID 修改, 支持自定义字符串和 UUID 之间的映射. 这意味着你将可以这样在配置文件中写id来对应用户.
   - 客户端写    "id": "我爱🍉老师1314",
   - 服务端写    "id": "5783a3e7-e373-51cd-8642-c83782b807c5" (此UUID是 `我爱🍉老师1314` 的 UUID 映射)
-- 🍉老师的[小小白白话文](https://xtls.github.io/documents/level-0/)大结局, 撒花.
+- 🍉老师的[小小白白话文](../../documents/level-0/)大结局, 撒花.
 
 <br />
 
 ## 2021.01.10
 ---
-- [小小白白话文](https://xtls.github.io/documents/level-0/)连载上线啦,🍉老师呕心沥血之作, 手把手教你从什么都不会到熟练配置Xray! 
+- [小小白白话文](../../documents/level-0/)连载上线啦,🍉老师呕心沥血之作, 手把手教你从什么都不会到熟练配置Xray! 
 - (可能是整个互联网上, 最详细最有耐心的教你从0开始配置的教程)
-- [透明代理](https://xtls.github.io/documents/level-2/)也增加了更多文章.
+- [透明代理](../../documents/level-2/)也增加了更多文章.
 - 还有很多细节修改, 文档将会越来越规范! 
 - 感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000)
 
@@ -64,7 +64,7 @@ weight: 1
 ---
 
 🎁在元旦的最后几分钟，v1.2.0它来了，带着周五必更的惯例，带着各位贡献大佬的心血以及 @rprxx 的黑眼圈，不负众望的来了!
-- 圣诞礼物[v1.1.5](https://xtls.github.io/about/new/#20201225)后的元旦礼物🎁，游戏玩家大福利，全面 FullCone。
+- 圣诞礼物[v1.1.5](#20201225)后的元旦礼物🎁，游戏玩家大福利，全面 FullCone。
 - （UDP还会继续增强！）
 - 如果你已经拆过圣诞礼物，这次还有比圣诞礼物更精美的包装和小糖果哦。（同样不用问，更新品尝就对了）
 - （不，下面不是广告，是里程碑。）

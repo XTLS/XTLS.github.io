@@ -23,7 +23,7 @@ weight: 3
 
     <img src="../ch03-img01-putty-download.png"  alt="下载PuTTY"/>
 
-2. 安装运行后，将会看到PuTTY的主界面。现在请拿出你上一章记东西的[小本本](https://xtls.github.io/documents/level-0/ch02-preparation/#21-%E8%8E%B7%E5%8F%96%E4%B8%80%E5%8F%B0vps)，在下图的对应位置填入你VPS的**IP地址(VPS IP)**和**端口(VPS PORT)**。为了方便以后使用时不用重复输入，我们可以保存会话 (Saved Sessions)，未来使用时只要按Load即可一键载入设置。
+2. 安装运行后，将会看到PuTTY的主界面。现在请拿出你上一章记东西的[小本本](../ch02-preparation/#21-%E8%8E%B7%E5%8F%96%E4%B8%80%E5%8F%B0vps)，在下图的对应位置填入你VPS的**IP地址(VPS IP)**和**端口(VPS PORT)**。为了方便以后使用时不用重复输入，我们可以保存会话 (Saved Sessions)，未来使用时只要按Load即可一键载入设置。
 
     <img src="../ch03-img02-putty-settings.png"  alt="设置PuTTY"/>
 

@@ -48,7 +48,7 @@ weight: 8
 
 现在你已经理解了 `Xray` 的工作原理，那么接下来的配置，其实就是【告诉你的客户端如何连接VPS服务器】。这和你已经很熟悉的、告诉`PuTTY`如何远程连接服务器是一样的。只不过Xray连接时的要素不止是【IP地址】+【端口】+【用户名】+【密码】这四要素了。
 
-实际上，`Xray`的连接要素是由不同的[协议](https://xtls.github.io/config/inbound-protocols/)决定的。本文在第7章的配置文件 `config.json` 里，我们使用 `Xray` 下独特而强大的 `VLESS` 协议 + `XTLS` 流控。所以那个配置文件就能知道，这个协议组合的连接要素有：
+实际上，`Xray`的连接要素是由不同的[协议](../../../config/inbound-protocols/)决定的。本文在第7章的配置文件 `config.json` 里，我们使用 `Xray` 下独特而强大的 `VLESS` 协议 + `XTLS` 流控。所以那个配置文件就能知道，这个协议组合的连接要素有：
 
 - 服务器【地址】: `a-name.yourdomain.com`
 - 服务器【端口】: `443`

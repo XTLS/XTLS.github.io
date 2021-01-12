@@ -14,7 +14,7 @@ Fallback 是 Xray 的最强大功能之一, 可有效防止主动探测, 自由�
 
 {{% panel theme="warning" header="**Q: 为什么我回落以后nginx日志的IP是 127.0.0.1?** " %}}
 
-需要开启 proxy protocol. 参见[fallbacks配置](https://xtls.github.io/config/fallback)的xver参数
+需要开启 proxy protocol. 参见[fallbacks配置](../../config/fallback)的xver参数
 
 {{% /panel %}}
 
