@@ -23,3 +23,14 @@ Fallback 是 Xray 的最强大功能之一, 可有效防止主动探测, 自由�
 ~~等待好心人写一篇小小白白话文~~
 
 {{% /panel %}}
+
+{{% panel theme="warning" header="**Q: Wordpress 是 Mixed Content, 回落到配置的Wordpress看起来怪怪的, 怎么办?** " %}}
+
+<img src="https://avatars2.githubusercontent.com/u/8460881?s=60" width="32px" height="32px" alt="a"/>[@Ardentwheel](https://github.com/Ardentwheel) :
+
+需要加入以下内容，才可以修复
+```
+add_header Content-Security-Policy "upgrade-insecure-requests";
+```
+
+{{% /panel %}}
