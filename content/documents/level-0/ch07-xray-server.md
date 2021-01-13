@@ -29,6 +29,8 @@ weight: 7
 4. 优化（如更新内核、开启`bbr`、网站`http`访问自动跳转`https`等）
 
 
+</br>
+
 ## 7.2 安装Xray
 
 首先，Xray的官方载体，就是 [xray-core](https://github.com/XTLS/Xray-core) 开源项目（基于 `MPL 2.0` 开源协议）生成的二进制程序。你把这个二进制放在服务器运行，它就是服务器端；你把它下载到本地电脑运行，它就是客户端。主要区别来源于【配置】。
@@ -65,6 +67,8 @@ weight: 7
 
     <img src="../ch07-img01-xray-install.gif"  alt="Xray服务器端安装流程演示"/>
 
+
+</br>
 
 ## 7.3 给Xray配置TLS证书
 
@@ -133,6 +137,8 @@ weight: 7
 
         <img src="../ch07-img03-crontab-cert-renew.gif"  alt="每月自动给Xray安装证书"/>
 
+
+</br>
 
 ## 7.4 配置Xray
 首先，各种配置都可以参考[官方VLESS配置示例](https://github.com/XTLS/Xray-examples)。本文会基于官方示例，配置一个最精简的方式：【单 `VLESS` 协议入站 + `80` 端口回落】，满足大多数场景的最大速度及必要安全。
@@ -291,6 +297,8 @@ weight: 7
     <img src="../ch07-img04-xray-log-and-config.gif"  alt="创建日志文件及`config.json`配置文件"/>
 
 
+</br>
+
 ## 7.5 启动Xray服务！！（并查看服务状态）
 
 如果你是跟随本文一步步设置过来，其实就已经避开了最常见**日志文件权限不足**、**证书文件权限不足** 这两个大坑。那么现在运行`Xray`自然应该无比顺利。
@@ -311,6 +319,8 @@ weight: 7
 
     <img src="../ch07-img05-xray-start-and-status.gif"  alt="启动并查看Xray运行状态"/>
 
+
+</br>
 
 ## 7.6 回顾 `systemd` 进行基本的服务管理
 到现在为止，我们已经使用过了`systemctl`相关的`start`, `status`, `reload` 等命令，这些都是基于`systmed`管理模块对Linux系统中各种服务进行管理的通用命令。现在正好熟悉一下相关的其他几个命令。
@@ -335,6 +345,8 @@ weight: 7
     $ sudo systemctl enable xray
     ```
 
+
+</br>
 
 ## 7.7 服务器优化之一：开启BBR
 
@@ -431,6 +443,8 @@ weight: 7
         <img src="../ch07-img06-bbr-proper.gif"  alt="更新Debian内核并开启`BBR`"/>
 
 
+</br>
+
 ## 7.8 服务器优化之二：开启HTTP自动跳转HTTPS
 1. 之前我们已经搭建了 `80` 端口的 `http` 网页，并以此申请了TLS证书。
 
@@ -480,6 +494,8 @@ weight: 7
     <img src="../ch07-img08-http-to-https-check.png"  alt="http自动跳转https生效"/>
 
 
+</br>
+
 ## 7.9 你的进度
 恭喜！！到这一步，你已经拥有了可以正常科学上网的服务器、同时也有了可以防止主动探测攻击的伪装网站。接下来，只要给你的客户端装上合适的软件，就可以享受顺畅的网络了！
 
@@ -487,6 +503,10 @@ weight: 7
 `⬛⬛⬛⬛⬛⬛⬛⬜ 87.5%`
 {{% /notice %}}
 
+
+</br>
+
+</br>
 
 ## 7.10 重要勘误
 
