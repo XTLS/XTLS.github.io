@@ -158,15 +158,15 @@ weight: 7
         ```
         $ touch ~/xray_log/access.log && touch ~/xray_log/error.log
         ```
+        
+        {{% notice warning  %}}
+这个位置不是`Xray`标准的日志文件位置，放在这里是避免权限问题对新人的操作带来困扰。当你熟悉之后，建议回归默认位置： `/var/log/xray/access.log` 和 `/var/log/xray/error.log` 。
+{{% /notice %}}
 
     3. 因为Xray默认是nobody用户使用，所以我们需要让其他用户也有“写”的权限（`*.log` 就是所有文件后缀是`log`的文件，此时`CLI`界面的效率优势就逐渐出现了）
         ```
         $ chmod a+w ~/xray_log/*.log
         ```
-
-        {{% notice warning  %}}
-这个位置不是`Xray`标准的日志文件位置，放在这里是避免权限问题对新人的操作带来困扰。当你熟悉之后，建议回归默认位置： `/var/log/xray/access.log` 和 `/var/log/xray/error.log` 。
-{{% /notice %}}
 
 3. 使用`nano`创建`Xray`的配置文件
     ```
@@ -390,6 +390,11 @@ weight: 7
         $ sudo nano /etc/apt/sources.list
         ```
     
+    {{% notice warning  %}} 
+**说明：** 本文以 Debian 10 为例，所以使用 `/etc/apt/sources.list` 仍无问题，但如果你并不是根据本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/apt/sources.list.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/apt/sources.list.d/vpsadmin.list`，以此保证兼容性，也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
+{{% /notice %}}
+    
+    
     2. 然后把下面这一条加在最后，并保存退出。
         ```
         deb http://deb.debian.org/debian buster-backports main
@@ -400,10 +405,15 @@ weight: 7
         $ sudo apt update && sudo apt -t buster-backports install linux-image-cloud-amd64
         ```
 
-    4. 修改`sysctl.conf`开启`BBR`
+    4. 修改 `kernel` 参数配置文件 `sysctl.conf` 并指定开启 `BBR`
         ```
         $ sudo nano /etc/sysctl.conf
         ```
+
+    {{% notice warning  %}} 
+**说明：** 本文以 Debian 10 为例，所以使用 `/etc/sysctl.conf` 仍无问题，但如果你并不是跟着本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/sysctl.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/sysctl.d/vpsadmin.conf`，以此保证兼容性，因为部分发行版在 `systemd` 207 版本之后便不再从 `/etc/sysctl.conf` 读取参数。使用自定义配置文件也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
+{{% /notice %}}
+
 
     5. 把下面的内容添加进去
         ```
