@@ -419,7 +419,7 @@ title: Footer
 </ul>
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2020 ProjectX Community All Rights Reserved</small>
+        <small class="text-white">&copy; 2020-2021 ProjectX Community All Rights Reserved</small>
       </div>
     </div>
   </div>
