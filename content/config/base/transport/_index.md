@@ -154,6 +154,7 @@ TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型�
     "cipherSuites": "此处填写你需要的加密套件名称,每个套件名称之间用:进行分隔",
     "certificates": [],
     "disableSystemRoot": false
+    "enableSessionResumption": false
 }
 ```
 
@@ -208,6 +209,12 @@ CipherSuites用于配置受支持的密码套件列表, 每个套件名称之间
 是否禁用操作系统自带的 CA 证书。默认值为 `false`。
 
 当值为 `true` 时，Xray 只会使用 `certificates` 中指定的证书进行 TLS 握手。当值为 `false` 时，Xray 只会使用操作系统自带的 CA 证书进行 TLS 握手。
+
+{{% notice dark %}}  `enableSessionResumption`: true | false{{% /notice %}}
+
+此参数的设置为false时, ClientHello 里没有 session_ticket 这个扩展。<br />
+通常来讲 go 语言程序的 ClientHello 里并没有用到这个扩展, 因此建议保持默认值。<br />
+默认值为 `false`。
 
 {{% notice dark %}}  `certificates`: \[ [CertificateObject](#certificateobject) \]{{% /notice %}}
 
