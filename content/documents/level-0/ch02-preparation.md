@@ -32,6 +32,7 @@ weight: 2
 {{% /notice %}}
 
 
+</br>
 
 ## 2.2 获取一个心仪的域名
 
@@ -46,6 +47,9 @@ weight: 2
 **注意：** 这**不是**一个真实可用的网址，请替换成你的真实网址
 {{% /notice %}}
 
+
+</br>
+
 ## 2.3 你本地电脑上需要安装的软件
 
 1. SSH远程登录工具
@@ -59,6 +63,8 @@ weight: 2
 3. 靠谱的文本编辑器 
     - Windows/macOS/Linux: [VSCode](https://code.visualstudio.com)  
 
+
+</br>
 
 ## 2.4 你的进度
 
