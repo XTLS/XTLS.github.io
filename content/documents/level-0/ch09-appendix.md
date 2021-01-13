@@ -19,7 +19,7 @@ weight: 9
 | `cmd-01` | `apt update` | 查询软件更新 | [《远程登录篇》](./ch03-ssh) |
 | `cmd-02` | `apt upgrade` | 执行软件更新 | [《远程登录篇》](./ch03-ssh) |
 | `cmd-03` | `nano` | 文本编辑器 | [《安全防护篇》](./ch04-security) |
-| `cmd-04` | `systemctl restart` | [《安全防护篇》](./ch04-security) |
+| `cmd-04` | `systemctl restart` | 重启某个服务 | [《安全防护篇》](./ch04-security) |
 | `cmd-05` | `adduser` | 给系统新增用户 | [《安全防护篇》](./ch04-security) |
 | `cmd-06` | `apt install` | 安装某个软件 | [《安全防护篇》](./ch04-security) |
 | `cmd-07` | `visudo` | 修改sudo权限设置专用编辑器 | [《安全防护篇》](./ch04-security) |
