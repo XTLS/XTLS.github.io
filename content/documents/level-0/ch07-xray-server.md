@@ -13,6 +13,7 @@ weight: 7
 
 
 ## 7.1 博观而约取，厚积而薄发
+---
 
 本文撰写过程中，大佬开玩笑的吐槽到：你这教程，居然连载了6章都还没到Xray，不知道的还以为你是“手把手教你建网站”教程呢。（我竟无法反驳.jpg!）
 
@@ -29,7 +30,10 @@ weight: 7
 4. 优化（如更新内核、开启`bbr`、网站`http`访问自动跳转`https`等）
 
 
+</br>
+
 ## 7.2 安装Xray
+---
 
 首先，Xray的官方载体，就是 [xray-core](https://github.com/XTLS/Xray-core) 开源项目（基于 `MPL 2.0` 开源协议）生成的二进制程序。你把这个二进制放在服务器运行，它就是服务器端；你把它下载到本地电脑运行，它就是客户端。主要区别来源于【配置】。
 
@@ -66,7 +70,10 @@ weight: 7
     <img src="../ch07-img01-xray-install.gif"  alt="Xray服务器端安装流程演示"/>
 
 
+</br>
+
 ## 7.3 给Xray配置TLS证书
+---
 
 虽然我们前面已经申请好了TLS证书，但是按照 [`acme.sh`的官方说明](https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E#3-copy%E5%AE%89%E8%A3%85-%E8%AF%81%E4%B9%A6)，申请后的证书不建议直接使用。正确的方法是使用 `--install-cert` 命令安装给需要的程序。我们现在就来把证书安装给 `xray-core` 使用。
 
@@ -134,7 +141,11 @@ weight: 7
         <img src="../ch07-img03-crontab-cert-renew.gif"  alt="每月自动给Xray安装证书"/>
 
 
+</br>
+
 ## 7.4 配置Xray
+---
+
 首先，各种配置都可以参考[官方VLESS配置示例](https://github.com/XTLS/Xray-examples)。本文会基于官方示例，配置一个最精简的方式：【单 `VLESS` 协议入站 + `80` 端口回落】，满足大多数场景的最大速度及必要安全。
 
 1. 生成一个合法的 `UUID` 并保存备用（`UUID`可以简单粗暴的理解为像指纹一样几乎不会重复的ID）
@@ -158,15 +169,15 @@ weight: 7
         ```
         $ touch ~/xray_log/access.log && touch ~/xray_log/error.log
         ```
+        
+        {{% notice warning  %}}
+这个位置不是`Xray`标准的日志文件位置，放在这里是避免权限问题对新人的操作带来困扰。当你熟悉之后，建议回归默认位置： `/var/log/xray/access.log` 和 `/var/log/xray/error.log` 。
+{{% /notice %}}
 
     3. 因为Xray默认是nobody用户使用，所以我们需要让其他用户也有“写”的权限（`*.log` 就是所有文件后缀是`log`的文件，此时`CLI`界面的效率优势就逐渐出现了）
         ```
         $ chmod a+w ~/xray_log/*.log
         ```
-
-        {{% notice warning  %}}
-这个位置不是`Xray`标准的日志文件位置，放在这里是避免权限问题对新人的操作带来困扰。当你熟悉之后，建议回归默认位置： `/var/log/xray/access.log` 和 `/var/log/xray/error.log` 。
-{{% /notice %}}
 
 3. 使用`nano`创建`Xray`的配置文件
     ```
@@ -291,7 +302,10 @@ weight: 7
     <img src="../ch07-img04-xray-log-and-config.gif"  alt="创建日志文件及`config.json`配置文件"/>
 
 
+</br>
+
 ## 7.5 启动Xray服务！！（并查看服务状态）
+---
 
 如果你是跟随本文一步步设置过来，其实就已经避开了最常见**日志文件权限不足**、**证书文件权限不足** 这两个大坑。那么现在运行`Xray`自然应该无比顺利。
 
@@ -312,7 +326,11 @@ weight: 7
     <img src="../ch07-img05-xray-start-and-status.gif"  alt="启动并查看Xray运行状态"/>
 
 
+</br>
+
 ## 7.6 回顾 `systemd` 进行基本的服务管理
+---
+
 到现在为止，我们已经使用过了`systemctl`相关的`start`, `status`, `reload` 等命令，这些都是基于`systmed`管理模块对Linux系统中各种服务进行管理的通用命令。现在正好熟悉一下相关的其他几个命令。
 
 1. 若你需要暂时关闭 `Xray` 的服务，那就用`stop`命令
@@ -336,7 +354,10 @@ weight: 7
     ```
 
 
+</br>
+
 ## 7.7 服务器优化之一：开启BBR
+---
 
 1. 传说中的`BBR`
     
@@ -390,6 +411,11 @@ weight: 7
         $ sudo nano /etc/apt/sources.list
         ```
     
+    {{% notice warning  %}} 
+**说明：** 本文以 Debian 10 为例，所以使用 `/etc/apt/sources.list` 仍无问题，但如果你并不是根据本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/apt/sources.list.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/apt/sources.list.d/vpsadmin.list`，以此保证兼容性，也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
+{{% /notice %}}
+    
+    
     2. 然后把下面这一条加在最后，并保存退出。
         ```
         deb http://deb.debian.org/debian buster-backports main
@@ -400,10 +426,15 @@ weight: 7
         $ sudo apt update && sudo apt -t buster-backports install linux-image-cloud-amd64
         ```
 
-    4. 修改`sysctl.conf`开启`BBR`
+    4. 修改 `kernel` 参数配置文件 `sysctl.conf` 并指定开启 `BBR`
         ```
         $ sudo nano /etc/sysctl.conf
         ```
+
+    {{% notice warning  %}} 
+**说明：** 本文以 Debian 10 为例，所以使用 `/etc/sysctl.conf` 仍无问题，但如果你并不是跟着本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/sysctl.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/sysctl.d/vpsadmin.conf`，以此保证兼容性，因为部分发行版在 `systemd` 207 版本之后便不再从 `/etc/sysctl.conf` 读取参数。使用自定义配置文件也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
+{{% /notice %}}
+
 
     5. 把下面的内容添加进去
         ```
@@ -421,7 +452,11 @@ weight: 7
         <img src="../ch07-img06-bbr-proper.gif"  alt="更新Debian内核并开启`BBR`"/>
 
 
+</br>
+
 ## 7.8 服务器优化之二：开启HTTP自动跳转HTTPS
+---
+
 1. 之前我们已经搭建了 `80` 端口的 `http` 网页，并以此申请了TLS证书。
 
     但如果你尝试过用浏览器访问我们的这个界面，就会发现 `http` 访问并不会像大多数网站一样自动升级为 `https` 访问。换言之，我们现在的设置下，`http(80)` 和 `https(443)`之间完全是独立的。如果要解决这个问题，就需要做一些修改。
@@ -470,7 +505,11 @@ weight: 7
     <img src="../ch07-img08-http-to-https-check.png"  alt="http自动跳转https生效"/>
 
 
+</br>
+
 ## 7.9 你的进度
+---
+
 恭喜！！到这一步，你已经拥有了可以正常科学上网的服务器、同时也有了可以防止主动探测攻击的伪装网站。接下来，只要给你的客户端装上合适的软件，就可以享受顺畅的网络了！
 
 {{% notice dark PROGRESS  %}}
@@ -478,7 +517,12 @@ weight: 7
 {{% /notice %}}
 
 
+</br>
+
+</br>
+
 ## 7.10 重要勘误
+---
 
 1. 初版中`Xray`配置文件`config.json`文件夹位置错误。若你已经根据之前的位置进行了操作，`Xray`会无法正确启动。故勘误说明于此，请自查，造成不便十分抱歉！
 

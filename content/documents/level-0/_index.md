@@ -15,8 +15,7 @@ weight: 1
 <font size=3>Made with ❤️ by [@ricuhkaen](https://github.com/ricuhkaen)</font>
 {{% /notice %}}
 
- {{% badge warning %}}In progress{{% /badge %}}
-<br>
+</br>
 
 {{% notice dark %}}
 
