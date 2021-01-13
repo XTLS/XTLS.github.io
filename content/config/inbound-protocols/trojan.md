@@ -70,6 +70,10 @@ Xray 的 Trojan 有完整的 fallbacks 支持，配置方式完全一致。</br>
 
 邮件地址，可选，用于标识用户
 
+{{% notice danger important %}}
+如果存在多个 ClientObject, 请注意 email 不可以重复。
+{{% /notice %}}
+
 {{% notice dark %}} `level`: number{{% /notice %}}
 
 用户等级，连接会使用这个用户等级对应的[本地策略](../../base/policy#levelpolicyobject)。
