@@ -41,7 +41,7 @@ guide|快速入门
 config|配置文档
 documents|使用心得
 develop|开发指南
-QA|常见问答
+FAQ|常见问答
 caseslip|大案牍术
 links|常用链接
 
