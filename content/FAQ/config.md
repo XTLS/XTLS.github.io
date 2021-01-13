@@ -112,3 +112,13 @@ add_header Strict-Transport-Security "max-age=63072000" always;
 {{% /panel %}}
 
 <br />
+
+{{% panel theme="warning" header="**Q: 什么是UDP fullcone?** " %}}
+
+fullcone的核心改变在于对游戏性能、使用到UDP的语音视频性能的优化。
+
+很多游戏会测试网络类型，类型过低甚至不能联机。fullcone一般都可以达到最佳类型。
+
+{{% /panel %}}
+
+<br />
