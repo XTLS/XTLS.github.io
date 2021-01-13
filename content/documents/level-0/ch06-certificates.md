@@ -24,6 +24,8 @@ weight: 6
 另外，我相信，现在你已经逐渐熟悉了Linux的基础操作，所以已经多次出现的命令从本章开始不再重复截图、只做简单的描述。如果实在想不起来怎么用的话，就稍微复习一下前面的章节吧。
 
 
+</br>
+
 ## 6.2 安装 `acme.sh`
 
 1. 小小白白Linux基础命令：
@@ -51,6 +53,8 @@ weight: 6
 
     <img src="../ch06-img01-acme-install.gif"  alt="acme.sh安装演示"/>
 
+
+</br>
 
 ## 6.3 申请证书
 
@@ -108,6 +112,8 @@ weight: 6
     [Wed 30 Dec 2022 15:22:52 AM EST] The intermediate CA cert is in  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/ca.cer
     [Wed 30 Dec 2022 15:22:52 AM EST] And the full chain certs is there:  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/fullchain.cer
     ```
+
+</br>
 
 ## 6.4 你的进度
 至此，Xray所需要的两个基础设施终于全部就位！千呼万唤始出来的Xray马上就要揭开面纱，我们终于要进入最激动人心章节啦！
