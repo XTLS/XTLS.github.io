@@ -411,7 +411,7 @@ weight: 7
         $ sudo nano /etc/apt/sources.list
         ```
     
-    {{% notice warning  %}} 
+        {{% notice warning  %}} 
 **说明：** 本文以 Debian 10 为例，所以使用 `/etc/apt/sources.list` 仍无问题，但如果你并不是根据本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/apt/sources.list.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/apt/sources.list.d/vpsadmin.list`，以此保证兼容性，也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
 {{% /notice %}}
     
@@ -431,7 +431,7 @@ weight: 7
         $ sudo nano /etc/sysctl.conf
         ```
 
-    {{% notice warning  %}} 
+        {{% notice warning  %}} 
 **说明：** 本文以 Debian 10 为例，所以使用 `/etc/sysctl.conf` 仍无问题，但如果你并不是跟着本文从头开始，或者使用了其他Linux发行版，那么建议你建立 `/etc/sysctl.d/` 文件夹，并在这个文件夹内建立自己的配置文件，形如 `/etc/sysctl.d/vpsadmin.conf`，以此保证兼容性，因为部分发行版在 `systemd` 207 版本之后便不再从 `/etc/sysctl.conf` 读取参数。使用自定义配置文件也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。
 {{% /notice %}}
 
