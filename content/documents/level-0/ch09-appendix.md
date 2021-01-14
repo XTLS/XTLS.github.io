@@ -50,7 +50,7 @@ weight: 9
 | `conf-04` | `/etc/apt/sources.list.d/vpsadmin.list` | 用户自定义软件源列表列表 | [《Xray服务器篇》](../ch07-xray-server) |
 | `conf-05` | `crontab -e` | 当前用户的定时任务 | [《Xray服务器篇》](../ch07-xray-server) |
 | `conf-06` | `/etc/sysctl.conf` | 手动设置kernel参数 | [《Xray服务器篇》](../ch07-xray-server) |
-| `conf-07` | `/etc/sysctl.d/vpsadmin.conf` | 用户级自定义kernel参数配置文件 | [《Xray服务器篇》](../ch07-xray-server) |
+| `conf-07` | `/etc/sysctl.d/vpsadmin.conf` | 用户自定义kernel参数配置文件 | [《Xray服务器篇》](../ch07-xray-server) |
 
 
 </br>
