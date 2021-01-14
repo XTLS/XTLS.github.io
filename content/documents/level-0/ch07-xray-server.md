@@ -120,11 +120,11 @@ weight: 7
         echo "Read Permission Granted for Private Key"
         ```
         
-         {{% notice warning  %}}
-**注意：** 
-1. 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在更新时自动执行某些命令，即可以实现自动给 `Xray` 安装证书的功能，但因为 `crontab` 是一个比较常用且非常有用的 Linux 功能，我目前还是决定保留 `crontab` 的方式来更新 `Xray` 证书。（感兴趣的同学可以查看 [`acme.sh`官方文档](https://github.com/acmesh-official/acme.sh)）
+        {{% notice warning  %}}
 
-2. 理论上，给 `Xray` 安装证书之后，还需要手动重启 `Xray` 才能生效（`sudo systemctl restart xray`）。但是，`Xray` 很快将支持证书热更新功能，更新之后就不需要手动重启了，所以上面的脚本中没有写这一条。如果需要的话，可以手动重启解决）
+**注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 [`acme.sh`官方文档](https://github.com/acmesh-official/acme.sh)）
+
+另外，理论上目前给 `Xray` 安装证书之后还需要手动重启 `Xray` 才能生效（`sudo systemctl restart xray`）。但是，`Xray` 很快将支持【证书热更新】功能，加入该功能后、更新证书就不需要重启了，所以这里的脚本中没有写这一条。（如果目前需要的话，可以手动重启解决）
 {{% /notice %}}
         
     4. 给这个文件增加【可执行】权限
