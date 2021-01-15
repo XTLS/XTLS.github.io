@@ -1,23 +1,23 @@
 ---
 alwaysopen: false
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
+date: "2021-01-15T00:00:00.000Z"
+description: Project X Document
 # head: <hr/>
 hide:
 # - toc
 post: "&nbsp;📜"
-title: 配置文件
+title: Configuration files
 weight: 3
 ---
 
-{{% alert theme="warning" %}}**这个章节将告诉您所有的 Xray 配置细节,掌握这些内容,在您手中 Xray 将发挥更大威力.**{{% /alert %}}
+{{% alert theme="warning" %}}**This section will give you all the details of xray configuration. Mastered this, xray will be even more powerful in your hands.**{{% /alert %}}
 
-## 概述
+## Summary
 
 ---
 
-Xray 的配置文件为 json 格式, 客户端和服务端的配置格式没有区别, 只是实际的配置内容不一样。  
-形式如下:
+The xray configuration file is in json format, there is no difference between the client and server configuration formats, only the actual content of the configuration is different.
+As follows:
 
 ```json
 {
@@ -36,5 +36,5 @@ Xray 的配置文件为 json 格式, 客户端和服务端的配置格式没有�
 
 {{% notice warning %}}
 **TIP**\
-如果你刚接触 Xray, 您可以先点击查看[快速入门中的配置运行]({{%relref "../guide/install.md" %}}), 学习最基本的配置方式, 然后查看本章节内容以掌握所有 Xray 的配置方式.
+If you are new to xray, you can learn the basics first by clicking on[Download and install]({{%relref "../guide/install.md" %}}), then read this section for all the ways to configure xray.
 {{% /notice %}}
