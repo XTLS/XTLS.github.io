@@ -56,7 +56,7 @@ hide:
 
 <--->
 
-#### Extremely low occupancy
+#### Extremely low cost
 
 <font size="2" color="#606060" >Suit OpenWRT RaspberryPi etc.</font>
 
