@@ -1,7 +1,7 @@
 ---
 alwaysopen: false
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
+date: "2020-01-15T00:00:00.000Z"
+description: Documentation for Project X
 # head: <hr/>
 hide:
 - toc
@@ -10,7 +10,7 @@ title: XTLS
 weight: 10
 ---
 
-{{% alert theme="warning" %}}**XTLS 是 Xray 的原创黑科技, 也是使 Xray 性能一骑绝尘的核心动力**{{% /alert %}}
+{{% alert theme="warning" %}}**XTLS is the xray's original futuristic technology, and the core of what makes the xray so powerful**{{% /alert %}}
 
 <br />
 
