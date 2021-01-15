@@ -1,25 +1,25 @@
 ---
 date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: API接口
+description: Documentation for Project X
+title: API interfaces
 weight: 2
 ---
 
 
 
-API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供远程调用。  
+The API interface configuration provides a number of [gRPC-based](https://grpc.io/) API interfaces for remote calls.
 
-可以通过api配置模块开启接口. 当api配置开启时，Xray 会自建一个出站代理， 须手动将所有的 API 入站连接通过 [路由规则配置](../routing) 指向这一出站代理。  
+The interface can be opened via the api configuration module. When api configuration is enabled, xray will create its own outbound proxy to which all inbound API connections must be manually routed via [Routing](../routing) rules.
 
-请参考本节中的[相关配置](#相关配置)
+Please refer to the [related configurations](#Related configurations) in this section.
 
 {{% notice warning %}}
-大多数用户并不会用到此 API，新手可以直接忽略这一项。
+Most users will not use this API and newcomers can simply ignore it.
 {{% /notice %}}
 
 ## ApiObject
 ---
-`ApiObject` 对应配置文件的 `api` 项。
+`ApiObject` corresponds to the `api` entry in the configuration file.
 
 ```json
 {
@@ -35,17 +35,17 @@ API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供�
 ```
 {{% notice dark %}} `tag`: string{{% /notice %}}
 
-出站代理标识。
+Outbound agent tag.
 
 {{% notice dark %}} `services`: \[string\]{{% /notice %}}
 
-开启的 API 列表，可选的值见 [API 列表](#支持的-api-列表)。
+List of open APIs, check [API list](# Supported-api-lists). for optional values.
 
 <br />
-## 相关配置
+## Related configurations
 ---
 
-可以在 inbounds 配置中增加一个 api 的 inbound
+You can add an api's inbound to the inbounds configuration.
 
 ```json
 "inbounds": [
@@ -61,7 +61,7 @@ API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供�
 ]
 ```
 
-在路由配置中增加针对api inbound的路由规则
+Add routing rules for api inbound in the routing configuration.
 
 ```json
 "routing": {
@@ -81,24 +81,24 @@ API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供�
 ```
 
 <br />
-## 支持的 API 列表
+## Supported-api-lists
 ---
 
 ### HandlerService
 
-一些对于入站出站代理进行修改的 API，可用的功能如下：
+Some of the APIs that are available for modifications to inbound and outbound agents are
 
-- 添加一个新的入站代理；
-- 添加一个新的出站代理；
-- 删除一个现有的入站代理；
-- 删除一个现有的出站代理；
-- 在一个入站代理中添加一个用户（仅支持 VMess、VLESS、Trojan）；
-- 在一个入站代理中删除一个用户（仅支持 VMess、VLESS、Trojan）；
+- Adding a new inbound agent.
+- Adding a new outbound agent.
+- Removing an existing inbound agent.
+- deleting an existing outbound agent.
+- adding a user to an inbound agent. (only VMess, VLESS, Trojan are supported)
+- deleting a user from an inbound agent. (only VMess, VLESS, Trojan are supported)
 
 ### LoggerService
 
-支持对内置 Logger 的重启，可配合 logrotate 进行一些对日志文件的操作。
+Support for restarting the built-in Logger, which can be used in conjunction with logrotate for some log file manipulation.
 
 ### StatsService
 
-内置的数据统计服务，详见 [统计信息](../stats)。
+Built-in statistical services, see [Statistical Information](../stats) for details.
