@@ -1,7 +1,7 @@
 ---
 alwaysopen: false
 date: "2021-01-15T00:00:00.000Z"
-description: Project X Document
+description: Documentation for Project X
 # head: <hr/>
 hide:
 # - toc
