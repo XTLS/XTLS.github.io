@@ -428,10 +428,19 @@ weight: 7
         deb http://deb.debian.org/debian buster-backports main
         ```
         
-    3. 刷新软件库并安装Debian官方的最新版【云服务器内核】（稳定+优化兼而有之！）
+    3. 刷新软件库并查询 Debian 官方的最新版内核并安装。请务必安装你的VPS对应的版本（本文以比较常见的【amd64】为例）。
         ```
-        $ sudo apt update && sudo apt -t buster-backports install linux-image-cloud-amd64
+        $ sudo apt update && sudo apt -t buster-backports install linux-image-amd64
         ```
+    
+        {{% notice warning  %}} 
+**注意：** 如果你的VPS支持，可以尝试【云服务器专用内核】`linux-image-cloud-amd64`，优点就是精简、资源占用低，缺点嘛是有同学反馈不支持的系统强行安装会导致无法开机（Kernel无法识别）。
+
+为了避免无法识别的悲剧，请确保：
+- 尝试前做一个系统快照，或者
+- 你有 `vnc` 可以救场（并且你知道怎么用）
+
+{{% /notice %}}
 
     4. 修改 `kernel` 参数配置文件 `sysctl.conf` 并指定开启 `BBR`
         ```
@@ -455,6 +464,10 @@ weight: 7
         ```
 
     7. 完整流程演示如下：
+
+        {{% notice warning  %}} 
+**啰嗦君：** 因为我做展示的VPS支持云服务器专用内核，所以动图中我用了 `linux-image-cloud-amd64` 。如果你不确定你的VPS是否支持，那请务必按照第3步的命令，使用常规内核 `linux-image-amd64`。
+{{% /notice %}}
 
         <img src="../ch07-img06-bbr-proper.gif"  alt="更新Debian内核并开启`BBR`"/>
 
