@@ -126,6 +126,8 @@ weight: 7
         {{% notice warning  %}}
 
 **注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 `acme.sh` 的[官方文档](https://github.com/acmesh-official/acme.sh)）
+
+另外，录制动图时，脚本中没有加入重启 `Xray` 的命令，是因为 `Xray` 计划支持【证书热更新】功能，即 `Xray` 会自动识别证书更新并重载证书、无需手动重启。待功能加入后，我将适当修改 `config.json` 开启此设置，并删除脚本中的重启命令。
 {{% /notice %}}
         
     4. 给这个文件增加【可执行】权限
