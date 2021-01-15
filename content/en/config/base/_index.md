@@ -1,36 +1,36 @@
 ---
 alwaysopen: false
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
+date: "2020-01-15T00:00:00.000Z"
+description: Documentation for Project X
 # head: <hr/>
 hide:
 # - toc
 post: "&nbsp;"
-title: 基础配置模块
+title: Basic configuration module
 weight: 3
 ---
 
-{{% alert theme="warning" %}}**这个章节说明了所有的 Xray 基础配置模块的细节.**{{% /alert %}}
+{{% alert theme="warning" %}}**This section explains all the details of the Xray base configuration module.**{{% /alert %}}
 
-## 基础配置模块
+## Basic configuration module
 ---
 {{% notice dark %}}log:[LogObject](./log){{% /notice %}}
-日志配置，控制 Xray输出日志的方式. 
+Logging configuration, which controls how the Xray outputs logs.
 {{% notice dark %}}api:[ApiObject](./api) {{% /notice %}}
-提供了一些API接口供远程调用。
+A number of API interfaces, which are provided for remote calls.
 {{% notice dark %}}dns: [DnsObject](./dns){{% /notice %}}
-内置的 DNS 服务器. 如果没有配置此项，则使用系统的 DNS 设置。
+The built-in DNS server. If this is not configured, the system's DNS settings will be used.
 {{% notice dark %}}routing: [RoutingObject](./routing){{% /notice %}}
-路由功能。可以设置规则分流数据从不同的outbound发出.
+Routing function. Rules can be set to split data into different outbounds.
 {{% notice dark %}}policy: [PolicyObject](./base/policy){{% /notice %}}
-本地策略，可以设置不同的用户等级和对应的策略设置。
+Local policies. You can set different user levels and corresponding policy settings.
 {{% notice dark %}}inbounds: \[ [InboundObject](./inbounds) \]{{% /notice %}}
-一个数组，每个元素是一个入站连接配置。
+An array, each element of which is an inbound connection configuration.
 {{% notice dark %}}outbounds: \[ [OutboundObject](./outbounds) \]{{% /notice %}}
-一个数组，每个元素是一个出站连接配置。
+An array, each element of which is an outbound connection configuration.
 {{% notice dark %}}transport: [TransportObject](./base/transport){{% /notice %}}
-用于配置 Xray 其它服务器建立和使用网络连接的方式。
+This is used to configure how xray establishes and uses network connections with other servers.
 {{% notice dark %}}stats: [StatsObject](./stats){{% /notice %}}
-用于配置流量数据的统计。
+This is used to configure the statistics of traffic data.
 {{% notice dark %}}reverse: [ReverseObject](./reverse){{% /notice %}}
-反向代理。可以把服务器端的流量向客户端转发，即逆向流量转发
+Reverse Proxy. It can forward server-side traffic to the client, i.e. reverse traffic forwarding.
