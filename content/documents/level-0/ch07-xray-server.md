@@ -472,6 +472,33 @@ weight: 7
         <img src="../ch07-img06-bbr-proper.gif"  alt="更新Debian内核并开启`BBR`"/>
 
 
+    8. 确认`BBR`开启
+
+        如果你想确认 `BBR` 是否正确开启，可以使用下面的命令：
+
+        ```
+        $ lsmod | grep bbr
+        ```
+
+        此时应该返回这样的结果：
+
+        ```
+        tcp_bbr
+        ```
+
+        如果你想确认 `fq` 算法是否正确开启，可以使用下面的命令：
+
+        ```
+        $ lsmod | grep fq
+        ```
+
+        此时应该返回这样的结果：
+
+        ```
+        sch_fq
+        ```
+
+
 </br>
 
 ## 7.8 服务器优化之二：开启HTTP自动跳转HTTPS
