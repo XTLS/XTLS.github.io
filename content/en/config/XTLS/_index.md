@@ -10,7 +10,7 @@ title: XTLS
 weight: 10
 ---
 
-{{% alert theme="warning" %}}**XTLS is the xray's original futuristic technology, and the core of what makes the xray so powerful**{{% /alert %}}
+{{% alert theme="warning" %}}**XTLS is the xray's original futuristic technology, and the core of what makes the xray so powerful.**{{% /alert %}}
 
 <br />
 
