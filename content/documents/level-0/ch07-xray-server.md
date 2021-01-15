@@ -118,13 +118,14 @@ weight: 7
         
         chmod +r /home/vpsadmin/xray_cert/xray.key
         echo "Read Permission Granted for Private Key"
+
+        sudo systemctl restart xray
+        echo "Xray Restarted"
         ```
         
         {{% notice warning  %}}
 
-**注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 [`acme.sh`官方文档](https://github.com/acmesh-official/acme.sh)）
-
-另外，理论上目前给 `Xray` 安装证书之后还需要手动重启 `Xray` 才能生效（`sudo systemctl restart xray`）。但是，`Xray` 很快将支持【证书热更新】功能，加入该功能后、更新证书就不需要重启了，所以这里的脚本中没有写这一条。（如果目前需要的话，可以手动重启解决）
+**注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 `acme.sh` 的[官方文档](https://github.com/acmesh-official/acme.sh)）
 {{% /notice %}}
         
     4. 给这个文件增加【可执行】权限
@@ -279,8 +280,7 @@ weight: 7
                         "certificates": [
                             {
                                 "certificateFile": "/home/vpsadmin/xray_cert/xray.crt",
-                                "keyFile": "/home/vpsadmin/xray_cert/xray.key",
-                                "ocspStapling": 3600    // 每3600秒（1小时）验证一次证书状态并缓存
+                                "keyFile": "/home/vpsadmin/xray_cert/xray.key"
                             }
                         ]
                     }
