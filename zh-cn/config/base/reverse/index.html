@@ -1,0 +1,162 @@
+<!doctype html><html><head><title>反向代理 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-01-16T21:58:53 UTC"><meta name=description content="Project X 的文档."><meta name=author content="Project X"><title>反向代理 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https:\/\/xtls.github.io";</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/zh-cn/config/base/reverse/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
+<script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/zh-cn/about/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/zh-cn/about/>Project X&nbsp;⚡</a><ul><li data-nav-id=https://xtls.github.io/zh-cn/about/new/ class="dd-item
+item_level_$level"><a href=/zh-cn/about/new/>大史记&nbsp;</a></li></ul></li><hr><li data-nav-id=https://xtls.github.io/zh-cn/guide/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/guide/>快速入门&nbsp;</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/ class="dd-item parent haschildren
+item_level_$level"><i class="fas fa-chevron-down ddexp"></i><a href=/zh-cn/config/>配置文件&nbsp;📜</a><ul><li data-nav-id=https://xtls.github.io/zh-cn/config/base/ class="dd-item parent haschildren
+item_level_$level"><a href=/zh-cn/config/base/>基础配置模块&nbsp;</a>
+<i class="fas fa-chevron-down ddexp"></i><ul><li data-nav-id=https://xtls.github.io/zh-cn/config/base/log/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/log/>日志配置</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/api/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/api/>API接口</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/dns/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/dns/>内置DNS服务器</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/routing/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/routing/>路由</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/policy/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/policy/>本地策略</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/inbounds/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/inbounds/>Inbounds</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/outbounds/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/outbounds/>Outbounds</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/transport/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/transport/>传输方式</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/stats/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/base/stats/>统计信息</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/base/reverse/ class="dd-item parent active
+item_level_$level"><a href=/zh-cn/config/base/reverse/>反向代理</a></li></ul></li><li data-nav-id=https://xtls.github.io/zh-cn/config/inbound-protocols/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/inbound-protocols/>Inbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/outbound-protocols/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/outbound-protocols/>Outbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/transports/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/transports/>传输方式列表</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/fallback/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/fallback/>Fallbacks</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/xtls/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/xtls/>XTLS</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/env/ class="dd-item
+item_level_$level"><a href=/zh-cn/config/env/>环境变量</a></li><li data-nav-id=https://xtls.github.io/zh-cn/config/multiple_config/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/config/multiple_config/>多文件配置</a></li></ul></li><li data-nav-id=https://xtls.github.io/zh-cn/documents/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/zh-cn/documents/>使用心得&nbsp;📚</a><ul><li data-nav-id=https://xtls.github.io/zh-cn/documents/level-0/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/documents/level-0/>小小白白话文&nbsp;📙</a></li><li data-nav-id=https://xtls.github.io/zh-cn/documents/level-1/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/documents/level-1/>入门技巧&nbsp;</a></li><li data-nav-id=https://xtls.github.io/zh-cn/documents/level-2/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/documents/level-2/>进阶文档&nbsp;📘</a></li></ul></li><li data-nav-id=https://xtls.github.io/zh-cn/develop/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/zh-cn/develop/>开发指南&nbsp;🖥️</a><ul><li data-nav-id=https://xtls.github.io/zh-cn/develop/intro/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/develop/intro/>开发手册</a></li><li data-nav-id=https://xtls.github.io/zh-cn/develop/protocols/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/develop/protocols/>协议详解</a></li></ul></li><li data-nav-id=https://xtls.github.io/zh-cn/faq/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/faq/>常见问答&nbsp;💬</a></li><li data-nav-id=https://xtls.github.io/zh-cn/caseslip/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/caseslip/>大案牍术&nbsp;</a></li><hr><li data-nav-id=https://xtls.github.io/zh-cn/links/ class="dd-item alwaysopen
+item_level_$level"><a href=/zh-cn/links/>常用链接&nbsp;🤝</a></li></ul></aside><section class=page><nav id=ariane aria-label=breadcrumb><ol class=ariane><li><a class=text-link href=https://xtls.github.io></a></li><li><a class=text-link href=/zh-cn/config/>配置文件</a></li><li><a class=text-link href=/zh-cn/config/base/>基础配置模块</a></li><li class=active>反向代理</li></ol></nav><h1>反向代理</h1><div class=jump-to-section><span onclick="$h=$(this);$h.next('nav').slideToggle(100,function(){$h.children('i').attr('class',function(){return $h.next('nav').is(':visible')?'fas fa-chevron-down':'fas fa-chevron-right';});});"><span class="fas fa-align-right"></span><i class="fas fa-chevron-right"></i></span><nav id=TableOfContents><ul><li><a href=#reverseobject>ReverseObject</a><ul><li><a href=#bridgeobject>BridgeObject</a></li><li><a href=#portalobject>PortalObject</a></li></ul></li><li><a href=#完整配置样例>完整配置样例</a><ul><li><a href=#bridge配置>bridge配置</a></li><li><a href=#portal配置>portal配置</a></li></ul></li></ul></nav></div><div class=content><p>反向代理可以把服务器端的流量向客户端转发，即逆向流量转发。</p><p>反向代理的大致工作原理如下:</p><ul><li>假设在主机 A 中有一个网页服务器，这台主机没有公网 IP，无法在公网上直接访问。另有一台主机 B，它可以由公网访问。现在我们需要把 B 作为入口，把流量从 B 转发到 A。</li><li>在主机 A 中配置 Xray，称为<code>bridge</code>，在 B 中也配置 Xray，称为 <code>portal</code>。</li><li><code>bridge</code> 会向 <code>portal</code> 主动建立连接，此连接的目标地址可以自行设定。<code>portal</code> 会收到两种连接，一是由 <code>bridge</code> 发来的连接，二是公网用户发来的连接。<code>portal</code> 会自动将两类连接合并。于是 <code>bridge</code> 就可以收到公网流量了。</li><li><code>bridge</code> 在收到公网流量之后，会将其原封不动地发给主机 A 中的网页服务器。当然，这一步需要路由的协作。</li><li><code>bridge</code> 会根据流量的大小进行动态的负载均衡。</li></ul><div class="notices info"><p><strong>TIP</strong><br>反向代理默认已开启 <a href=mux.md>Mux</a>，请不要在其用到的outbound上再次开启 Mux。</p></div><div class="notices warning"><p>反向代理功能尚处于测试阶段，可能会有一些问题。</p></div><p><br></p><h2 ref=reverseobject>ReverseObject</h2><a class=anchor id=reverseobject></a><hr><p><code>ReverseObject</code> 对应配置文件的 <code>reverse</code> 项。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+  <span style=color:#f92672>&#34;reverse&#34;</span>: {
+    <span style=color:#f92672>&#34;bridges&#34;</span>: [
+      {
+        <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;bridge&#34;</span>,
+        <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span>
+      }
+    ],
+    <span style=color:#f92672>&#34;portals&#34;</span>: [
+      {
+        <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;portal&#34;</span>,
+        <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span>
+      }
+    ]
+  }
+}
+</code></pre></div><div class="notices dark"><p><code>bridges</code>: [<a href=#bridgeobject>BridgeObject</a>]</p></div><p>数组，每一项表示一个 <code>bridge</code>。每个 <code>bridge</code> 的配置是一个 <a href=#bridgeobject>BridgeObject</a>。</p><div class="notices dark"><p><code>portals</code>: [<a href=#portalobject>PortalObject</a>]</p></div><p>数组，每一项表示一个 <code>portal</code>。每个 <code>portal</code> 的配置是一个 <a href=#bridgeobject>PortalObject</a>。</p><p><br></p><h3 ref=bridgeobject>BridgeObject</h3><a class=anchor id=bridgeobject></a><hr><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;bridge&#34;</span>,
+    <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span>
+}
+</code></pre></div><div class="notices dark"><p><code>tag</code>: string</p></div><p>所有由 <code>bridge</code> 发出的连接，都会带有这个标识。可以在 <a href=../routing>路由配置</a> 中使用 <code>inboundTag</code> 进行识别。</p><div class="notices dark"><p><code>domain</code>: string</p></div><p>指定一个域名，<code>bridge</code> 向 <code>portal</code> 建立的连接，都会使用这个域名进行发送。</p><p>这个域名只作为 <code>bridge</code> 和 <code>portal</code> 的通信用途，不必真实存在。</p><p><br></p><h3 ref=portalobject>PortalObject</h3><a class=anchor id=portalobject></a><hr><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;portal&#34;</span>,
+    <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span>
+}
+</code></pre></div><div class="notices dark"><p><code>tag</code>: string</p></div><p><code>portal</code> 的标识。在 <a href=../routing>路由配置</a> 中使用 <code>outboundTag</code> 将流量转发到这个 <code>portal</code>。</p><div class="notices dark"><p><code>domain</code>: string</p></div><p>一个域名。当 <code>portal</code> 接收到流量时，如果流量的目标域名是此域名，则 <code>portal</code> 认为当前连接上 <code>bridge</code> 发来的通信连接。而其它流量则会被当成需要转发的流量。<code>portal</code> 所做的工作就是把这两类连接进行识别并拼接。</p><div class="notices info"><p><strong>TIP</strong><br>一个 Xray 既可以作为 <code>bridge</code>，也可以作为 <code>portal</code>，也可以同时两者，以适用于不同的场景需要。</p></div><p><br></p><h2 ref=完整配置样例>完整配置样例</h2><a class=anchor id=完整配置样例></a><hr><div class="notices info"><p><strong>TIP</strong><br>在运行过程中，建议先启用 <code>bridge</code>，再启用 <code>portal</code>。</p></div><h3 ref=bridge配置>bridge配置</h3><a class=anchor id=bridge配置></a><hr><p><code>bridge</code> 通常需要两个outbound，一个用于连接 <code>portal</code>，另一个用于发送实际的流量。也就是说，你需要用路由区分两种流量。</p><p>反向代理配置:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;bridges&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;bridge&#34;</span>,
+            <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span>
+        }
+    ]
+}
+</code></pre></div><p>outbound:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;out&#34;</span>,
+    <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;freedom&#34;</span>,
+    <span style=color:#f92672>&#34;settings&#34;</span>: {
+        <span style=color:#f92672>&#34;redirect&#34;</span>: <span style=color:#e6db74>&#34;127.0.0.1:80&#34;</span> <span style=color:#960050;background-color:#1e0010>//</span> <span style=color:#960050;background-color:#1e0010>将所有流量转发到网页服务器</span>
+    }
+}<span style=color:#960050;background-color:#1e0010>,</span>
+{
+    <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;vmess&#34;</span>,
+    <span style=color:#f92672>&#34;settings&#34;</span>: {
+        <span style=color:#f92672>&#34;vnext&#34;</span>: [
+            {
+                <span style=color:#f92672>&#34;address&#34;</span>: <span style=color:#e6db74>&#34;portal 的 IP 地址&#34;</span>,
+                <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>1024</span>,
+                <span style=color:#f92672>&#34;users&#34;</span>: [
+                    {
+                        <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;27848739-7e62-4138-9fd3-098a63964b6b&#34;</span>
+                    }
+                ]
+            }
+        ]
+    },
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;interconn&#34;</span>
+}
+</code></pre></div><p>路由配置:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json><span style=color:#e6db74>&#34;routing&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+    <span style=color:#f92672>&#34;rules&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;field&#34;</span>,
+            <span style=color:#f92672>&#34;inboundTag&#34;</span>: [
+                <span style=color:#e6db74>&#34;bridge&#34;</span>
+            ],
+            <span style=color:#f92672>&#34;domain&#34;</span>: [
+                <span style=color:#e6db74>&#34;full:test.xray.com&#34;</span>
+            ],
+            <span style=color:#f92672>&#34;outboundTag&#34;</span>: <span style=color:#e6db74>&#34;interconn&#34;</span>
+        },
+        {
+            <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;field&#34;</span>,
+            <span style=color:#f92672>&#34;inboundTag&#34;</span>: [
+                <span style=color:#e6db74>&#34;bridge&#34;</span>
+            ],
+            <span style=color:#f92672>&#34;outboundTag&#34;</span>: <span style=color:#e6db74>&#34;out&#34;</span>
+        }
+    ]
+}
+</code></pre></div><p><br></p><h3 ref=portal配置>portal配置</h3><a class=anchor id=portal配置></a><hr><p><code>portal</code> 通常需要两个inbound，一个用于接收 <code>bridge</code> 的连接，另一个用于接收实际的流量。同时你也需要用路由区分两种流量。</p><p>反向代理配置:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;portals&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;portal&#34;</span>,
+            <span style=color:#f92672>&#34;domain&#34;</span>: <span style=color:#e6db74>&#34;test.xray.com&#34;</span> <span style=color:#960050;background-color:#1e0010>//</span> <span style=color:#960050;background-color:#1e0010>必须和</span> <span style=color:#960050;background-color:#1e0010>bridge</span> <span style=color:#960050;background-color:#1e0010>的配置一样</span>
+        }
+    ]
+}
+</code></pre></div><p>inbound:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;external&#34;</span>,
+    <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>80</span>, <span style=color:#960050;background-color:#1e0010>//</span> <span style=color:#960050;background-color:#1e0010>开放</span> <span style=color:#960050;background-color:#1e0010>80</span> <span style=color:#960050;background-color:#1e0010>端口，用于接收外部的</span> <span style=color:#960050;background-color:#1e0010>HTTP</span> <span style=color:#960050;background-color:#1e0010>访问</span>
+    <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;dokodemo-door&#34;</span>,
+    <span style=color:#f92672>&#34;settings&#34;</span>: {
+        <span style=color:#f92672>&#34;address&#34;</span>: <span style=color:#e6db74>&#34;127.0.0.1&#34;</span>,
+        <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>80</span>,
+        <span style=color:#f92672>&#34;network&#34;</span>: <span style=color:#e6db74>&#34;tcp&#34;</span>
+    }
+}<span style=color:#960050;background-color:#1e0010>,</span>
+{
+    <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>1024</span>, <span style=color:#960050;background-color:#1e0010>//</span> <span style=color:#960050;background-color:#1e0010>用于接收</span> <span style=color:#960050;background-color:#1e0010>bridge</span> <span style=color:#960050;background-color:#1e0010>的连接</span>
+    <span style=color:#f92672>&#34;tag&#34;</span>: <span style=color:#e6db74>&#34;interconn&#34;</span>,
+    <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;vmess&#34;</span>,
+    <span style=color:#f92672>&#34;settings&#34;</span>: {
+        <span style=color:#f92672>&#34;clients&#34;</span>: [
+            {
+                <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;27848739-7e62-4138-9fd3-098a63964b6b&#34;</span>
+            }
+        ]
+    }
+}
+</code></pre></div><p>路由配置:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json><span style=color:#e6db74>&#34;routing&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> {
+    <span style=color:#f92672>&#34;rules&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;field&#34;</span>,
+            <span style=color:#f92672>&#34;inboundTag&#34;</span>: [
+                <span style=color:#e6db74>&#34;external&#34;</span>
+            ],
+            <span style=color:#f92672>&#34;outboundTag&#34;</span>: <span style=color:#e6db74>&#34;portal&#34;</span>
+        },
+        {
+            <span style=color:#f92672>&#34;type&#34;</span>: <span style=color:#e6db74>&#34;field&#34;</span>,
+            <span style=color:#f92672>&#34;inboundTag&#34;</span>: [
+                <span style=color:#e6db74>&#34;interconn&#34;</span>
+            ],
+            <span style=color:#f92672>&#34;outboundTag&#34;</span>: <span style=color:#e6db74>&#34;portal&#34;</span>
+        }
+    ]
+}
+</code></pre></div></div><div class=chevrons></div></section><section class=right-menu><div class=TableOfContents><label><i class="fas fa-align-right"></i>&nbsp;&nbsp;</label><nav><ul><li><a href=/zh-cn/config/base/reverse/>反向代理</a></li></ul></nav><nav id=TableOfContents><ul><li><a href=#reverseobject>ReverseObject</a><ul><li><a href=#bridgeobject>BridgeObject</a></li><li><a href=#portalobject>PortalObject</a></li></ul></li><li><a href=#完整配置样例>完整配置样例</a><ul><li><a href=#bridge配置>bridge配置</a></li><li><a href=#portal配置>portal配置</a></li></ul></li></ul></nav></div><div class=Actions><nav><ul><li><a href=https://github.com/XTLS/XTLS.github.io/tree/main/content/config/base/reverse/_index.md target=blank><i class="fab fa-github"></i></a></li><li><i class="fas fa-calendar"></i>23 December 2020</li></ul></nav></div></section></article><footer><footer><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="User mailing list" aria-label="User mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Twitter aria-label=Twitter><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/twitter><i class="fab fa-twitter"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Stack Overflow" aria-label="Stack Overflow"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/stack><i class="fab fa-stack-overflow"></i></a></li></ul></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel="noopener noreferrer" href=https://github.com/XTLS><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Slack aria-label=Slack><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/slack><i class="fab fa-slack"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Developer mailing list" aria-label="Developer mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2020-2021 ProjectX Community All Rights Reserved</small></div></div></div></footer></footer></body></html>

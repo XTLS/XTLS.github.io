@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Outbounds 可用协议列表 on Project X</title><link>https://xtls.github.io/en-us/config/outbound-protocols/</link><description>Recent content in Outbounds 可用协议列表 on Project X</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://xtls.github.io/en-us/config/outbound-protocols/index.xml" rel="self" type="application/rss+xml"/><item><title>Blackhole</title><link>https://xtls.github.io/en-us/config/outbound-protocols/blackhole/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/blackhole/</guid><description>Blackhole（黑洞）是一个出站数据协议，它会阻碍所有数据的出站，配合 路由配置 一起使用，可以达到禁止访问某些网站的效果。
+OutboundConfigurationObject { &amp;#34;response&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;none&amp;#34; } } response: ResponseObject
+配置黑洞的响应数据。
+Blackhole 会在收到待转发数据之后，发送指定的响应数据，然后关闭连接，待转发的数据将被丢弃。 如不指定此项，Blackhole 将直接关闭连接。
+ResponseObject { &amp;#34;type&amp;#34;: &amp;#34;none&amp;#34; } type: &amp;ldquo;http&amp;rdquo; | &amp;ldquo;none&amp;rdquo;
+当 type 为 &amp;quot;none&amp;quot;（默认值）时，Blackhole 将直接关闭连接。
+当 type 为 &amp;quot;http&amp;quot; 时，Blackhole 会发回一个简单的 HTTP 403 数据包，然后关闭连接。</description></item><item><title>DNS</title><link>https://xtls.github.io/en-us/config/outbound-protocols/dns/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/dns/</guid><description>DNS 是一个出站协议，主要用于拦截和转发 DNS 查询。
+此出站协议只能接收 DNS 流量（包含基于 UDP 和 TCP 协议的查询），其它类型的流量会导致错误。
+在处理 DNS 查询时，此出站协议会将 IP 查询（即 A 和 AAAA）转发给内置的 DNS 服务器。其它类型的查询流量将被转发至它们原本的目标地址。
+OutboundConfigurationObject { &amp;#34;network&amp;#34;: &amp;#34;tcp&amp;#34;, &amp;#34;address&amp;#34;: &amp;#34;1.1.1.1&amp;#34;, &amp;#34;port&amp;#34;: 53 } network: &amp;ldquo;tcp&amp;rdquo; | &amp;ldquo;udp&amp;rdquo;
+修改 DNS 流量的传输层协议，可选的值有 &amp;quot;tcp&amp;quot; 和 &amp;quot;udp&amp;quot;。当不指定时，保持来源的传输方式不变。
+address: address
+修改 DNS 服务器地址。当不指定时，保持来源中指定的地址不变。
+port: number
+修改 DNS 服务器端口。当不指定时，保持来源中指定的端口不变。
+DNS配置实例 In progress</description></item><item><title>Freedom</title><link>https://xtls.github.io/en-us/config/outbound-protocols/freedom/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/freedom/</guid><description>Freedom 是一个出站协议，可以用来向任意网络发送（正常的） TCP 或 UDP 数据。
+OutboundConfigurationObject { &amp;#34;domainStrategy&amp;#34;: &amp;#34;AsIs&amp;#34;, &amp;#34;redirect&amp;#34;: &amp;#34;127.0.0.1:3366&amp;#34;, &amp;#34;userLevel&amp;#34;: 0 } domainStrategy: &amp;ldquo;AsIs&amp;rdquo; | &amp;ldquo;UseIP&amp;rdquo; | &amp;ldquo;UseIPv4&amp;rdquo; | &amp;ldquo;UseIPv6&amp;rdquo;
+在目标地址为域名时, 配置相应的值, Freedom 的行为模式如下:
+&amp;quot;AsIs&amp;quot;: Freedom 通过系统DNS服务器解析获取IP, 向此域名发出连接. &amp;quot;UseIP&amp;quot;、&amp;quot;UseIPv4&amp;quot; 和 &amp;quot;UseIPv6&amp;quot;: Xray 使用内置 DNS 服务器解析获取IP, 向此域名发出连接. 默认值为 &amp;quot;AsIs&amp;quot;。 TIP 1
+当使用 &amp;quot;UseIP&amp;quot; 模式，并且出站连接配置 中指定了 sendThrough 时，Freedom 会根据 sendThrough 的值自动判断所需的 IP 类型，IPv4 或 IPv6。
+TIP 2
+当使用 &amp;quot;UseIPv4&amp;quot; 或 &amp;quot;UseIPv6&amp;quot; 模式时，Freedom 会只使用对应的 IPv4 或 IPv6 地址。当 sendThrough 指定了不匹配的本地地址时，将导致连接失败。</description></item><item><title>HTTP</title><link>https://xtls.github.io/en-us/config/outbound-protocols/http/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/http/</guid><description>HTTP 协议。
+importanthttp 协议没有对传输加密，不适宜经公网中传输，更容易成为被人用作攻击的肉鸡。
+http inbound 更有意义的用法是在局域网或本机环境下监听，为其他程序提供本地服务。
+TIP
+http proxy 只能代理 tcp 协议，udp 系的协议均不能通过。
+OutboundConfigurationObject { &amp;#34;servers&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;192.168.108.1&amp;#34;, &amp;#34;port&amp;#34;: 3128, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;my-username&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;my-password&amp;#34; } ] } ] } TIP
+目前 HTTP 协议 ounbound 中 streamSettings 设置 security 和 tlsSettings 是生效的。
+servers: [ ServerObject ]
+HTTP 服务器列表，其中每一项是一个服务器配置，若配置多个，循环使用 (RoundRobin)。
+ServerObject { &amp;#34;address&amp;#34;: &amp;#34;192.168.108.1&amp;#34;, &amp;#34;port&amp;#34;: 3128, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;my-username&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;my-password&amp;#34; } ] } address: string</description></item><item><title>Socks</title><link>https://xtls.github.io/en-us/config/outbound-protocols/socks/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/socks/</guid><description>标准 Socks 协议实现，兼容 Socks 4、Socks 4a 和 Socks 5。
+importantsocks 协议没有对传输加密，不适宜经公网中传输
+socks inbound 更有意义的用法是在局域网或本机环境下监听，为其他程序提供本地服务。
+OutboundConfigurationObject { &amp;#34;servers&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 1234, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;test user&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;test pass&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } ] } servers: [ ServerObject ]
+Socks 服务器列表，其中每一项是一个服务器配置。
+ServerObject { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 1234, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;test user&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;test pass&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } address: address</description></item><item><title>VLESS</title><link>https://xtls.github.io/en-us/config/outbound-protocols/vless/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/vless/</guid><description>important目前 VLESS 没有自带加密，请用于可靠信道，如 TLS。 目前 VLESS 不支持分享。
+VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部分，可以作为 Xray 客户端和服务器之间的桥梁。
+与 VMess 不同，VLESS 不依赖于系统时间，认证方式同样为 UUID，但不需要 alterId。
+OutboundConfigurationObject { &amp;#34;vnext&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;example.com&amp;#34;, &amp;#34;port&amp;#34;: 443, &amp;#34;users&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;27848739-7e62-4138-9fd3-098a63964b6b&amp;#34;, &amp;#34;encryption&amp;#34;: &amp;#34;none&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } ] } vnext: [ ServerObject ]
+一个数组, 表示 VLESS 服务器列表，包含一组指向服务端的配置, 其中每一项是一个服务器配置。
+ServerObject { &amp;#34;address&amp;#34;: &amp;#34;example.com&amp;#34;, &amp;#34;port&amp;#34;: 443, &amp;#34;users&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;27848739-7e62-4138-9fd3-098a63964b6b&amp;#34;, &amp;#34;encryption&amp;#34;: &amp;#34;none&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } address: address</description></item><item><title>VMess</title><link>https://xtls.github.io/en-us/config/outbound-protocols/vmess/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/vmess/</guid><description>VMess VMess 是一个加密传输协议，通常作为 Xray 客户端和服务器之间的桥梁。
+importantVMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在 90 秒之内，时区无关。在 Linux 系统中可以安装ntp服务来自动同步系统时间。
+OutboundConfigurationObject { &amp;#34;vnext&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 37192, &amp;#34;users&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;27848739-7e62-4138-9fd3-098a63964b6b&amp;#34;, &amp;#34;alterId&amp;#34;: 0, &amp;#34;security&amp;#34;: &amp;#34;auto&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } ] } vnext：[ ServerObject ]
+一个数组，包含一组的服务端配置.
+其中每一项是一个服务端配置ServerObject。
+ServerObject { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 37192, &amp;#34;users&amp;#34;: [] } address: address
+服务端地址，支持 IP 地址或者域名。
+port: number
+服务端监听的端口号, 必填。</description></item><item><title>Trojan</title><link>https://xtls.github.io/en-us/config/outbound-protocols/trojan/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/trojan/</guid><description>Trojan 协议
+importantTrojan 被设计工作在正确配置的加密 TLS 隧道
+OutboundConfigurationObject { &amp;#34;servers&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 1234, &amp;#34;password&amp;#34;: &amp;#34;password&amp;#34;, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } servers: [ ServerObject ]
+一个数组，其中每一项是一个 ServerObject。
+ServerObject { &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 1234, &amp;#34;password&amp;#34;: &amp;#34;password&amp;#34;, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34;, &amp;#34;level&amp;#34;: 0 } address: address
+服务端地址，支持 IPv4、IPv6 和域名。必填。
+port: number
+服务端端口，通常与服务端监听的端口相同。
+password: string
+密码. 必填，任意字符串。
+email: string</description></item><item><title>Shadowsocks</title><link>https://xtls.github.io/en-us/config/outbound-protocols/shadowsocks/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en-us/config/outbound-protocols/shadowsocks/</guid><description>Shadowsocks 协议，兼容大部分其它版本的实现。
+目前兼容性如下：
+支持 TCP 和 UDP 数据包转发，其中 UDP 可选择性关闭；
+推荐的加密方式：
+AES-256-GCM AES-128-GCM ChaCha20-Poly1305 或称 ChaCha20-IETF-Poly1305 none 或 plain 不推荐的加密方式:
+AES-256-CFB AES-128-CFB ChaCha20 ChaCha20-IETF important&amp;ldquo;none&amp;rdquo; 不加密方式下，服务器端不会验证 &amp;ldquo;password&amp;rdquo; 中的密码。为确保安全性, 一般需要加上 TLS 并在传输层使用安全配置，例如 WebSocket 配置较长的 path
+OutboundConfigurationObject { &amp;#34;servers&amp;#34;: [ { &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34;, &amp;#34;address&amp;#34;: &amp;#34;127.0.0.1&amp;#34;, &amp;#34;port&amp;#34;: 1234, &amp;#34;method&amp;#34;: &amp;#34;加密方式&amp;#34;, &amp;#34;password&amp;#34;: &amp;#34;密码&amp;#34;, &amp;#34;level&amp;#34;: 0 } ] } servers: [ServerObject]
+一个数组，代表一组 Shadowsocks 服务端设置, 其中每一项是一个 ServerObject。</description></item></channel></rss>
