@@ -10,6 +10,12 @@ title: 大史记
 weight: 1
 ---
 
+## 2021.01.17
+- 辛苦的翻译工作开始了, 感谢<img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/> [@玖柒Max](https://github.com/jiuqi9997)
+- [English version](https://xtls.github.io/en/)
+
+<br />
+
 ## 2021.01.15
 ###  [v1.2.2](https://github.com/XTLS/Xray-core/releases/tag/v1.2.2)
 ---
