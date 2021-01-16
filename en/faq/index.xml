@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>常见问答 on Project X</title><link>https://xtls.github.io/en/faq/</link><description>Recent content in 常见问答 on Project X</description><generator>Hugo -- gohugo.io</generator><language>cn</language><lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://xtls.github.io/en/faq/index.xml" rel="self" type="application/rss+xml"/><item><title>下载和安装中的问题</title><link>https://xtls.github.io/en/faq/start/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/start/</guid><description> Q: 我想自己下载安装包, 可是release好多文件, 我要下载哪一个呢?请先使用谷歌搜索您的设备型号, 确认您设备使用的架构, 然后下载对应的版本. Q: 我在VPS上运行了脚本, 好像安装好了, 可是似乎没反应?/系统服务不能启动?/我也不知道有没有安装成功?使用命令 &amp;lsquo;journalctl -u xray&amp;rsquo; 查看 xray 的相关日志。
+或者
+终端命令行中执行 &amp;lsquo;xray run -c 您的config.json文件路径&amp;rsquo; 来查看相关信息
+Q: 配置文件在哪个目录。谢谢!这位同学你可真的是不看文档, 不过因为你很有礼貌, 我可以告诉你在这里有所有文件的安装位置</description></item><item><title>配置和运行时的问题</title><link>https://xtls.github.io/en/faq/config/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/config/</guid><description>Q: 为什么windows下只有一个可执行程序? 我想要隐藏执行, 嘤嘤嘤.A1: 方式很多,如: 建立一个hiderun.vbs文件,放在xray.exe同一目录 编辑内容为
+CreateObject(&amp;#34;WScript.Shell&amp;#34;).Run &amp;#34;xray.exe&amp;#34;,0 运行此vbs即可, 然后放个快捷方式到shell:startup里面，就可以开机启动了
+A2: 也可以通过创建window服务/计划任务等方式实现,亦可借助一些专门的后台运行的工具(不太必要)
+A3: CHP (Create Hidden Process)
+A4: 用winsw可以将xray-core添加为Win的系统服务，开机自动运行，不需要手动隐藏窗口。
+A5: 写一个bat开机启动
+@echo off if &amp;#34;%1&amp;#34; == &amp;#34;h&amp;#34; goto begin mshta vbscript:createobject(&amp;#34;wscript.shell&amp;#34;).run(&amp;#34;%~nx0 h&amp;#34;,0)(window.close)&amp;amp;&amp;amp;exit :begin D:/Xray run -c D:/Xray.json `
+Q: 无法用做Tor前置代理 #66关闭 sniffing 再试试.
+Q: 如何自定义.dat文件的文件位置?设置环境变量 XRAY_LOCATION_ASSET 的值
+Q: 为什么我配置了SSL证书但不可用? 检查证书权限 使用 fullchain 证书
+Q: 我以前用gfw列表, 我现在用Xray怎么进行分流呢?</description></item><item><title>性能相关的问题</title><link>https://xtls.github.io/en/faq/performance/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/performance/</guid><description>Q: 我是瓜瓜, 我想问 Xray 是不是最快的?是.
+Q: 什么工具或协议组合最快啊?/我应该用什么工具协议组合啊?个人自建上网,首先考虑安全性和伪装性,然后选择能满足自己需求的最高性能组合
+上网速率的高低, 体感的快慢, 根本的决定因素是线路 因此所有的选择跟你的实际环境息息相关,有时候需要一些特殊手段处理, 比如
+比如低质量的线路可用使用CF加速. 比如晚上高峰期严重丢包的情况下, 可用使用mkcp(上限很低), 让线路尽量跑的更流畅一些. 在通常的环境下, 各种工具/协议组合的性能的高低, 可以参考Xray性能对比测试
+Q: mac和win 使用splice是不是无解了？ Windows 提供了 TransmitFile，但似乎不能用于两个 TCP 对接 Windows 10 有 WSL WSL 1 使用 Splice 性能捉急. 不清楚 WSL 2 会不会带来额外拷贝开销，需要更多勇士尝试并反馈. macOS暂无计划 Q: 有无xtls+splice+ws的计划？XTLS 原理上不支持 WS
+不带 TLS 的 WS 理论上可以支持类似 XTLS 的东西，目前没有实现它的计划
+或者 看看这里</description></item><item><title>透明代理相关问题</title><link>https://xtls.github.io/en/faq/tproxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/tproxy/</guid><description> Q: 我搭建了透明代理给我和我同宿舍/隔壁宿舍的同学用, 日志中出现很多 too many open files .怎么办? 急,在线等.让你的同学少用BT过代理下载American Video 在 /etc/systemd/system/xray.service 的 [Service] 下加 LimitNPROC=10000 和 LimitNOFILE=1000000.
+Q: sniffing的具体功能是什么，什么时候发挥作用?sniffing流量探测主要作用是用在透明代理等用途.
+他的一个典型工作流程是这样的.
+比如你有一个设备上网,去访问abc.com, 首先设备通过DNS查询得到abc.com的IP是1.2.3.4,然后设备会向1.2.3.4发起连接.
+透明代理不设置嗅探的话,收到的连接请求是1.2.3.4,是不能走域名规则的路由分流的. 透明代理设置了sniffing,处理这个流量时,会从这个流量的数据中,嗅探出域名,abc.com. 然后把1.2.3.4重置为abc.com. 路由就可以根据域名进行符合域名规则的分流, 或者做更多的事情. 因为变成了一个向abc.com请求的连接,就可以做更多的事情,包括路由域名规则分流, 重新做DNS解析等等&amp;hellip;
+另一个sniffing的作用是可以嗅探BT流量的标识,把流量归类成BT类型. 然后可以在路由中根据BT类型来做规则,比如服务端用来拦截BT流量,比如客户端把BT流量固定发送到某个VPS去代理等.</description></item><item><title>回落相关问题</title><link>https://xtls.github.io/en/faq/fallback/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/fallback/</guid><description> Q: 回落是个啥?好吃吗?Fallback 是 Xray 的最强大功能之一, 可有效防止主动探测, 自由配置常用端口多服务共享
+点此查看详情 回落
+Q: 为什么我回落以后nginx日志的IP是 127.0.0.1?需要开启 proxy protocol. 参见fallbacks配置的xver参数
+Q: 我还是上一题的提问者, 那么我如何使用proxy protocol,达到所有日志都有源IP的目的呢?等待好心人写一篇小小白白话文
+Q: Wordpress 是 Mixed Content, 回落到配置的Wordpress看起来怪怪的, 怎么办?@Ardentwheel :
+需要在nginx的配置中加入以下内容，才可以修复
+add_header Content-Security-Policy &amp;#34;upgrade-insecure-requests&amp;#34;;</description></item><item><title>XTLS相关问题</title><link>https://xtls.github.io/en/faq/xtls/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/xtls/</guid><description> Q: XTLS是个啥?好吃吗?XTLS 是 Xray 的原创黑科技, 也是使 Xray 性能一骑绝尘的核心动力
+点此查看详情 XTLS
+Q: TLS和XTLS有啥区别?XTLS会不安全吗?安全性没有区别. 传输的数据都是完全加密的
+TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型和正常上网具有一致性.
+性能有区别. XTLS比TLS快的多的多的多.
+启用 XTLS 并且配置合适的XTLS流控模式, 可以在保持和 TLS 相同的安全性的前提下, 性能达到数倍甚至十几倍的提升.
+Q: 听说XTLS的数据是不完全加密的，是这样的吗?此说法错误，XTLS传输的数据是完全加密的，和TLS没有区别。
+XTLS去掉了旧时代翻墙模式中不必要的对加密数据的重复加密。即:
+如果原始数据是已经经过TLS加密的数据（通常上网，绝大部分数据都是已经TLS加密过的数据了），此时XTLS不再和旧时代工具一样进行无用的重复加密，从而获得卓越性能。 如果原始数据不是经过TLS加密的，而是明文数据，XTLS会进行TLS加密。 因此XTLS数据仍然是完全TLS加密的，并且去掉了毫无意义的不必要的重复加密，而不是所谓的不完全加密。
+同时外部看来流量类型和正常上网具有一致性，更具隐蔽性，是最安全的模式。</description></item><item><title>关于Xray</title><link>https://xtls.github.io/en/faq/about/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/faq/about/</guid><description>Q: XXX功能什么时候出来呀!康明宋
+Q: 为什么会开发 Xray ?兴趣使然
+Q: Xray收钱吗? 可以按我的要求定制吗?Xray 不沾钱,这是个兴趣使然的项目.
+Xray 不接受定制, 只根据大家的需求进行兴趣使然的开发.
+Q: XXX也是你们开发的吗?请明辨您获取资源的来源, 小心使用, 谨防蜜罐
+我们的开发均托管在 github, 不在project X 仓库的, 都不属于 project X 开发.
+当然也有很多大佬支持着 Xray 的开发和完善了生态圈, 请见这里.
+我们也欢迎所有人一起来完善 Xray.
+Q: Xray 和 v2ray 还有 v2fly 是什么关系啊?禁忌の歷史迷局
+v2ray-core 项目是继Shadowsocks项目之后活跃的独立项目。
+但在2019年，原作者Victoria Raymond突然从 GitHub 项目、社交网站等失联，开发一度陷入停滞。
+v2fly项目组基于v2ray项目的技术基础，fork并成立了社区化项目v2fly。
+后续于2020年9月与 GitHub 官方沟通确认后，取消了与原 v2ray 项目的fork关系，正式成为独立的社区项目组织。
+随后，v2fly社区的贡献者之一 rprx，给v2fly项目带来了VLESS协议，回落分流，XTLS黑科技等一系列更新，v2fly项目进入了&amp;quot;腹泻式&amp;quot;更新时期。
+v2fly社区一些成员在某些技术选择及社区理念方面与 rprx 产生分歧。
+此后在一些其他外因的促使下，v2fly社区自 v4.33.0 版本起移除了其核心对 XTLS 的支持，但保留了 VLESS 协议支持。
+最终 rprx 决定独立分支并成立 project X 社区进行维护。</description></item></channel></rss>

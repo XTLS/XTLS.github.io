@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>进阶文档 on Project X</title><link>https://xtls.github.io/en/documents/level-2/</link><description>Recent content in 进阶文档 on Project X</description><generator>Hugo -- gohugo.io</generator><language>cn</language><lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://xtls.github.io/en/documents/level-2/index.xml" rel="self" type="application/rss+xml"/><item><title>透明代理入门</title><link>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</guid><description>什么是透明代理 透明代理简单地说就是不让被代理的设备感觉到自己被代理了。简单地说就是，被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备已经被代理了。
+这也意味着，代理的软件运行在别的地方，比如运行在路由器中，通过路由器上网的设备就自动被代理了。
+透明代理的实现 透明代理的实现目前主要有两种方式：
+tun2socks 可用Windows/Linux(包括安卓)实现。因为实现过程比较简单，很少有教程，我这里简单描述一下。
+Windows
+安装 Netch ，使用模式[3] [TUN/TAP] 绕过局域网启动。
+开启热点
+打开控制面板-&amp;gt;网络和 Internet-&amp;gt;网络和共享中心-&amp;gt;更改适配器设置，找到TAP-Windows Adapter和Microsoft Wi-Fi Direct Virtual Adapter。
+鼠标右键点击TAP-Windows Adapter，属性-&amp;gt;共享，勾选允许其他网络用户通过此计算机的 Internet 连接来连接，在家庭网络连接中选择Microsoft Wi-Fi Direct Virtual Adapter的那个网络连接，点击确定。
+Android
+配置连接V2RayNG
+开启热点
+热点设置 -&amp;gt; 允许热点使用VPN(部分安卓系统可能没有这个选项)
+iptables/nftables iptables与nftables实现透明代理的原理相同，下文统一使用iptables。
+基于iptables的透明代理实现只能用于Linux系统(包括openwrt/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
+现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： 新 V2Ray 白话文指南-透明代理 、 新 V2Ray 白话文指南-透明代理(TPROXY) 、 透明代理（TProxy）配置教程 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
+iptables实现透明代理原理 Linux使用Netfilter来管理网络，Netfilter模型如下：
+假设使用路由器作为网关(即我们平时的上网方式)，那么：</description></item><item><title>透明代理（TProxy）配置教程</title><link>https://xtls.github.io/en/documents/level-2/tproxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/tproxy/</guid><description>本配置基于TProxy 透明代理的新 V2Ray 白话文教程，加入了 Xray 的新特性，使用 VLESS + XTLS Splice 方案，并将旧教程中默认出站代理的分流方式改为默认出站直连，使用者请按照实际情况进行修改。
+本文中所有配置已在 Raspberry Pi 2B、Ubuntu 20.04 环境下测试成功，如在其它环境中使用请自行调整配置。
+开始之前 请检查您的设备是否有可用的网络连接，且服务端已经配置成功，客户端已经安装完毕。
+需注意的是，目前很多透明代理教程都会将 Linux 系统的 IP 转发打开，但这样会导致 Splice 性能下降。详情请参考大案牍术破案纪实第三篇&amp;ndash;我们是如何破解 Splice 性能下降甚至低于 Direct 之谜的。
+这里我想要补充的是，很多透明代理教程会使用 Netfilter 进行分流，使直连流量直接发出而不经过 Xray，这时必须开启 IP 转发；也有的教程，如本文，会将所有流量导入 Xray 之中，由 Xray 的路由模块进行分流，这时无需开启 IP 转发。
+Xray 配置 { &amp;#34;log&amp;#34;: { &amp;#34;loglevel&amp;#34;: &amp;#34;warning&amp;#34;, &amp;#34;error&amp;#34;: &amp;#34;/var/log/xray/error.log&amp;#34;, &amp;#34;access&amp;#34;: &amp;#34;/var/log/xray/access.log&amp;#34; }, &amp;#34;inbounds&amp;#34;: [ { &amp;#34;tag&amp;#34;: &amp;#34;all-in&amp;#34;, &amp;#34;port&amp;#34;: 12345, &amp;#34;protocol&amp;#34;: &amp;#34;dokodemo-door&amp;#34;, &amp;#34;settings&amp;#34;: { &amp;#34;network&amp;#34;: &amp;#34;tcp,udp&amp;#34;, &amp;#34;followRedirect&amp;#34;: true }, &amp;#34;sniffing&amp;#34;: { &amp;#34;enabled&amp;#34;: true, &amp;#34;destOverride&amp;#34;: [ &amp;#34;http&amp;#34;, &amp;#34;tls&amp;#34; ] }, &amp;#34;streamSettings&amp;#34;: { &amp;#34;sockopt&amp;#34;: { &amp;#34;tproxy&amp;#34;: &amp;#34;tproxy&amp;#34; } } } ], &amp;#34;outbounds&amp;#34;: [ { &amp;#34;tag&amp;#34;: &amp;#34;direct&amp;#34;, &amp;#34;protocol&amp;#34;: &amp;#34;freedom&amp;#34;, &amp;#34;settings&amp;#34;: { &amp;#34;domainStrategy&amp;#34;: &amp;#34;UseIPv4&amp;#34; }, &amp;#34;streamSettings&amp;#34;: { &amp;#34;sockopt&amp;#34;: { &amp;#34;mark&amp;#34;: 2 } } }, { &amp;#34;tag&amp;#34;: &amp;#34;proxy&amp;#34;, &amp;#34;protocol&amp;#34;: &amp;#34;vless&amp;#34;, &amp;#34;settings&amp;#34;: { &amp;#34;vnext&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;服务端域名&amp;#34;, &amp;#34;port&amp;#34;: 443, &amp;#34;users&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;UUID&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-splice&amp;#34;, &amp;#34;encryption&amp;#34;: &amp;#34;none&amp;#34; } ] } ] }, &amp;#34;streamSettings&amp;#34;: { &amp;#34;network&amp;#34;: &amp;#34;tcp&amp;#34;, &amp;#34;security&amp;#34;: &amp;#34;xtls&amp;#34;, &amp;#34;sockopt&amp;#34;: { &amp;#34;mark&amp;#34;: 2 } } }, { &amp;#34;tag&amp;#34;: &amp;#34;block&amp;#34;, &amp;#34;protocol&amp;#34;: &amp;#34;blackhole&amp;#34;, &amp;#34;settings&amp;#34;: { &amp;#34;response&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;http&amp;#34; } } }, { &amp;#34;tag&amp;#34;: &amp;#34;dns-out&amp;#34;, &amp;#34;protocol&amp;#34;: &amp;#34;dns&amp;#34;, &amp;#34;settings&amp;#34;: { &amp;#34;address&amp;#34;: &amp;#34;8.</description></item><item><title>透明代理通过gid规避Xray流量</title><link>https://xtls.github.io/en/documents/level-2/iptables_gid/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/iptables_gid/</guid><description>在现有的iptables透明代理白话文(新 V2Ray 白话文指南-透明代理 、 新 V2Ray 白话文指南-透明代理(TPROXY) 、 透明代理（TProxy）配置教程)教程中，对Xray流量的规避处理是打mark实现的。即对Xray出站流量打mark，通过设置iptables规则对对应mark的流量直连，来规避Xray流量，防止回环。
+这么做有以下几个问题：
+莫名流量进入PREROUTING链
+安卓系统有自己的mark机制，该方案在安卓上不可用
+本教程的方案不需要设置mark，理论性能更高，同时也不存在上述问题。
+思路 tproxy流量只能被root权限用户(uid==0)或其他有CAP_NET_ADMIN权限的用户接收。
+iptables规则可以通过uid(用户id)和gid(用户组id)分流。
+让Xray运行在一个uid==0但gid!=0的用户上，设置iptables规则不代理该gid的流量来规避Xray流量。
+配置过程 1. 前期准备 安卓系统
+系统已root
+安装 busybox
+有一个可以执行命令的终端，可以使用adb shell，termux等。
+其它Linux系统
+需要依赖sudo，iptables的tproxy模块和extra模块。
+一般系统都有自带，openwrt运行：
+opkg install sudo iptables-mod-tproxy iptables-mod-extra 另附上一些openwrt常用的依赖，缺少可能导致Xray无法运行
+opkg install libopenssl ca-certificates 2. 添加用户(安卓用户请忽略) 安卓系统不支持/etc/passwd文件来管理用户，请忽略，直接下一步。
+grep -qw xray_tproxy /etc/passwd || echo &amp;#34;xray_tproxy:x:0:23333:::&amp;#34; &amp;gt;&amp;gt; /etc/passwd 其中xray_tproxy是用户名，0是uid，23333是gid，用户名和gid可以自己定，uid必须为0。 检查用户是否添加成功，运行
+sudo -u xray_tproxy id 显示的结果应该是uid为0，gid为23333</description></item></channel></rss>
