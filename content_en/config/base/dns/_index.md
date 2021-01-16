@@ -1,51 +1,51 @@
 ---
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 内置DNS服务器
+date: "2020-01-16T00:00:00.000Z"
+description: Project X Documents
+title: Built-in dns server
 weight: 3
 ---
 
-## DNS 服务器
+## DNS Server
 
 ---
 
-如果为 Xray 配置了 DNS 服务器模块，主要有两大用途：
+If the DNS server module is configured for xray, it has two main purposes.
 
-- 在路由阶段, 解析域名为 IP, 并且根据域名解析得到的 IP 进行规则匹配以分流. 是否解析域名及分流和路由配置模块中"domainStrategy"的值有关, 只有在设置以下两种值时,才会使用内置 DNS 服务器进行 DNS 查询:
+- During the routing phase, the domain name will be resolved to an IP, and the IP obtained from the domain name resolution will be matched with rules for triage. Whether or not the domain name is resolved and triaged depends on the value of "domainStrategy" in the routing configuration module, and the built-in DNS server will only be used for DNS lookups if the following two values are set:
 
-  - "IPIfNonMatch", 请求一个域名时，进行路由里面的 domain 进行匹配，若无法匹配到结果，则对这个域名使用内置 DNS 服务器进行 DNS 查询，并且使用查询返回的 IP 地址再重新进行 IP 路由匹配。
-  - "IPOnDemand", 当匹配时碰到任何基于 IP 的规则，将域名立即解析为 IP 进行匹配。
+  - "IPIfNonMatch", when requesting a domain name, the domain will be matched and if no match is found, a DNS query will be performed using the built-in DNS server for the domain name and the IP address returned by the query will be used to perform a new IP routing match.
+  - "IPOnDemand", when a match encounters any IP-based rule, resolves the domain name immediately to an IP for the match.
 
-- 解析目标地址进行连接。
-  - 如 在 `freedom` 协议的 `outbound` 中，将`domainStrategy` 设置为 `UseIP`, 由此 outbound 发出的请求, 会先将域名通过内置服务器解析成 IP, 然后进行连接
+- Resolve the destination address for connection.
+  - For example, if `domainStrategy` is set to `UseIP` in `outbound` of the `freedom` protocol, the outbound request will first resolve the domain name to an IP through the built-in server, and then connect.
 
 {{% notice info %}}
 **TIP 1**\
-内置 DNS 服务器所发出的 DNS 查询请求，会自动根据路由配置进行转发。
+DNS lookup requests from the built-in DNS server are automatically forwarded according to the routing configuration.
 {{% /notice %}}
 
 {{% notice info %}}
 **TIP 2**\
-只支持最基本的 IP 查询（A 和 AAAA 记录）。
+Only the most basic IP queries are supported (A and AAAA records).
 {{% /notice %}}
 
 <br />
-## DNS 处理流程
+## DNS processing flow
 ---
-DNS 服务器配置模块可以配置多个DNS服务器, 并且指定优先匹配列表.
+The DNS Server Configuration module allows you to configure multiple DNS servers and specify a priority match list.
 
-1. 查询的域名与某个 DNS 服务器指定的域名列表匹配时，Xray 会优先使用这个 DNS 服务器进行查询
-2. 无匹配时, 按从上往下的顺序进行查询
-3. 只返回匹配 expectIPs 的 IP 列表。
+1. If the query matches a DNS server's specified list of domain names, xray will use that DNS server for the query first.
+2. if there is no match, the query is performed in top-down order.
+3. only returns a list of IPs that match expectIPs.
 
-DNS 服务器的处理流程示意图如下：
+The processing flow of the DNS server is illustrated below.
 
 ![](../dns/dns_flow.png?classes=border,shadow)
 
 <br />
 ## DnsObject
 ---
-`DnsObject` 对应配置文件的 `dns` 项。
+`DnsObject` corresponds to the `dns` entry in the configuration file.
 
 ```json
 {
@@ -72,48 +72,48 @@ DNS 服务器的处理流程示意图如下：
 
 {{% notice dark %}}`hosts`: map{string: address}{{% /notice %}}
 
-静态 IP 列表，其值为一系列的 "域名": "地址"。其中地址可以是 IP 或者域名。在解析域名时，如果域名匹配这个列表中的某一项:
+A static IP list whose values are a series of "domain names": "addresses". where the address can be either an IP or a domain name. When resolving a domain name, if the domain name matches one of the items in this list:
 
-- 当该项的地址为 IP 时，则解析结果为该项的 IP
-- 当该项的地址为域名时，会使用此域名进行 IP 解析，而不使用原始域名。
+- When the address is an IP, the result will be the IP.
+- When the address is a domain name, this domain name is used for IP resolution instead of the original domain name.
 
-域名的格式有以下几种形式：
+The format of a domain name can take several forms.
 
-- 纯字符串：当此字符串完整匹配目标域名时，该规则生效。例如 "xray.com" 匹配"xray.com" 但不匹配"www.xray.com"。
-- 正则表达式：由 `"regexp:"` 开始，余下部分是一个正则表达式。当此正则表达式匹配目标域名时，该规则生效。例如 "regexp:\\\\.goo.\*\\\\.com$" 匹配"www.google.com"或 "fonts.googleapis.com"，但不匹配 "google.com"。
-- 子域名 (推荐)：由 `"domain:"` 开始，余下部分是一个域名。当此域名是目标域名或其子域名时，该规则生效。例如 "domain:xray.com" 匹配"www.xray.com"、"xray.com"，但不匹配"xray.com"。
-- 子串：由 `"keyword:"` 开始，余下部分是一个字符串。当此字符串匹配目标域名中任意部分，该规则生效。比如 "keyword:sina.com" 可以匹配"sina.com"、"sina.com.cn" 和"www.sina.com"，但不匹配 "sina.cn"。
-- 预定义域名列表：由 `"geosite:"` 开头，余下部分是一个名称，如 `geosite:google` 或者 `geosite:cn`。名称及域名列表参考 [预定义域名列表](../routing/#预定义域名列表)。
+- Plain string: The rule takes effect when this string matches the target domain name in its entirety. For example, "xray.com" matches "xray.com" but not "www.xray.com".
+- Regular expression: starts with `"regexp:"` and the rest of the rule is a regular expression. The rule takes effect when this regular expression matches the target domain name. For example "regexp:\\\\.goo.\*\\\\.com$" matches "www.google.com" or "fonts.googleapis.com", but not "google.com".
+- Sub-domain (recommended): starts with `"domain:"` and the rest is a domain name. This rule works when the domain name is the target domain or a subdomain of it. For example, "domain:xray.com" matches "www.xray.com", "xray.com" but not "xray.com".
+- Substring: starts with `"keyword:"` and the rest of the string is a string. The rule takes effect when this string matches any part of the target domain name. For example, "keyword:sina.com" can match "sina.com", "sina.com.cn" and "www.sina.com", but not "sina.cn".
+- Predefined domain name list: starts with `"geosite:"` and the rest is a name such as `geosite:google` or `geosite:cn`. For a list of names and domains see [list of predefined domains](../routing/#list of predefined domains)。
 
 {{% notice dark %}}`servers`: \[string | [ServerObject](#serverobject) \]{{% /notice %}}
 
-一个 DNS 服务器列表，支持的类型有两种：DNS 地址（字符串形式）和 [ServerObject](#serverobject) 。
+A list of DNS servers with two supported types: DNS addresses (in string form) and [ServerObject](#serverobject).
 
-当它的值是一个 DNS IP 地址时，如 `"8.8.8.8"`，Xray 会使用此地址的 53 端口进行 DNS 查询。
+When its value is a DNS IP address, such as `"8.8.8.8"`, xray will use port 53 of this address for DNS lookups.
 
-当值为 `"localhost"` 时，表示使用本机预设的 DNS 配置。
+When the value is `"localhost"`, it means that the local preset DNS configuration is used.
 
-当值是 `"https://host:port/dns-query"` 的形式，如 `"https://dns.google/dns-query"`，Xray 会使用 `DNS over HTTPS` (RFC8484, 简称 DOH) 进行查询。有些服务商拥有 IP 别名的证书，可以直接写 IP 形式，比如 `https://1.1.1.1/dns-query`。也可使用非标准端口和路径，如 `"https://a.b.c.d:8443/my-dns-query"` 
+When the value is of the form `"https://host:port/dns-query"`, such as `"https://dns.google/dns-query"`, xray will use `DNS over HTTPS` (RFC8484, abbreviated DOH) for the lookup. Some service providers have IP alias certificates that can be written directly in IP form, such as `https://1.1.1.1/dns-query`. Non-standard ports and paths can also be used, such as `"https://a.b.c.d:8443/my-dns-query"` .
 
-当值是 `"https+local://host:port/dns-query"` 的形式，如 `"https+local://dns.google/dns-query"`，Xray 会使用 `DOH本地模式` 进行查询，即 DOH 请求不会经过 Routing/Outbound 等组件，直接对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
+When the value is of the form `"https+local://host:port/dns-query"`, e.g. `"https+local://dns.google/dns-query"`, Xray will use `DOH local mode` for the query, i.e. the DOH request will not go through Routing/Outbound etc. components, and requests are made directly to the outside world to reduce time consumption. Generally suitable for use on the server side. Non-standard ports and paths can also be used.
 
 {{% notice info %}}
 **TIP 1**\
-当使用 `localhost` 时，本机的 DNS 请求不受 Xray 控制，需要额外的配置才可以使 DNS 请求由 Xray 转发。
+When using `localhost`, local DNS requests are not controlled by Xray and additional configuration is required to enable DNS requests to be forwarded by xray.
 {{% /notice %}}
 
 {{% notice info %}}
 **TIP 2**\
-不同规则初始化得到的 DNS 客户端会在 Xray 启动日志中以 `info` 级别体现，比如 `local DOH`、`remote DOH` 和 `udp` 等模式。
+DNS clients initialised with different rules are reflected in the Xray startup log at the `info` level, in patterns such as `local DOH`, `remote DOH` and `udp`.
 {{% /notice %}}
 
 {{% notice dark %}}`clientIp`: string{{% /notice %}}
 
-用于 DNS 查询时通知服务器以指定IP位置。不能是私有地址。
+Used to notify the server when DNS queries are made to specify an IP location. Cannot be a private address.
 
 {{% notice dark %}}`tag`: string{{% /notice %}}
 
-由内置 DNS 发出的查询流量，除 `localhost` 和 `DOHL_` 模式外，都可以用此标识在路由使用 `inboundTag` 进行匹配。
+Query traffic from the built-in DNS, except for the `localhost` and `DOHL_` patterns, can be matched at the route using `inboundTag` with this identifier.
 
 <br />
 ### ServerObject
@@ -132,29 +132,29 @@ DNS 服务器的处理流程示意图如下：
 ```
 {{% notice dark %}}`address`: address{{% /notice %}}
 
-一个 DNS 服务器列表，支持的类型有两种：DNS 地址（字符串形式）和 ServerObject 。
+A list of DNS servers, of which two types are supported: DNS address (in string form) and ServerObject .
 
-当它的值是一个 DNS IP 地址时，如 "8.8.8.8"，Xray 会使用此地址的 53 端口进行 DNS 查询。
+When its value is a DNS IP address, such as "8.8.8.8", xray will use port 53 of this address for DNS lookups.
 
-当值为 "localhost" 时，表示使用本机预设的 DNS 配置。
+When the value is "localhost", it means that the local preset DNS configuration is used.
 
-当值是 "https://host:port/dns-query" 的形式，如 "https://dns.google/dns-query"，Xray 会使用 DNS over HTTPS (RFC8484, 简称 DOH) 进行查询。有些服务商拥有 IP 别名的证书，可以直接写 IP 形式，比如 https://1.1.1.1/dns-query。也可使用非标准端口和路径，如 "https://a.b.c.d:8443/my-dns-query"
+When the value is of the form "https://host:port/dns-query", e.g. "https://dns.google/dns-query", xray will use DNS over HTTPS (RFC8484, DOH for short) for the lookup. Some service providers have IP alias certificates and can write IP forms directly, such as https://1.1.1.1/dns-query. Non-standard ports and paths can also be used, such as "https://a.b.c.d:8443/my-dns-query".
 
-当值是 "https+local://host:port/dns-query" 的形式，如 "https+local://dns.google/dns-query"，Xray 会使用 DOH本地模式 进行查询，即 DOH 请求不会经过 Routing/Outbound 等组件，直接对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
+When the value is of the form "https+local://host:port/dns-query", e.g. "https+local://dns.google/dns-query", xray will use DOH local mode for the query, i.e. the DOH request will not go through the Routing/ Outbound etc. components, and requests are made directly to the outside world to reduce time consumption. Generally suitable for use on the server side. Non-standard ports and paths can also be used.
 
 > 
 {{% notice dark %}}`port`: number{{% /notice %}}
 
-DNS 服务器端口，如 `53`。此项缺省时默认为 `53`。当使用 DOH 模式该项无效，非标端口应在 URL 中指定。
+DNS server port, e.g. `53`. This defaults to `53` by default. When using DOH mode this is not valid and the non-standard port should be specified in the URL.
 
 {{% notice dark %}}`domains`: \[string\]{{% /notice %}}
 
-一个域名列表，此列表包含的域名，将优先使用此服务器进行查询。域名格式和 [路由配置](../routing#ruleobject) 中相同。
+A list of domains, this list contains domains that will be prioritised for lookup using this server. The format of the domain names is the same as in [routing configuration](../routing#ruleobject).
 
 {{% notice dark %}}`expectIPs`:\[string\]{{% /notice %}}
 
-一个 IP 范围列表，格式和 [路由配置](../routing#ruleobject) 中相同。
+A list of IP ranges, in the same format as in [route configuration](../routing#ruleobject).
 
-当配置此项时，Xray DNS 会对返回的 IP 的进行校验，只返回包含 expectIPs 列表中的地址。
+When this is configured, xray DNS checks the returned IP's and only returns addresses that are included in the list of expectIPs.
 
-如果未配置此项，会原样返回 IP 地址。
+If this is not configured, the IP address will be returned as is.
