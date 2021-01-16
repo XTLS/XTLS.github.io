@@ -83,7 +83,7 @@ The format of a domain name can take several forms.
 - Regular expression: starts with `"regexp:"` and the rest of the rule is a regular expression. The rule takes effect when this regular expression matches the target domain name. For example "regexp:\\\\.goo.\*\\\\.com$" matches "www.google.com" or "fonts.googleapis.com", but not "google.com".
 - Sub-domain (recommended): starts with `"domain:"` and the rest is a domain name. This rule works when the domain name is the target domain or a subdomain of it. For example, "domain:xray.com" matches "www.xray.com", "xray.com" but not "xray.com".
 - Substring: starts with `"keyword:"` and the rest of the string is a string. The rule takes effect when this string matches any part of the target domain name. For example, "keyword:sina.com" can match "sina.com", "sina.com.cn" and "www.sina.com", but not "sina.cn".
-- Predefined domain name list: starts with `"geosite:"` and the rest is a name such as `geosite:google` or `geosite:cn`. For a list of names and domains see [list of predefined domains](../routing/#list of predefined domains)。
+- Predefined domain name list: starts with `"geosite:"` and the rest is a name such as `geosite:google` or `geosite:cn`. For a list of names and domains see [list of predefined domains](../routing/#List of predefined domains)。
 
 {{% notice dark %}}`servers`: \[string | [ServerObject](#serverobject) \]{{% /notice %}}
 
