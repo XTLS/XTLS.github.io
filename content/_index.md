@@ -14,7 +14,12 @@ hide:
 
 
 <div  align="center">  
-<img src="./LogoX2.png" width = "30%" height = "30%" alt="logo" align=center />
+
+<div class="row">
+<div class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+<img src="./LogoX2.png" alt="logo" align=center />
+</div>
+</div>
 
 <br />
 
@@ -37,16 +42,18 @@ hide:
 <div  align="center">  
 <div style="width:80%;display: inline-block;" >
 
-{{< columns >}}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+
+<div class="col">
 
 #### 极速协议 
-
 
 <font size="2" color="#606060" >原创 VLESS 轻量协议 摆脱冗余加密</font>
 
 <font size="2" color="#606060" >原创 XTLS 及 Direct/Splice流控 释放CPU算力</font>
 
-<--->
+</div>
+<div class="col">
 
 #### 自由回落
 
@@ -54,7 +61,8 @@ hide:
 
 <font size="2" color="#606060" >自由配置常用端口 多服务共享</font>
 
-<--->
+</div>
+<div class="col">
 
 #### 超低占用
 
@@ -62,11 +70,8 @@ hide:
 
 <font size="2" color="#606060" >各种精简设备皆可使用</font>
 
-{{< /columns >}}
-
-<br />
-
-{{< columns >}}
+</div>
+<div class="col">
 
 #### 跨平台
 
@@ -74,7 +79,8 @@ hide:
 
 <font size="2" color="#606060" >各种平台皆可用</font>
 
-<--->
+</div>
+<div class="col">
 
 #### 强兼容
 
@@ -82,7 +88,8 @@ hide:
 
 <font size="2" color="#606060" >完整兼容 v2ray-core API 调用</font>
 
-<--->
+</div>
+<div class="col">
 
 #### 亲和力
 
@@ -90,7 +97,8 @@ hide:
 
 <font size="2" color="#606060" >MPL 2.0 开源许可协议</font>
 
-{{< /columns >}}
+</div>
+</div >
 
 </div>
 </div>
