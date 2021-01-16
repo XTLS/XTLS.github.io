@@ -2,8 +2,9 @@ title = "Project X"
 # theme = "docsy"
 theme = "docport"
 baseURL = "https://xtls.github.io"
-languageCode = "zh-cn"
-DefaultContentLanguage = "en"
+languageCode = "cn"
+# DefaultContentLanguage = "en"
+defaultContentLanguage = "cn"
 pygmentsCodeFences = true
 pygmentsStyle = "monokai"
 
@@ -11,6 +12,12 @@ disableAssetsBusting = false
 
 defaultContentLanguageInSubdir= false
 enableMissingTranslationPlaceholders = false
+
+[languages]
+  [languages.en]
+    contentDir = "content_en/"
+  [languages.cn]
+    contentDir = "content/"
 
 # googleanalytics = "UA-123-45"
 
