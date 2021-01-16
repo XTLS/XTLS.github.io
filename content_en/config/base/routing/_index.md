@@ -1,17 +1,17 @@
 ---
 date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 路由
+description: Project X Documents
+title: Routing
 weight: 4
 ---
 
-路由功能模块可以将入站数据按不同规则由不同的出站连接发出，以达到按需代理的目的。
+The routing function module allows inbound data to be sent out by different outbound connections according to different rules for the purpose of on-demand proxying.
 
-如常见用法是分流国内外流量，Xray 可以通过内部机制判断不同地区的流量，然后将它们发送到不同的出站代理。
+For example, in a common use of splitting domestic and international traffic, xray can use internal mechanisms to determine traffic from different regions and send them to different outbound proxies.
 
 ## RoutingObject
 ---
-`RoutingObject` 对应配置文件的 `routing` 项。
+`RoutingObject` corresponds to the `routing` entry in the configuration file.
 
 ```json
 {
@@ -24,30 +24,30 @@ weight: 4
 ```
 {{% notice dark %}}`domainStrategy`: "AsIs" | "IPIfNonMatch" | "IPOnDemand"{{% /notice %}} 
 
-域名解析策略，根据不同的设置使用不同的策略。
+Domain name resolution policies, using different policies depending on the settings.
 
-* `"AsIs"`：只使用域名进行路由选择。默认值。
-* `"IPIfNonMatch"`：当域名没有匹配任何规则时，将域名解析成 IP（A 记录或 AAAA 记录）再次进行匹配；
-  * 当一个域名有多个 A 记录时，会尝试匹配所有的 A 记录，直到其中一个与某个规则匹配为止；
-  * 解析后的 IP 仅在路由选择时起作用，转发的数据包中依然使用原始域名；
-* `"IPOnDemand"`：当匹配时碰到任何基于 IP 的规则，将域名立即解析为 IP 进行匹配；
+* `"AsIs"`: Use only domain names for routing. Default value.
+* `"IPIfNonMatch"`: resolves the domain name to an IP (A record or AAAA record) to be matched again when the domain name does not match any rules.
+  * When a domain name has multiple A records, attempts to match all of them until one of them matches a rule.
+  * the resolved IP only works for routing purposes, the original domain name is still used in forwarded packets.
+* `"IPOnDemand"`: when any IP-based rule is encountered during matching, the domain name is immediately resolved to IP for matching.
 
 {{% notice dark %}}`rules`: \[[RuleObject](#ruleobject)\]{{% /notice %}}
 
-对应一个数组，数组中每个元素是一个规则。
+Corresponds to an array, each element of which is a rule.
 
-对于每一个连接，路由将根据这些规则依次进行判断，当一个规则生效时，即将这个连接转发至它所指定的 `outboundTag`或 `balancerTag`。
+For each connection, the route will be judged against these rules in turn, and when a rule is in effect, the connection will be forwarded to the `outboundTag` or `balancerTag` it specifies.
 
 {{% notice info %}}
 **TIP**\
-当没有匹配到任何规则时，流量默认由第一个outbound发出。
+When no rule is matched, traffic is sent by default from the first outbound.
 {{% /notice %}}
 
 {{% notice dark %}}`balancers`: \[ [BalancerObject](#balancerobject) \]{{% /notice %}}
  
-一个数组，数组中每个元素是一个负载均衡器的配置。
+An array, each element of which is a configuration of a load balancer.
 
-当一个规则指向一个负载均衡器时，Xray 会通过此负载均衡器选出一个outbound, 然后由它转发流量。
+When a rule points to a load balancer, xray will select an outbound through this load balancer, which will then forward the traffic.
 
 <br />
 ### RuleObject
@@ -92,117 +92,117 @@ weight: 4
 
 <br />
 {{% notice danger important %}}
-当多个属性同时指定时，这些属性需要 **同时** 满足，才可以使当前规则生效。
+When multiple attributes are specified at the same time, these attributes need to be **satisfied at the same time** for the current rule to take effect.
 {{% /notice %}}
 <br />  
 
 {{% notice dark %}}`type`: "field"{{% /notice %}}
 
-目前只支持`"field"`这一个选项。
+Currently only the option `"field"` is supported.
 
 {{% notice dark %}}`domain`: \[string\]{{% /notice %}}
 
-一个数组，数组每一项是一个域名的匹配。有以下几种形式：
+An array where each item of the array is a match for a domain name. There are several forms.
 
-* 纯字符串：当此字符串匹配目标域名中任意部分，该规则生效。比如 "sina.com" 可以匹配 "sina.com"、"sina.com.cn" 和"www.sina.com"，但不匹配 "sina.cn"。
-* 正则表达式：由 `"regexp:"` 开始，余下部分是一个正则表达式。当此正则表达式匹配目标域名时，该规则生效。例如 "regexp:\\\\.goo.*\\\\.com$" 匹配"www.google.com"或 "fonts.googleapis.com"，但不匹配 "google.com"。
-* 子域名（推荐）：由 `"domain:"` 开始，余下部分是一个域名。当此域名是目标域名或其子域名时，该规则生效。例如 "domain:xray.com" 匹配"www.xray.com"、"xray.com"，但不匹配 "wxray.com"。
-* 完整匹配：由 `"full:"` 开始，余下部分是一个域名。当此域名完整匹配目标域名时，该规则生效。例如 "full:xray.com" 匹配 "xray.com" 但不匹配"www.xray.com"。
-* 预定义域名列表：由 `"geosite:"` 开头，余下部分是一个名称，如 `geosite:google` 或者 `geosite:cn`。名称及域名列表参考 [预定义域名列表](#预定义域名列表)。
-* 从文件中加载域名：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](../env#资源文件路径) 中，文件格式与 `geosite.dat` 相同，标签必须在文件中存在。
+* Plain string: The rule takes effect when this string matches any part of the target domain name. For example, "sina.com" can match "sina.com", "sina.com.cn" and "www.sina.com", but not "sina.cn".
+* Regular expression: starts with `"regexp:"` and the rest is a regular expression. The rule takes effect when this regular expression matches the target domain name. For example "regexp:\\\\.goo.*\\\\.com$" matches "www.google.com" or "fonts.googleapis.com", but not "google.com".
+* Subdomain (recommended): starts with `"domain:"` and the remainder is a domain name. This rule takes effect when this domain name is the target domain or a subdomain of it. For example, `domain:xray.com` matches `www.xray.com`, `xray.com`, but not `wxray.com`.
+* Full match: starts with `"full:"` and the rest is a domain name. The rule takes effect when this domain name matches the target domain name in full. For example, "full:xray.com" matches "xray.com" but not "www.xray.com".
+* Predefined domain name list: starts with `"geosite:"` and the rest is a name, e.g. `geosite:google` or `geosite:cn`. See [list of predefined domains](# list of predefined domains) for a list of names and domains.
+* Load the domain name from a file: in the form of `"ext:file:tag"`, must start with `ext:` (lowercase) followed by the file name and tag, the file is stored in [resource directory](. /env#resource file path) in the same format as `geosite.dat`, and the tag must be present in the file.
  {{% notice info %}}
 **TIP**\
-`"ext:geoip.dat:cn"` 等价于 `"geoip:cn"`
+`"ext:geoip.dat:cn"` is equivalent to `"geoip:cn"`
 {{% /notice %}}
 
 {{% notice dark %}}`ip`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素代表一个 IP 范围。当某一元素匹配目标 IP 时，此规则生效。有以下几种形式：
+An array where each element of the array represents an IP range. This rule takes effect when an element matches the target IP. There are several forms.
 
-* IP：形如 `"127.0.0.1"`。
-* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)：形如 `"10.0.0.0/8"`。
-* 预定义IP列表：此列表预置于每一个 Xray 的安装包中，文件名为 `geoip.dat`。使用方式形如 `"geoip:cn"`，必须以 `geoip:`（小写）开头，后面跟双字符国家代码，支持几乎所有可以上网的国家。
-  * 特殊值：`"geoip:private"`，包含所有私有地址，如 `127.0.0.1`。
-* 从文件中加载 IP：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](../env#资源文件路径) 中，文件格式与 `geoip.dat` 相同标签必须在文件中存在。
+* IP: in the form of `"127.0.0.1"`.
+* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing): in the form of `"10.0.0.0/8"`.
+* Predefined IP list: This list is preconfigured in each Xray installation package and is named `geoip.dat`. It is used as `"geoip:cn"` and must start with `geoip:` (lower case) followed by a two-character country code to support almost any country with internet access.
+  * Special value: `"geoip:private"`, contains all private addresses, e.g. `127.0.0.1`.
+* Load IP from file: shaped like `"ext:file:tag"`, must start with `ext:` (lowercase) followed by the file name and tag, file is stored in [resource directory](../env#resource file path) in the same format as `geoip.dat` The tag must be present in the file.
 
 {{% notice dark %}}`port`：number | string{{% /notice %}}
 
-目标端口范围，有三种形式：
+The target port range, which has three forms.
 
-* `"a-b"`：a 和 b 均为正整数，且小于 65536。这个范围是一个前后闭合区间，当目标端口落在此范围内时，此规则生效。
-* `a`：a 为正整数，且小于 65536。当目标端口为 a 时，此规则生效。
-* 以上两种形式的混合，以逗号 "," 分隔。形如：`"53,443,1000-2000"`。
+* `"a-b"`: both a and b are positive integers and less than 65536. this range is a back-and-forth closed interval, and this rule takes effect when the target port falls within this range.
+* `a`: a is a positive integer and is less than 65536. this rule takes effect when the target port is a.
+* A mixture of the above two forms, separated by a comma ",". For example: `"53,443,1000-2000"`.
 
 {{% notice dark %}}`sourcePort`：number | string{{% /notice %}}
 
-来源端口，有三种形式：
+Source port, in three forms.
 
-* `"a-b"`：a 和 b 均为正整数，且小于 65536。这个范围是一个前后闭合区间，当目标端口落在此范围内时，此规则生效。
-* `a`：a 为正整数，且小于 65536。当目标端口为 a 时，此规则生效。
-* 以上两种形式的混合，以逗号 "," 分隔。形如：`"53,443,1000-2000"`。
+* `"a-b"`: both a and b are positive integers and less than 65536. this range is a back-and-forth closed interval, and this rule takes effect when the target port falls within this range.
+* `a`: a is a positive integer and is less than 65536. this rule takes effect when the target port is a.
+* A mixture of the above two forms, separated by a comma ",". For example: `"53,443,1000-2000"`.
 
 {{% notice dark %}}`network`: "tcp" | "udp" | "tcp,udp"{{% /notice %}}
 
-可选的值有 "tcp"、"udp" 或 "tcp,udp"，当连接方式是指定的方式时，此规则生效。
+The available values are "tcp", "udp" or "tcp,udp". This rule takes effect when the connection method is the specified method.
 
 {{% notice dark %}}`source`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素代表一个 IP 范围。当某一元素匹配目标 IP 时，此规则生效。有以下几种形式：
+An array where each element of the array represents an IP range. This rule takes effect when an element matches the target IP. There are several forms.
 
-* IP：形如 `"127.0.0.1"`。
-* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)：形如 `"10.0.0.0/8"`。
-* 预定义IP列表：此列表预置于每一个 Xray 的安装包中，文件名为 `geoip.dat`。使用方式形如 `"geoip:cn"`，必须以 `geoip:`（小写）开头，后面跟双字符国家代码，支持几乎所有可以上网的国家。
-  * 特殊值：`"geoip:private"`，包含所有私有地址，如 `127.0.0.1`。
-* 从文件中加载 IP：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](../env#资源文件路径) 中，文件格式与 `geoip.dat` 相同标签必须在文件中存在。
+* IP: in the form of `"127.0.0.1"`.
+* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing): in the form of `"10.0.0.0/8"`.
+* Predefined IP list: This list is preconfigured in each Xray installation package and is named `geoip.dat`. It is used as `"geoip:cn"` and must start with `geoip:` (lower case) followed by a two-character country code to support almost any country with internet access.
+  * Special value: `"geoip:private"`, contains all private addresses, e.g. `127.0.0.1`.
+* Load IP from file: shaped like `"ext:file:tag"`, must start with `ext:` (lowercase) followed by the file name and tag, file is stored in [resource directory](../env#resource file path) in the same format as `geoip.dat` The tag must be present in the file.
 
 {{% notice dark %}}`user`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素是一个邮箱地址。当某一元素匹配来源用户时，此规则生效。
+An array, where each element of the array is an email address. This rule takes effect when an element matches the source user.
 
 {{% notice dark %}}`inboundTag`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素是一个标识。当某一元素匹配入站协议的标识时，此规则生效。
+An array, each element of which is an identifier. This rule takes effect when an element matches the identifier of an inbound protocol.
 
 {{% notice dark %}}`protocol`: \[ "http" | "tls" | "bittorrent" \]{{% /notice %}}
 
-一个数组，数组内每一个元素表示一种协议。当某一个协议匹配当前连接的协议类型时，此规则生效。
+An array, each element of which represents a protocol. This rule takes effect when a protocol matches the protocol type of the current connection.
  {{% notice info %}}
 **TIP**\
-必须开启入站代理中的 `sniffing` 选项, 才能嗅探出连接所使用的协议类型. 
+The `sniffing` option in the inbound proxy must be enabled to sniff out the protocol type used by the connection.
 {{% /notice %}}
 
 {{% notice dark %}}`attrs`: string{{% /notice %}}
 
-一段脚本，用于检测流量的属性值。当此脚本返回真值时，此规则生效。
+A script that detects the value of an attribute of the traffic. This rule takes effect when this script returns a true value.
 
-脚本语言为 [Starlark](https://github.com/bazelbuild/starlark)，它的语法是 Python 的子集。脚本接受一个全局变量 `attrs`，其中包含了流量相关的属性。
+The script language is [Starlark](https://github.com/bazelbuild/starlark) and its syntax is a subset of Python. The script accepts a global variable `attrs`, which contains traffic-related attributes.
 
-目前只有 http 入站代理会设置这一属性。
+Currently only http inbound proxies will set this attribute.
 
-示例：
+Examples.
 
-* 检测 HTTP GET：`"attrs[':method'] == 'GET'"`
-* 检测 HTTP Path：`"attrs[':path'].startswith('/test')"`
-* 检测 Content Type：`"attrs['accept'].index('text/html') >= 0"`
+* Detecting HTTP GET: `"attrs[':method'] == 'GET'"`
+* Detect HTTP Path: `"attrs[':path'].startswith('/test')"`
+* Detect Content Type: `"attrs['accept'].index('text/html') >= 0"`
 
 {{% notice dark %}}`outboundTag`: string{{% /notice %}}
 
-对应一个outbound的标识。
+Corresponds to an outbound tag.
 
 {{% notice dark %}}`balancerTag`: string{{% /notice %}}
 
-对应一个Balancer的标识。
+Corresponds to a balancer tag.
 
  {{% notice info %}}
 **TIP**\
-`balancerTag` 和 `outboundTag` 须二选一。当同时指定时，`outboundTag` 生效。
+`balancerTag` and `outboundTag` must be either. When both are specified, `outboundTag` takes effect.
 {{% /notice %}}
 
 
 <br />
 ### BalancerObject
 ---
-负载均衡器配置。当一个负载均衡器生效时，它会从指定的outbound中，按配置选出一个最合适的outbound，进行流量转发。
+Load Balancer Configuration. When a load balancer is in effect, it will select the most appropriate outbound for traffic forwarding from the specified outbound, as configured.
 
 ```json
 {
@@ -213,32 +213,32 @@ weight: 4
 
 {{% notice dark %}}`tag`: string{{% /notice %}}
 
-此负载均衡器的标识，用于匹配 `RuleObject` 中的 `balancerTag`。
+The identifier of this load balancer to match the `balancerTag` in the `RuleObject`.
 
 {{% notice dark %}}`selector`: \[ string \]{{% /notice %}}
 
 
-一个字符串数组，其中每一个字符串将用于和outbound标识的前缀匹配。在以下几个outbound标识中：`[ "a", "ab", "c", "ba" ]`，`"selector": ["a"]` 将匹配到 `[ "a", "ab" ]`。
+An array of strings, each of which will be used to match against the prefix of the outbound identifier. Of the following outbound identifiers: `[ "a", "ab", "c", "ba" ]`, `"selector": ["a"]` will match to `[ "a", "ab" ]`.
 
-如果匹配到多个outbound，负载均衡器目前会从中随机选出一个作为最终的outbound。
+If more than one outbound is matched, the load balancer will now randomly select one of them as the final outbound.
 
 <br />
-### 预定义域名列表
+### List of predefined domains
 ---
-此列表预置于每一个 Xray 的安装包中，文件名为 `geosite.dat`。这个文件包含了一些常见的域名，使用方式：`geosite:filename`，如 `geosite:google` 表示对文件内符合 `google` 内包含的域名，进行路由筛选或 DNS 筛选。
+This list is pre-populated in every xray installation package with the file name `geosite.dat`. This file contains a number of common domain names, used as: `geosite:filename`, e.g. `geosite:google` indicates a route filter or DNS filter for domains within the file that match those contained within `google`.
 
-常见的域名有：
+Common domain names are.
 
-* `category-ads`：包含了常见的广告域名。
-* `category-ads-all`：包含了常见的广告域名，以及广告提供商的域名。
-* `cn`：相当于 `geolocation-cn` 和 `tld-cn` 的合集。
-* `apple`：包含了 Apple 旗下绝大部分域名。
-* `google`：包含了 Google 旗下绝大部分域名。
-* `microsoft`：包含了 Microsoft 旗下绝大部分域名。
-* `facebook`：包含了 Facebook 旗下绝大部分域名。
-* `twitter`：包含了 Twitter 旗下绝大部分域名。
-* `telegram`：包含了 Telegram 旗下绝大部分域名。
-* `geolocation-cn`：包含了常见的大陆站点域名。
-* `geolocation-!cn`：包含了常见的非大陆站点域名，同时包含了 `tld-!cn`。
-* `tld-cn`：包含了 CNNIC 管理的用于中国大陆的顶级域名，如以 `.cn`、`.中国` 结尾的域名。
-* `tld-!cn`：包含了非中国大陆使用的顶级域名，如以 `.hk`（香港）、`.tw`（台湾）、`.jp`（日本）、`.sg`（新加坡）、`.us`（美国）`.ca`（加拿大）等结尾的域名。
+* `category-ads`: Contains common advertising domains.
+* `category-ads-all`: contains common ad domains, as well as the ad provider's domain name.
+* `cn`: equivalent to a combination of `geolocation-cn` and `tld-cn`.
+* `apple`: contains most of the domains owned by Apple.
+* `google`: Contains most of the domain names under the Google umbrella.
+* `microsoft`: Contains most of the domain names under the Microsoft umbrella.
+* `facebook`: Includes most of the domain names owned by Facebook.
+* `twitter`: Contains most of the domains owned by Twitter.
+* `telegram`: contains most of Telegram's domain names.
+* `geolocation-cn`: Contains common mainland site domains.
+* `geolocation-!cn`: Includes common non-continental domain names, also includes `tld-!cn`.
+* `tld-cn`: contains the top-level domain names managed by CNNIC for mainland China, such as those ending in `.cn`, `. China`.
+* `tld-!cn`: contains top-level domain names not used in mainland China, such as those ending with `.hk` (Hong Kong), `.tw` (Taiwan), `.jp` (Japan), `.sg` (Singapore), `.us` (USA), `.ca` (Canada), etc.
