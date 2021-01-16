@@ -1,0 +1,201 @@
+<!doctype html><html><head><title>【第7章】Xray服务器篇 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-01-16T22:27:19 UTC"><meta name=description content="小小白白话文"><meta name=author content="Project X"><title>【第7章】Xray服务器篇 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https:\/\/xtls.github.io";</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/documents/level-0/ch07-xray-server/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
+<script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/about/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/about/>Project X&nbsp;⚡</a><ul><li data-nav-id=https://xtls.github.io/about/new/ class="dd-item
+item_level_$level"><a href=/about/new/>大史记&nbsp;</a></li></ul></li><hr><li data-nav-id=https://xtls.github.io/guide/ class="dd-item alwaysopen
+item_level_$level"><a href=/guide/>快速入门&nbsp;</a></li><li data-nav-id=https://xtls.github.io/config/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/config/>配置文件&nbsp;📜</a><ul><li data-nav-id=https://xtls.github.io/config/base/ class="dd-item haschildren
+item_level_$level"><a href=/config/base/>基础配置模块&nbsp;</a>
+<i class="fas fa-chevron-right ddexp"></i><ul><li data-nav-id=https://xtls.github.io/config/base/log/ class="dd-item
+item_level_$level"><a href=/config/base/log/>日志配置</a></li><li data-nav-id=https://xtls.github.io/config/base/api/ class="dd-item
+item_level_$level"><a href=/config/base/api/>API接口</a></li><li data-nav-id=https://xtls.github.io/config/base/dns/ class="dd-item
+item_level_$level"><a href=/config/base/dns/>内置DNS服务器</a></li><li data-nav-id=https://xtls.github.io/config/base/routing/ class="dd-item
+item_level_$level"><a href=/config/base/routing/>路由</a></li><li data-nav-id=https://xtls.github.io/config/base/policy/ class="dd-item
+item_level_$level"><a href=/config/base/policy/>本地策略</a></li><li data-nav-id=https://xtls.github.io/config/base/inbounds/ class="dd-item
+item_level_$level"><a href=/config/base/inbounds/>Inbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/outbounds/ class="dd-item
+item_level_$level"><a href=/config/base/outbounds/>Outbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/transport/ class="dd-item
+item_level_$level"><a href=/config/base/transport/>传输方式</a></li><li data-nav-id=https://xtls.github.io/config/base/stats/ class="dd-item
+item_level_$level"><a href=/config/base/stats/>统计信息</a></li><li data-nav-id=https://xtls.github.io/config/base/reverse/ class="dd-item
+item_level_$level"><a href=/config/base/reverse/>反向代理</a></li></ul></li><li data-nav-id=https://xtls.github.io/config/inbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/inbound-protocols/>Inbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/outbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/outbound-protocols/>Outbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/transports/ class="dd-item
+item_level_$level"><a href=/config/transports/>传输方式列表</a></li><li data-nav-id=https://xtls.github.io/config/fallback/ class="dd-item
+item_level_$level"><a href=/config/fallback/>Fallbacks</a></li><li data-nav-id=https://xtls.github.io/config/xtls/ class="dd-item
+item_level_$level"><a href=/config/xtls/>XTLS</a></li><li data-nav-id=https://xtls.github.io/config/env/ class="dd-item
+item_level_$level"><a href=/config/env/>环境变量</a></li><li data-nav-id=https://xtls.github.io/config/multiple_config/ class="dd-item alwaysopen
+item_level_$level"><a href=/config/multiple_config/>多文件配置</a></li></ul></li><li data-nav-id=https://xtls.github.io/documents/ class="dd-item parent haschildren
+item_level_$level"><i class="fas fa-chevron-down ddexp"></i><a href=/documents/>使用心得&nbsp;📚</a><ul><li data-nav-id=https://xtls.github.io/documents/level-0/ class="dd-item parent active alwaysopen
+item_level_$level"><a href=/documents/level-0/>小小白白话文&nbsp;📙</a></li><li data-nav-id=https://xtls.github.io/documents/level-1/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-1/>入门技巧&nbsp;</a></li><li data-nav-id=https://xtls.github.io/documents/level-2/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-2/>进阶文档&nbsp;📘</a></li></ul></li><li data-nav-id=https://xtls.github.io/develop/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/develop/>开发指南&nbsp;🖥️</a><ul><li data-nav-id=https://xtls.github.io/develop/intro/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/intro/>开发手册</a></li><li data-nav-id=https://xtls.github.io/develop/protocols/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/protocols/>协议详解</a></li></ul></li><li data-nav-id=https://xtls.github.io/faq/ class="dd-item alwaysopen
+item_level_$level"><a href=/faq/>常见问答&nbsp;💬</a></li><li data-nav-id=https://xtls.github.io/caseslip/ class="dd-item alwaysopen
+item_level_$level"><a href=/caseslip/>大案牍术&nbsp;</a></li><hr><li data-nav-id=https://xtls.github.io/links/ class="dd-item alwaysopen
+item_level_$level"><a href=/links/>常用链接&nbsp;🤝</a></li></ul></aside><section class=page><nav id=ariane aria-label=breadcrumb><ol class=ariane><li><a class=text-link href=https://xtls.github.io>Home</a></li><li><a class=text-link href=/documents/>使用心得</a></li><li><a class=text-link href=/documents/level-0/>小小白白话文</a></li><li class=active>【第7章】Xray服务器篇</li></ol></nav><h1>小小白白话文<span>【第7章】Xray服务器篇</span></h1><nav class=subpages><li><a title=$pagetitle href=/documents/level-0/ch01-preface/>【第1章】前言啰嗦篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch02-preparation/>【第2章】原料准备篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch03-ssh/>【第3章】远程登录篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch04-security/>【第4章】安全防护篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch05-webpage/>【第5章】网站建设篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch06-certificates/>【第6章】证书管理篇&nbsp;📙</a></li><li class=active><a title=$pagetitle href=/documents/level-0/ch07-xray-server/>【第7章】Xray服务器篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch08-xray-clients/>【第8章】Xray客户端篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch09-appendix/>【第9章】附录&nbsp;📙</a></li></nav><div class=jump-to-section><span onclick="$h=$(this);$h.next('nav').slideToggle(100,function(){$h.children('i').attr('class',function(){return $h.next('nav').is(':visible')?'fas fa-chevron-down':'fas fa-chevron-right';});});"><span class="fas fa-align-right"></span>Jump to Section
+<i class="fas fa-chevron-right"></i></span><nav id=TableOfContents><ul><li><a href=#71-博观而约取厚积而薄发>7.1 博观而约取，厚积而薄发</a></li><li><a href=#72-安装xray>7.2 安装Xray</a></li><li><a href=#73-给xray配置tls证书>7.3 给Xray配置TLS证书</a></li><li><a href=#74-配置xray>7.4 配置Xray</a></li><li><a href=#75-启动xray服务并查看服务状态>7.5 启动Xray服务！！（并查看服务状态）</a></li><li><a href=#76-回顾-systemd-进行基本的服务管理>7.6 回顾 <code>systemd</code> 进行基本的服务管理</a></li><li><a href=#77-服务器优化之一开启bbr>7.7 服务器优化之一：开启BBR</a></li><li><a href=#78-服务器优化之二开启http自动跳转https>7.8 服务器优化之二：开启HTTP自动跳转HTTPS</a></li><li><a href=#79-你的进度>7.9 你的进度</a></li><li><a href=#710-重要勘误>7.10 重要勘误</a></li></ul></nav></div><div class=content><h2 ref=71-博观而约取厚积而薄发>7.1 博观而约取，厚积而薄发</h2><a class=anchor id=71-博观而约取厚积而薄发></a><hr><p>本文撰写过程中，大佬开玩笑的吐槽到：你这教程，居然连载了6章都还没到Xray，不知道的还以为你是“手把手教你建网站”教程呢。（我竟无法反驳.jpg!）</p><p>其实这样的结构是我多番思考之后的决定，毕竟只有打好基础，才能在后面事半功倍快速反超。我在群里看到许多新人连<code>nano</code>都无法正确使用，也不会用<code>WinSCP</code>，远程手写编辑出来的<code>config.json</code>自然错误百出，连查错也变得举步维艰。</p><div class="notices warning"><p>经过了前6章的准备，各位已经跟我一起翻越了Linux基本操作、VPS远程管理、网页搭建、域名管理、证书申请等等几座大山。是不是回头看看，觉得其实非常简单呢？现在我们有了如此扎实的准备，接下来安装和配置Xray时会有一种【水到渠成】的轻快感觉。</p></div><p>后面要做的事情非常简单：</p><ol><li>安装</li><li>配置（如安装TLS证书、<code>config.json</code>）</li><li>运行</li><li>优化（如更新内核、开启<code>bbr</code>、网站<code>http</code>访问自动跳转<code>https</code>等）</li></ol></br><h2 ref=72-安装xray>7.2 安装Xray</h2><a class=anchor id=72-安装xray></a><hr><p>首先，Xray的官方载体，就是 <a href=https://github.com/XTLS/Xray-core>xray-core</a> 开源项目（基于 <code>MPL 2.0</code> 开源协议）生成的二进制程序。你把这个二进制放在服务器运行，它就是服务器端；你把它下载到本地电脑运行，它就是客户端。主要区别来源于【配置】。</p><p>安装时，直接使用官方安装脚本就很简单直接。它提供了多种安装选项，有兴趣的可以去官方的<a href=https://github.com/XTLS/Xray-install>安装脚本仓库</a>中看看脚本的说明，<strong>本文使用的是【非root用户】安装模式</strong>。</p><p>写本文时，安装脚本在使用非root账户时有一些小bug，所以我决定正好把这几步分开操作，可以顺便说明一下Linux下的删除命令。</p><ol><li><p>小小白白Linux基础命令：</p><table><thead><tr><th style=text-align:center>编号</th><th style=text-align:center>命令名称</th><th style=text-align:center>命令说明</th></tr></thead><tbody><tr><td style=text-align:center><code>cmd-14</code></td><td style=text-align:center><code>rm</code></td><td style=text-align:center>删除命令</td></tr></tbody></table></li><li><p>将安装脚本下载至本地：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ wget https://github.com/XTLS/Xray-install/raw/main/install-release.sh
+</code></pre></div></li><li><p>执行安装命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo bash install-release.sh
+</code></pre></div></li><li><p>使用完成之后可以删除该脚本</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ rm ~/install-release.sh
+</code></pre></div><div class="notices warning"><p><strong>注意：</strong> 使用 <code>rm</code> 命令删除文件的时候，默认其实就是删除现在所在的文件夹下的文件。但是，<strong>我依然写了完整的路径</strong>： <code>~/install-release.sh</code>，这是我使用 <code>rm</code> 时的一个安全习惯、也是我把安装分成几步之后想强调一下的内容。如果你听过一些“程序员从删库到跑路”之类的段子，大概就知道为什么了。</p></div></li><li><p>完整流程演示如下：</p><img src=../ch07-img01-xray-install.gif alt=Xray服务器端安装流程演示></li></ol></br><h2 ref=73-给xray配置tls证书>7.3 给Xray配置TLS证书</h2><a class=anchor id=73-给xray配置tls证书></a><hr><p>虽然我们前面已经申请好了TLS证书，但是按照 <a href=https://github.com/acmesh-official/acme.sh/wiki/%E8%AF%B4%E6%98%8E#3-copy%E5%AE%89%E8%A3%85-%E8%AF%81%E4%B9%A6><code>acme.sh</code>的官方说明</a>，申请后的证书不建议直接使用。正确的方法是使用 <code>--install-cert</code> 命令安装给需要的程序。我们现在就来把证书安装给 <code>xray-core</code> 使用。</p><ol><li><p>为了规避非root账户的各种潜在的权限困扰，我们在vpsadmin账户下建立一个证书文件夹</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ mkdir ~/xray_cert
+</code></pre></div></li><li><p>使用<code>acme.sh</code>的<code>--install-cert</code>正确安装（拷贝）证书文件</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ acme.sh --install-cert -d 二级域名.你的域名.com --ecc \
+            --fullchain-file ~/xray_cert/xray.crt \
+            --key-file ~/xray_cert/xray.key
+</code></pre></div></li><li><p><code>xray.key</code>文件默认对其他用户不可读，所以需要赋予其可读性权限</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ chmod +r ~/xray_cert/xray.key
+</code></pre></div></li><li><p>过程比较简单就不放动图了：</p><img src=../ch07-img02-xray-cert-install.png alt=Xray证书安装></li><li><p><code>acme.sh</code> 会每60天检查一次证书并自动更新临期证书。但据我所知是它并不会自动将新证书安装给 <code>xray-core</code>，所以我们需要新增一个系统的自动周期任务来完成这一步。</p><ol><li><p>小小白白Linux基础命令：</p><table><thead><tr><th style=text-align:center>编号</th><th style=text-align:center>命令名称</th><th style=text-align:center>命令说明</th></tr></thead><tbody><tr><td style=text-align:center><code>cmd-15</code></td><td style=text-align:center><code>crontab -e</code></td><td style=text-align:center>编辑当前用户的定时任务</td></tr></tbody></table></li><li><p>建立一个脚本文件（<code>xray-cert-renew.sh</code>）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ nano ~/xray_cert/xray-cert-renew.sh
+</code></pre></div></li><li><p>把下面的内容复制进去，记得替换你的真实域名，然后保存退出</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
+</span><span style=color:#75715e></span>       
+/home/vpsadmin/.acme.sh/acme.sh --install-cert -d a-name.yourdomain.com --ecc --fullchain-file /home/vpsadmin/xray_cert/xray.crt --key-file /home/vpsadmin/xray_cert/xray.key
+echo <span style=color:#e6db74>&#34;Xray Certificates Renewed&#34;</span>
+       
+chmod +r /home/vpsadmin/xray_cert/xray.key
+echo <span style=color:#e6db74>&#34;Read Permission Granted for Private Key&#34;</span>
+
+sudo systemctl restart xray
+echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
+</code></pre></div><div class="notices warning"><p><strong>注意：</strong> 经大家提醒，<code>acme.sh</code> 有一个 <code>reloadcmd</code> 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 <code>Xray</code> 安装证书，但因为 <code>crontab</code> 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 <code>crontab</code> 的方式来更新 <code>Xray</code> 证书。（对 <code>reloadcmd</code> 感兴趣的同学可以查看 <code>acme.sh</code> 的<a href=https://github.com/acmesh-official/acme.sh>官方文档</a>）</p><p>另外，录制动图时，脚本中没有加入重启 <code>Xray</code> 的命令，是因为 <code>Xray</code> 计划支持【证书热更新】功能，即 <code>Xray</code> 会自动识别证书更新并重载证书、无需手动重启。待功能加入后，我将适当修改 <code>config.json</code> 开启此设置，并删除脚本中的重启命令。</p></div></li><li><p>给这个文件增加【可执行】权限</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ chmod +x ~/xray_cert/xray-cert-renew.sh
+</code></pre></div></li><li><p>运行 <code>crontab -e</code>，添加一个自动任务【每月自动运行一次<code>xray-cert-renew.sh</code>】 (注意不要加<code>sudo</code>，因为我们增加的是<code>vpsadmin</code>账户的自动任务。初次运行时会让你选择编辑器，当然是选择熟悉的<code>nano</code>啦！)</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ crontab -e
+</code></pre></div></li><li><p>把下面的内容增加在文件最后，保存退出即可。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback># 1:00am, 1st day each month, run `xray-cert-renew.sh`
+0 1 1 * *   bash /home/vpsadmin/xray_cert/xray-cert-renew.sh
+</code></pre></div></li><li><p>完整流程演示如下：</p><img src=../ch07-img03-crontab-cert-renew.gif alt=每月自动给Xray安装证书></li></ol></li></ol></br><h2 ref=74-配置xray>7.4 配置Xray</h2><a class=anchor id=74-配置xray></a><hr><p>首先，各种配置都可以参考<a href=https://github.com/XTLS/Xray-examples>官方VLESS配置示例</a>。本文会基于官方示例，配置一个最精简的方式：【单 <code>VLESS</code> 协议入站 + <code>80</code> 端口回落】，满足大多数场景的最大速度及必要安全。</p><ol><li><p>生成一个合法的 <code>UUID</code> 并保存备用（<code>UUID</code>可以简单粗暴的理解为像指纹一样几乎不会重复的ID）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ xray uuid
+</code></pre></div></li><li><p>建立日志文件及文件夹备用</p><ol><li><p>小小白白Linux基础命令：</p><table><thead><tr><th style=text-align:center>编号</th><th style=text-align:center>命令名称</th><th style=text-align:center>命令说明</th></tr></thead><tbody><tr><td style=text-align:center><code>cmd-16</code></td><td style=text-align:center><code>touch</code></td><td style=text-align:center>建立空白文件</td></tr></tbody></table></li><li><p>在<code>vpsadmin</code>的文件夹内建立一个【日志专用文件夹】</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ mkdir ~/xray_log
+</code></pre></div></li><li><p>生成所需的两个日志文件（访问日志、错误日志）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ touch ~/xray_log/access.log &amp;&amp; touch ~/xray_log/error.log
+</code></pre></div><div class="notices warning"><p><strong>注意：</strong> 这个位置不是<code>Xray</code>标准的日志文件位置，放在这里是避免权限问题对新人的操作带来困扰。当你熟悉之后，建议回归默认位置： <code>/var/log/xray/access.log</code> 和 <code>/var/log/xray/error.log</code> 。</p></div></li><li><p>因为Xray默认是nobody用户使用，所以我们需要让其他用户也有“写”的权限（<code>*.log</code> 就是所有文件后缀是<code>log</code>的文件，此时<code>CLI</code>界面的效率优势就逐渐出现了）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ chmod a+w ~/xray_log/*.log
+</code></pre></div></li></ol></li><li><p>使用<code>nano</code>创建<code>Xray</code>的配置文件</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo nano /usr/local/etc/xray/config.json
+</code></pre></div></li><li><p>将下面的文件全部复制进去，并将之前生成的<code>UUID</code>填入第61行 <code>"id": "",</code> 之中。（填好之后的样子是 <code>"id": "uuiduuid-uuid-uuid-uuid-uuiduuiduuid"</code>），本文的这个配置文件中增加了我的各种啰嗦注解，以方便你理解每一个配置模块的功能是什么。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>// REFERENCE:
+// https://github.com/XTLS/Xray-examples
+// https://xtls.github.io/config/
+       
+// 常用的config文件，不论服务器端还是客户端，都有5个部分。外加小小白解读：
+// ┌─ 1_log          日志设置 - 日志写什么，写哪里（出错时有据可查）
+// ├─ 2_dns          DNS-设置 - DNS怎么查（防DNS污染、防偷窥、避免国内外站匹配到国外服务器等）
+// ├─ 3_routing      分流设置 - 流量怎么分类处理（是否过滤广告、是否国内外分流）
+// ├─ 4_inbounds     入站设置 - 什么流量可以流入Xray
+// └─ 5_outbounds    出站设置 - 流出Xray的流量往哪里去
+       
+       
+{
+    // 1_日志设置
+    &#34;log&#34;: {
+        &#34;loglevel&#34;: &#34;warning&#34;,    // 内容从少到多: &#34;none&#34;, &#34;error&#34;, &#34;warning&#34;, &#34;info&#34;, &#34;debug&#34; 
+        &#34;access&#34;: &#34;/home/vpsadmin/xray_log/access.log&#34;,    // 访问记录
+        &#34;error&#34;: &#34;/home/vpsadmin/xray_log/error.log&#34;    // 错误记录
+    },
+       
+    // 2_DNS设置
+    &#34;dns&#34;: {
+        &#34;servers&#34;: [
+            &#34;https+local://1.1.1.1/dns-query&#34;,    // 首选1.1.1.1的DoH查询，牺牲速度但可防止ISP偷窥
+            &#34;localhost&#34;
+        ]
+    },
+       
+    // 3_分流设置
+    &#34;routing&#34;: {
+        &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+        &#34;rules&#34;: [
+            // 3.1 防止服务器本地流转问题：如内网被攻击或滥用、错误的本地回环等
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;ip&#34;: [
+                    &#34;geoip:private&#34;    // 分流条件：geoip文件内，名为&#34;private&#34;的规则（本地）
+                ],
+                &#34;outboundTag&#34;: &#34;block&#34;    // 分流策略：交给出站&#34;block&#34;处理（黑洞屏蔽）
+            },
+            // 3.2 屏蔽广告
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;domain&#34;: [
+                    &#34;geosite:category-ads-all&#34;    // 分流条件：geosite文件内，名为&#34;category-ads-all&#34;的规则（各种广告域名）
+                ],
+                &#34;outboundTag&#34;: &#34;block&#34;    // 分流策略：交给出站&#34;block&#34;处理（黑洞屏蔽）
+            }
+        ]
+    },
+   
+    // 4_入站设置
+    // 4.1 这里只写了一个最简单的vless+xtls的入站，因为这是Xray最强大的模式。如有其他需要，请根据模版自行添加。
+    &#34;inbounds&#34;: [
+        {
+            &#34;port&#34;: 443,
+            &#34;protocol&#34;: &#34;vless&#34;,
+            &#34;settings&#34;: {
+                &#34;clients&#34;: [
+                    {
+                        &#34;id&#34;: &#34;&#34;, // 填写你的 UUID
+                        &#34;flow&#34;: &#34;xtls-rprx-direct&#34;,
+                        &#34;level&#34;: 0,
+                        &#34;email&#34;: &#34;vpsadmin@yourdomain.com&#34;
+                    }
+                ],
+                &#34;decryption&#34;: &#34;none&#34;,
+                &#34;fallbacks&#34;: [
+                    {
+                        &#34;dest&#34;: 80 // 默认回落到防探测的代理
+                    }
+                ]
+            },
+            &#34;streamSettings&#34;: {
+                &#34;network&#34;: &#34;tcp&#34;,
+                &#34;security&#34;: &#34;xtls&#34;,
+                &#34;xtlsSettings&#34;: {
+                    &#34;allowInsecure&#34;: false,    // 正常使用应确保关闭
+                    &#34;minVersion&#34;: &#34;1.2&#34;,       // TLS最低版本设置
+                    &#34;alpn&#34;: [
+                        &#34;http/1.1&#34;
+                    ],
+                    &#34;certificates&#34;: [
+                        {
+                            &#34;certificateFile&#34;: &#34;/home/vpsadmin/xray_cert/xray.crt&#34;,
+                            &#34;keyFile&#34;: &#34;/home/vpsadmin/xray_cert/xray.key&#34;
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+       
+    // 5_出站设置
+    &#34;outbounds&#34;: [
+        // 5.1 第一个出站是默认规则，freedom就是对外直连（vps已经是外网，所以直连）
+        {
+            &#34;tag&#34;: &#34;direct&#34;,
+            &#34;protocol&#34;: &#34;freedom&#34;
+        },
+        // 5.2 屏蔽规则，blackhole协议就是把流量导入到黑洞里（屏蔽）
+        {
+            &#34;tag&#34;: &#34;block&#34;,
+            &#34;protocol&#34;: &#34;blackhole&#34;
+        }
+    ]
+}
+</code></pre></div></li><li><p>完整流程演示如下：</p><img src=../ch07-img04-xray-log-and-config.gif alt="创建日志文件及`config.json`配置文件"></li></ol></br><h2 ref=75-启动xray服务并查看服务状态>7.5 启动Xray服务！！（并查看服务状态）</h2><a class=anchor id=75-启动xray服务并查看服务状态></a><hr><p>如果你是跟随本文一步步设置过来，其实就已经避开了最常见<strong>日志文件权限不足</strong>、<strong>证书文件权限不足</strong> 这两个大坑。那么现在运行<code>Xray</code>自然应该无比顺利。</p><ol><li><p>输入下面的命令，享受启动<code>Xray</code>的历史性时刻吧！！！</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl start xray
+</code></pre></div></li><li><p>仅仅<code>start</code>我们并不能确定是否成功的开启了Xray的服务，要确定它的状态，就要用到下面的命令。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl status xray
+</code></pre></div><p>看到那个绿色的、令人愉悦的 <code>active (running)</code> 了吗？它就是说 <code>Xray</code> 已经在正确的运行了</p></li><li><p>完整流程演示如下：</p><img src=../ch07-img05-xray-start-and-status.gif alt=启动并查看Xray运行状态></li></ol></br><h2 ref=76-回顾-systemd-进行基本的服务管理>7.6 回顾 <code>systemd</code> 进行基本的服务管理</h2><a class=anchor id=76-回顾-systemd-进行基本的服务管理></a><hr><p>到现在为止，我们已经使用过了<code>systemctl</code>相关的<code>start</code>, <code>status</code>, <code>reload</code> 等命令，这些都是基于<code>systmed</code>管理模块对Linux系统中各种服务进行管理的通用命令。现在正好熟悉一下相关的其他几个命令。</p><ol><li><p>若你需要暂时关闭 <code>Xray</code> 的服务，那就用<code>stop</code>命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl stop xray
+</code></pre></div></li><li><p>若你需要重启<code>Xray</code>的服务，那就用<code>restart</code>命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl restart xray
+</code></pre></div></li><li><p>若你需要禁用<code>Xray</code>的服务（电脑重启后禁止Xray自动运行），那就用<code>disable</code>命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl disable xray
+</code></pre></div></li><li><p>若你需要启用<code>Xray</code>的服务（电脑重启后确保Xray自动运行），那就用<code>enable</code>命令</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl enable xray
+</code></pre></div></li></ol></br><h2 ref=77-服务器优化之一开启bbr>7.7 服务器优化之一：开启BBR</h2><a class=anchor id=77-服务器优化之一开启bbr></a><hr><ol><li><p>传说中的<code>BBR</code></p><p>我相信，你在搜索各种科学上网技术的时候，肯定不止一次的听过<code>bbr</code>这个东西，在各种博客添油加醋之下，让人觉得它神乎其神。更有<code>bbrplus</code>, <code>bbr2</code>, <code>魔改bbr</code> 等一大堆衍生品。仿佛神油一般，用了就能野鸡线路变专线。</p><p>那么，这东西究竟是什么？它有没有用？又该用哪一个版本呢？</p></li><li><p>实际的<code>BBR</code></p><p><strong>BBR</strong> = <strong>B</strong>ottleneck <strong>B</strong>andwidth and <strong>R</strong>ound-trip propagation time，是一种TCP的<strong>拥塞控制算法</strong>。简单粗暴的理解就是<strong>数据流量的交通管理</strong>：当公路不再塞车的时候，每辆车自然就能保持较快的车速了。</p><p>那么它有没有用呢？一般而言，<code>有BBR</code> 和 <code>没有BBR</code> 会有可以感知的差别（速度、稳定性、延迟方面都会有一些改善），所以 <strong>【非常建议开启 <code>BBR</code>】</strong>。</p><p>但开启之后，<code>BBR</code> 在 <code>4.x</code> 和 <code>5.x</code> 之间的差异往往比较微妙、见仁见智，造成体验差别的决定性因素仍然是线路质量。所以 <strong>【不必纠结版本、不必盲目追新、跟随你的发行版更新内核即可】</strong></p></li><li><p><code>bbrplus</code>, <code>bbr2</code>, <code>魔改bbr</code> 和其他各种听起来就酷炫的版本是不是更好？</p><p>一句话：<strong>不是！不要用这些！这些都为了吸引眼球乱起的名字！</strong></p><p><code>BBR</code> 的更新和发布，都是跟随Linux的内核（<code>Kernel</code>）进行的。换言之，只要你用的是比较新的内核，就自然会使用到新版<code>BBR</code>。</p><p>而这些名字看起来很酷炫的东西，说白了就是仍未正式发布的、尚在测试阶段的内核及其对应的<code>BBR</code>版本。这些脚本也仅仅就是通过下载预览版的内核（甚至第三方魔改内核）来率先开启而已。</p><p>内核的稳定是一台服务器的稳定的基石。<strong>【BBR测试版带来的细微性能差异绝对不值得更换不稳定的内核。】</strong> 请选择你所在的Linux发行版所支持的最新内核，这样可以最大限度的保持服务器的长期稳定和兼容。</p><div class="notices warning"><p><strong>注意：</strong> 所谓魔改<code>bbr</code>的【领先】是有非常强的时效性的。比如很多 <code>bbrplus</code> 脚本，因为几年来都没有更新，到现在还会把你的内核换成 <code>4.19</code>，要知道现在稳定如 Debian 已经是 <code>5.9</code> 的时代了，那么这个脚本放在2018年1月也许领先了一点，到2018年10月4.19正发布时就已经失去了意义，放在现在甚至可以说是完完全全的【降级】和【劣化】</p></div></li><li><p><code>fq</code>, <code>fq_codel</code>, <code>fq_pie</code>, <code>cake</code>和其他算法哪个好？</p><p>一句话：<strong>看不懂的话，请保持<code>fq</code>，足够、且不会劣化你的线路</strong></p></li><li><p>锐速、Finalspeed、LotServer和其他“加速工具”</p><p>一句话：<strong>不要用这些！把他们丢进历史的垃圾桶吧！</strong></p><p>它能解决的也只有丢包率的问题。不太准确的比喻，就是本来你用一辆车送你的货，有时候车半路就坏了（丢包），用了这些以后，你直接派出3份一样的货，让三辆车同时送，只要有一辆没坏就能送到。马路上都是你的车，自然就能把别人挤下去。但可想而知，你挤别人的时候，别人也会来挤你，而整个机房的出口道路一共就那么宽，最终势必就变成集体大堵车了。</p><div class="notices warning"><p><strong>说明：</strong> 它们的原理不是算法优化、不是提速、大多数是简单粗暴的<strong>多倍发包</strong>。对于【丢包率非常高】的差线路可能有一点作用，但【对丢包率低的好线路没有任何优化作用，反而会成倍的消耗你的流量】，进而造成服务器和你的邻居不必要的压力。</p><p>如果你的线路真的丢包率奇高，真正靠谱的解决方案是【换线路】。</p></div></li><li><p>啰嗦了这么多，就是因为围绕 <code>BBR</code> 忽悠小白的错误概念和坑人脚本实在是太多了。我希望你们现在对 <code>BBR</code> 有了相对清晰的理解。接下来，我们就动手安装最新的Debian内核并开启<code>BBR</code> 吧！（真的很简单）</p><ol><li><p>给 Debian 10 添加官方 <code>backports</code> 源，获取更新的软件库</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo nano /etc/apt/sources.list
+</code></pre></div><div class="notices warning"><p><strong>说明：</strong> 本文以 Debian 10 为例，所以使用 <code>/etc/apt/sources.list</code> 仍无问题，但如果你并不是根据本文从头开始，或者使用了其他Linux发行版，那么建议你建立 <code>/etc/apt/sources.list.d/</code> 文件夹，并在这个文件夹内建立自己的配置文件，形如 <code>/etc/apt/sources.list.d/vpsadmin.list</code>，以此保证兼容性，也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。</p></div></li><li><p>然后把下面这一条加在最后，并保存退出。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>deb http://deb.debian.org/debian buster-backports main
+</code></pre></div></li><li><p>刷新软件库并查询 Debian 官方的最新版内核并安装。请务必安装你的VPS对应的版本（本文以比较常见的【amd64】为例）。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo apt update &amp;&amp; sudo apt -t buster-backports install linux-image-amd64
+</code></pre></div><div class="notices warning"><p><strong>注意：</strong> 如果你的VPS支持，可以尝试【云服务器专用内核】<code>linux-image-cloud-amd64</code>，优点就是精简、资源占用低，缺点嘛是有同学反馈不支持的系统强行安装会导致无法开机（Kernel无法识别）。</p><p>为了避免无法识别的悲剧，请确保：</p><ul><li>尝试前做一个系统快照，或者</li><li>你有 <code>vnc</code> 可以救场（并且你知道怎么用）</li></ul></div></li><li><p>修改 <code>kernel</code> 参数配置文件 <code>sysctl.conf</code> 并指定开启 <code>BBR</code></p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo nano /etc/sysctl.conf
+</code></pre></div><div class="notices warning"><p><strong>说明：</strong> 本文以 Debian 10 为例，所以使用 <code>/etc/sysctl.conf</code> 仍无问题，但如果你并不是跟着本文从头开始，或者使用了其他Linux发行版，那么建议你建立 <code>/etc/sysctl.d/</code> 文件夹，并在这个文件夹内建立自己的配置文件，形如 <code>/etc/sysctl.d/vpsadmin.conf</code>，以此保证兼容性，因为部分发行版在 <code>systemd</code> 207 版本之后便不再从 <code>/etc/sysctl.conf</code> 读取参数。使用自定义配置文件也可避免默认文件在不可预见的情况下被覆盖而导致配置丢失。</p></div></li><li><p>把下面的内容添加进去</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>net.core.default_qdisc=fq
+net.ipv4.tcp_congestion_control=bbr
+</code></pre></div></li><li><p>重启VPS、使内核更新和<code>BBR</code>设置都生效</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo reboot
+</code></pre></div></li><li><p>完整流程演示如下：</p><div class="notices warning"><p><strong>啰嗦君：</strong> 因为我做展示的VPS支持云服务器专用内核，所以动图中我用了 <code>linux-image-cloud-amd64</code> 。如果你不确定你的VPS是否支持，那请务必按照第3步的命令，使用常规内核 <code>linux-image-amd64</code>。</p></div><img src=../ch07-img06-bbr-proper.gif alt="更新Debian内核并开启`BBR`"></li><li><p>确认<code>BBR</code>开启</p><p>如果你想确认 <code>BBR</code> 是否正确开启，可以使用下面的命令：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ lsmod | grep bbr
+</code></pre></div><p>此时应该返回这样的结果：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>tcp_bbr
+</code></pre></div><p>如果你想确认 <code>fq</code> 算法是否正确开启，可以使用下面的命令：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ lsmod | grep fq
+</code></pre></div><p>此时应该返回这样的结果：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>sch_fq
+</code></pre></div></li></ol></li></ol></br><h2 ref=78-服务器优化之二开启http自动跳转https>7.8 服务器优化之二：开启HTTP自动跳转HTTPS</h2><a class=anchor id=78-服务器优化之二开启http自动跳转https></a><hr><ol><li><p>之前我们已经搭建了 <code>80</code> 端口的 <code>http</code> 网页，并以此申请了TLS证书。</p><p>但如果你尝试过用浏览器访问我们的这个界面，就会发现 <code>http</code> 访问并不会像大多数网站一样自动升级为 <code>https</code> 访问。换言之，我们现在的设置下，<code>http(80)</code> 和 <code>https(443)</code>之间完全是独立的。如果要解决这个问题，就需要做一些修改。</p></li><li><p>编辑Nginx的配置文件</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo nano /etc/nginx/nginx.conf
+</code></pre></div></li><li><p>在我们设置过的80端口Server中加入下面的语句，并保存退出（可同时删除<code>root</code>和<code>index</code>两行）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>return 301 https://$http_host$request_uri;
+</code></pre></div></li><li><p>在与 <code>80</code> 端口同级的位置增加一个本地端口监听来提供网页展示。本文以 <code>8080</code> 端口做演示。（可以是任意端口）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>server {
+        listen 127.0.0.1:8080;
+        root /home/vpsadmin/www/webpage;
+        index index.html;
+        add_header Strict-Transport-Security &#34;max-age=63072000&#34; always;
+}
+</code></pre></div></li><li><p>重启 Nginx 服务</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl restart nginx
+</code></pre></div></li><li><p>修改Xray的回落设置，将回落从 <code>80</code> 端口改为 <code>8080</code> 端口。（找到 <code>"dest": 80</code>, 并改成 <code>"dest": 8080</code>）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo nano /usr/local/etc/xray/config.json
+</code></pre></div></li><li><p>重启 <code>Xray</code> 服务，即完成了设置</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ sudo systemctl restart xray
+</code></pre></div></li><li><p>完整流程演示如下：</p><img src=../ch07-img07-http-to-https.gif alt=http自动跳转https></li><li><p>当你输入 <code>http://a-name.yourdomain.com</code>的时候，它应该已经会自动跳转https了</p><img src=../ch07-img08-http-to-https-check.png alt=http自动跳转https生效></li></ol></br><h2 ref=79-你的进度>7.9 你的进度</h2><a class=anchor id=79-你的进度></a><hr><p>恭喜！！到这一步，你已经拥有了可以正常科学上网的服务器、同时也有了可以防止主动探测攻击的伪装网站。接下来，只要给你的客户端装上合适的软件，就可以享受顺畅的网络了！</p><div class="notices dark"><label>PROGRESS</label><p><code>⬛⬛⬛⬛⬛⬛⬛⬜ 87.5%</code></p></div></br></br><h2 ref=710-重要勘误>7.10 重要勘误</h2><a class=anchor id=710-重要勘误></a><hr><ol><li><p>初版中<code>Xray</code>配置文件<code>config.json</code>文件夹位置错误。若你已经根据之前的位置进行了操作，<code>Xray</code>会无法正确启动。故勘误说明于此，请自查，造成不便十分抱歉！</p><ul><li>正确位置：<code>/usr/local/etc/xray/config.json</code></li><li>错误位置：<code>/usr/local/etc/config.json</code></li></ul><p>受影响章节：</p><ul><li>7.4 配置<code>Xray</code> - 3. 使用<code>nano</code>创建<code>Xray</code>的配置文件</li><li>7.8 服务器优化之二 - 6. 修改<code>Xray</code>的回落设置</li></ul></li><li><p>初版中修改<code>Nginx</code>配置文件<code>nginx.conf</code>时内容错误（网页文件夹位置错误），若你已经根据之前的位置进行了操作，<code>Nginx</code>会无法找到正确的网站。请自查，造成不便十分抱歉！</p><ul><li>正确文件夹位置：<code>root /home/vpsadmin/www/webpage;</code></li><li>错误文件夹位置：<code>root /var/www/website/html</code></li></ul><p>受影响章节：</p><ul><li>7.8 服务器优化之二 - 4. 在与 <code>80</code> 端口同级的位置增加一个本地端口监听来提供网页展示</li></ul></li></ol></div><div class=chevrons></div></section><section class=right-menu><div class=TableOfContents><label><i class="fas fa-align-right"></i>&nbsp;&nbsp;What's on this page</label><nav><ul><li><a href=/documents/level-0/ch07-xray-server/>【第7章】Xray服务器篇</a></li></ul></nav><nav id=TableOfContents><ul><li><a href=#71-博观而约取厚积而薄发>7.1 博观而约取，厚积而薄发</a></li><li><a href=#72-安装xray>7.2 安装Xray</a></li><li><a href=#73-给xray配置tls证书>7.3 给Xray配置TLS证书</a></li><li><a href=#74-配置xray>7.4 配置Xray</a></li><li><a href=#75-启动xray服务并查看服务状态>7.5 启动Xray服务！！（并查看服务状态）</a></li><li><a href=#76-回顾-systemd-进行基本的服务管理>7.6 回顾 <code>systemd</code> 进行基本的服务管理</a></li><li><a href=#77-服务器优化之一开启bbr>7.7 服务器优化之一：开启BBR</a></li><li><a href=#78-服务器优化之二开启http自动跳转https>7.8 服务器优化之二：开启HTTP自动跳转HTTPS</a></li><li><a href=#79-你的进度>7.9 你的进度</a></li><li><a href=#710-重要勘误>7.10 重要勘误</a></li></ul></nav></div><div class=Actions><nav><ul><li><a href=https://github.com/XTLS/XTLS.github.io/tree/main/content/documents/level-0/ch07-xray-server.md target=blank><i class="fab fa-github"></i>Improve this page</a></li><li><i class="fas fa-calendar"></i>Last update on 05 January 2021</li></ul></nav></div></section></article><footer><footer><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="User mailing list" aria-label="User mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Twitter aria-label=Twitter><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/twitter><i class="fab fa-twitter"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Stack Overflow" aria-label="Stack Overflow"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/stack><i class="fab fa-stack-overflow"></i></a></li></ul></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel="noopener noreferrer" href=https://github.com/XTLS><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Slack aria-label=Slack><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/slack><i class="fab fa-slack"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Developer mailing list" aria-label="Developer mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2020-2021 ProjectX Community All Rights Reserved</small></div></div></div></footer></footer></body></html>

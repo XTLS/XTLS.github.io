@@ -1,0 +1,202 @@
+<!doctype html><html><head><title>【第8章】Xray客户端篇 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-01-16T22:27:19 UTC"><meta name=description content="小小白白话文"><meta name=author content="Project X"><title>【第8章】Xray客户端篇 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https:\/\/xtls.github.io";</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/documents/level-0/ch08-xray-clients/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
+<script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/about/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/about/>Project X&nbsp;⚡</a><ul><li data-nav-id=https://xtls.github.io/about/new/ class="dd-item
+item_level_$level"><a href=/about/new/>大史记&nbsp;</a></li></ul></li><hr><li data-nav-id=https://xtls.github.io/guide/ class="dd-item alwaysopen
+item_level_$level"><a href=/guide/>快速入门&nbsp;</a></li><li data-nav-id=https://xtls.github.io/config/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/config/>配置文件&nbsp;📜</a><ul><li data-nav-id=https://xtls.github.io/config/base/ class="dd-item haschildren
+item_level_$level"><a href=/config/base/>基础配置模块&nbsp;</a>
+<i class="fas fa-chevron-right ddexp"></i><ul><li data-nav-id=https://xtls.github.io/config/base/log/ class="dd-item
+item_level_$level"><a href=/config/base/log/>日志配置</a></li><li data-nav-id=https://xtls.github.io/config/base/api/ class="dd-item
+item_level_$level"><a href=/config/base/api/>API接口</a></li><li data-nav-id=https://xtls.github.io/config/base/dns/ class="dd-item
+item_level_$level"><a href=/config/base/dns/>内置DNS服务器</a></li><li data-nav-id=https://xtls.github.io/config/base/routing/ class="dd-item
+item_level_$level"><a href=/config/base/routing/>路由</a></li><li data-nav-id=https://xtls.github.io/config/base/policy/ class="dd-item
+item_level_$level"><a href=/config/base/policy/>本地策略</a></li><li data-nav-id=https://xtls.github.io/config/base/inbounds/ class="dd-item
+item_level_$level"><a href=/config/base/inbounds/>Inbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/outbounds/ class="dd-item
+item_level_$level"><a href=/config/base/outbounds/>Outbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/transport/ class="dd-item
+item_level_$level"><a href=/config/base/transport/>传输方式</a></li><li data-nav-id=https://xtls.github.io/config/base/stats/ class="dd-item
+item_level_$level"><a href=/config/base/stats/>统计信息</a></li><li data-nav-id=https://xtls.github.io/config/base/reverse/ class="dd-item
+item_level_$level"><a href=/config/base/reverse/>反向代理</a></li></ul></li><li data-nav-id=https://xtls.github.io/config/inbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/inbound-protocols/>Inbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/outbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/outbound-protocols/>Outbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/transports/ class="dd-item
+item_level_$level"><a href=/config/transports/>传输方式列表</a></li><li data-nav-id=https://xtls.github.io/config/fallback/ class="dd-item
+item_level_$level"><a href=/config/fallback/>Fallbacks</a></li><li data-nav-id=https://xtls.github.io/config/xtls/ class="dd-item
+item_level_$level"><a href=/config/xtls/>XTLS</a></li><li data-nav-id=https://xtls.github.io/config/env/ class="dd-item
+item_level_$level"><a href=/config/env/>环境变量</a></li><li data-nav-id=https://xtls.github.io/config/multiple_config/ class="dd-item alwaysopen
+item_level_$level"><a href=/config/multiple_config/>多文件配置</a></li></ul></li><li data-nav-id=https://xtls.github.io/documents/ class="dd-item parent haschildren
+item_level_$level"><i class="fas fa-chevron-down ddexp"></i><a href=/documents/>使用心得&nbsp;📚</a><ul><li data-nav-id=https://xtls.github.io/documents/level-0/ class="dd-item parent active alwaysopen
+item_level_$level"><a href=/documents/level-0/>小小白白话文&nbsp;📙</a></li><li data-nav-id=https://xtls.github.io/documents/level-1/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-1/>入门技巧&nbsp;</a></li><li data-nav-id=https://xtls.github.io/documents/level-2/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-2/>进阶文档&nbsp;📘</a></li></ul></li><li data-nav-id=https://xtls.github.io/develop/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/develop/>开发指南&nbsp;🖥️</a><ul><li data-nav-id=https://xtls.github.io/develop/intro/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/intro/>开发手册</a></li><li data-nav-id=https://xtls.github.io/develop/protocols/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/protocols/>协议详解</a></li></ul></li><li data-nav-id=https://xtls.github.io/faq/ class="dd-item alwaysopen
+item_level_$level"><a href=/faq/>常见问答&nbsp;💬</a></li><li data-nav-id=https://xtls.github.io/caseslip/ class="dd-item alwaysopen
+item_level_$level"><a href=/caseslip/>大案牍术&nbsp;</a></li><hr><li data-nav-id=https://xtls.github.io/links/ class="dd-item alwaysopen
+item_level_$level"><a href=/links/>常用链接&nbsp;🤝</a></li></ul></aside><section class=page><nav id=ariane aria-label=breadcrumb><ol class=ariane><li><a class=text-link href=https://xtls.github.io>Home</a></li><li><a class=text-link href=/documents/>使用心得</a></li><li><a class=text-link href=/documents/level-0/>小小白白话文</a></li><li class=active>【第8章】Xray客户端篇</li></ol></nav><h1>小小白白话文<span>【第8章】Xray客户端篇</span></h1><nav class=subpages><li><a title=$pagetitle href=/documents/level-0/ch01-preface/>【第1章】前言啰嗦篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch02-preparation/>【第2章】原料准备篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch03-ssh/>【第3章】远程登录篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch04-security/>【第4章】安全防护篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch05-webpage/>【第5章】网站建设篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch06-certificates/>【第6章】证书管理篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch07-xray-server/>【第7章】Xray服务器篇&nbsp;📙</a></li><li class=active><a title=$pagetitle href=/documents/level-0/ch08-xray-clients/>【第8章】Xray客户端篇&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-0/ch09-appendix/>【第9章】附录&nbsp;📙</a></li></nav><div class=jump-to-section><span onclick="$h=$(this);$h.next('nav').slideToggle(100,function(){$h.children('i').attr('class',function(){return $h.next('nav').is(':visible')?'fas fa-chevron-down':'fas fa-chevron-right';});});"><span class="fas fa-align-right"></span>Jump to Section
+<i class="fas fa-chevron-right"></i></span><nav id=TableOfContents><ul><li><a href=#81-xray的工作原理简述>8.1 Xray的工作原理简述</a></li><li><a href=#82-客户端与服务器端正确连接>8.2 客户端与服务器端正确连接</a></li><li><a href=#83-附加题-1在pc端手工配置-xray-core>8.3 附加题 1：在PC端手工配置 <code>xray-core</code></a></li><li><a href=#84-附加题-2在pc端手工运行-xray-core>8.4 附加题 2：在PC端手工运行 <code>xray-core</code></a></li><li><a href=#85-附加题-3在pc端开机自动运行-xray-core>8.5 附加题 3：在PC端开机自动运行 <code>xray-core</code></a></li><li><a href=#86-圆满完成>8.6 圆满完成！</a></li><li><a href=#87-to-infinity-and-beyond>8.7 TO INFINITY AND BEYOND!</a></li></ul></nav></div><div class=content><h2 ref=81-xray的工作原理简述>8.1 Xray的工作原理简述</h2><a class=anchor id=81-xray的工作原理简述></a><hr><p>要正确的配置和使用<code>Xray</code>，就需要正确的理解其工作原理，对于新人，可以先看看下面简化的示意图（省略了许多复杂的设置）：</p><img src=../ch08-img01-flow.png alt=Xray数据流向><p>这其中的关键点是：</p><ol><li><p>APP要主动或借助转发工具，将数据【流入(<code>inbounds</code>)】<code>Xray</code> 客户端</p></li><li><p>流量进入客户端后，会被【客户端路由(<code>routing</code>)】按规则处理后，向不同方向【流出<code>(outbounds)</code>】<code>Xray</code> 客户端。比如：</p><ol><li>国内流量直连（<code>direct</code>）</li><li>国外流量转发VPS（<code>proxy</code>）</li><li>广告流量屏蔽（<code>block</code>）</li></ol></li><li><p>向VPS转发的国外流量，会跨过防火墙，【流入(<code>inbounds</code>)】 <code>Xray</code> 服务器端</p></li><li><p>流量进入服务器端后，与客户端一样，会被【服务器端路由(<code>routing</code>)】按规则处理后，向不同方向【流出<code>(outbounds)</code>】：</p><ol><li>因为已经在防火墙之外，所以流量默认直连，你就可以访问到不存在网站们了（<code>direct</code>）</li><li>如果需要在不同的VPS之间做链式转发，就可以继续配置转发规则（<code>proxy</code>）</li><li>你可以在服务器端继续禁用各种你想禁用的流量，如广告、BT下载等（<code>block</code>）</li></ol></li></ol><div class="notices warning"><p><strong>注意：</strong> 请务必记得，<code>Xray</code> 的路由配置非常灵活，上面的说明只是无限可能性中的一种。</p><p>借助 <code>geosite.dat</code> 和 <code>geoip.dat</code> 这两个文件，可以很灵活的从【域名】和【IP】这两个角度、不留死角的控制流量流出的方向。这比曾经单一笼统的 <code>GFWList</code> 强大很多很多，可以做到非常细致的微调：比如可以指定Apple域名直连或转发、指定亚马逊域名代理或转发，百度的域名屏蔽等等。。。）</p></div></br><h2 ref=82-客户端与服务器端正确连接>8.2 客户端与服务器端正确连接</h2><a class=anchor id=82-客户端与服务器端正确连接></a><hr><p>现在你已经理解了 <code>Xray</code> 的工作原理，那么接下来的配置，其实就是【告诉你的客户端如何连接VPS服务器】。这和你已经很熟悉的、告诉<code>PuTTY</code>如何远程连接服务器是一样的。只不过Xray连接时的要素不止是【IP地址】+【端口】+【用户名】+【密码】这四要素了。</p><p>实际上，<code>Xray</code>的连接要素是由不同的<a href=../../../config/inbound-protocols/>协议</a>决定的。本文在第7章的配置文件 <code>config.json</code> 里，我们使用 <code>Xray</code> 下独特而强大的 <code>VLESS</code> 协议 + <code>XTLS</code> 流控。所以看看那个配置文件的内容就能知道，这个协议组合的连接要素有：</p><ul><li>服务器【地址】: <code>a-name.yourdomain.com</code></li><li>服务器【端口】: <code>443</code></li><li>连接的【协议】: <code>vless</code></li><li>连接的【流控】: <code>xtls-rprx-direct</code> (direct模式适合全平台，若是Linux/安卓用户，可改成 <code>xtls-rprx-splice</code> 性能全开)</li><li>连接的【验证】: <code>uuiduuid-uuid-uuid-uuiduuiduuid</code></li><li>连接的【安全】: <code>"allowInsecure": false</code></li></ul><p>鉴于新人一般都会使用手机APP或者电脑的GUI客户端，我就把常用的客户端罗列在下面。每个客户端都有自己独特的配置界面，逐一截图展示并不现实，所以请你务必仔细阅读这些客户端的说明、然后把上述要素填入合适的地方即可。</p><ul><li><p><strong>v2rayN - 适用于Windows平台</strong></p><ul><li>请从它的<a href=https://github.com/2dust/v2rayN/releases>GitHub仓库Release页面</a>获取最新版</li><li>请根据该客户端的说明进行设置</li></ul></li><li><p><strong>v2rayNG - 适用于Android平台</strong></p><ul><li>请从它的<a href=https://github.com/2dust/v2rayNG/releases>GitHub仓库Release页面</a>获取最新版</li><li>请根据该客户端的说明进行设置</li></ul></li><li><p><strong>Shadowrocket - 适用于iOS, 基于苹果M芯片的macOS</strong></p><ul><li>你需要注册一个【非中国区】的iCloud账户</li><li>你需要通过 App Store 搜索并购买</li><li>请根据该客户端的说明进行设置</li></ul></li><li><p><strong>Qv2ray - 跨平台图形界面，适用于Linux, Windows, macOS</strong></p><ul><li>请从它的<a href=https://github.com/Qv2ray/Qv2ray/releases>GitHub仓库Release页面</a>获取最新版（还可以从它的<a href=https://github.com/Qv2ray/Qv2ray/actions>GitHub自动构建仓库</a>寻找更新的版本）</li><li>请从它的<a href=https://qv2ray.net/>项目主页</a>学习文档</li><li>请根据该客户端的说明进行设置</li></ul></li></ul><p>到这一步，你的全套配置就已经可以正常使用啦！</p></br><h2 ref=83-附加题-1在pc端手工配置-xray-core>8.3 附加题 1：在PC端手工配置 <code>xray-core</code></h2><a class=anchor id=83-附加题-1在pc端手工配置-xray-core></a><hr><p>虽然到上面一步已经可以结束了，但是如果你是个好奇心强、记忆力好的的同学，一定会想起来我在上一章说过，你把<code>xray-core</code> 的二进制文件“放在服务器运行，它就是服务器端；你把它下载到本地电脑运行，它就是客户端。” 那究竟要怎样直接使用 <code>xray-core</code> 做客户端呢？</p><p>为了回答这个问题，我加入了附加题章节，有一点点超纲，有一点点麻烦，但费这个笔墨是因为这个方式有它的优势：</p><ul><li><p>第一时间获得最新版而无需等待APP升级适配</p></li><li><p>灵活自由的路由配置能力（当然GUI客户端中Qv2ray的高级路由编辑器非常强大，也可以完整实现xray-core的路由配置功能）</p></li><li><p>节约系统资源 （GUI界面一定会有资源消耗，消耗的多少则取决于客户端的实现）</p></li></ul><p>它的劣势应该就是【需要手写配置文件】有点麻烦了。但其实，你想想，服务器上你已经成功的写过一次了，现在又有什么区别呢？接下来，还是老样子，我们分解一下步骤：</p><ol><li><p>首先请从Xray官方的 <a href=https://github.com/XTLS/Xray-core/releases>GitHub仓库Release页面</a> 获取对应平台的版本，并解压缩到合适的文件夹</p></li><li><p>在合适的文件夹建立空白配置文件：<code>config.json</code> （自己常用平台下新建文件大家肯定都会，这就真不用啰嗦了）</p></li><li><p>至于什么是“合适的文件夹”？这就取决于具体的平台了~</p></li><li><p>填写客户端配置</p><ul><li>我就以 <code>8.1</code> 原理说明里展示的基本三类分流（国内流量直连、国际流量转发VPS、广告流量屏蔽），结合 <code>8.2</code> 的连接要素，写成一个配置文件</li><li>请将 <code>uuid</code> 替换成与你服务器一致的 <code>uuid</code></li><li>请将 <code>address</code> 替换成你的真实域名</li><li>请将 <code>serverName</code> 替换成你的真实域名</li><li>各个配置模块的说明我都已经（很啰嗦的）放在对应的配置点上了</li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>// REFERENCE:
+// https://github.com/XTLS/Xray-examples
+// https://xtls.github.io/config/
+       
+// 常用的config文件，不论服务器端还是客户端，都有5个部分。外加小小白解读：
+// ┌─ 1_log          日志设置 - 日志写什么，写哪里（出错时有据可查）
+// ├─ 2_dns          DNS-设置 - DNS怎么查（防DNS污染、防偷窥、避免国内外站匹配到国外服务器等）
+// ├─ 3_routing      分流设置 - 流量怎么分类处理（是否过滤广告、是否国内外分流）
+// ├─ 4_inbounds     入站设置 - 什么流量可以流入Xray
+// └─ 5_outbounds    出站设置 - 流出Xray的流量往哪里去
+       
+       
+{
+    // 1_日志设置
+    // 注意，本例中我默认注释掉了日志文件，因为windows, macOS, Linux 需要写不同的路径，请自行配置
+    &#34;log&#34;: {
+        // &#34;access&#34;: &#34;/home/local/xray_log/access.log&#34;,    // 访问记录
+        // &#34;error&#34;: &#34;/home/local/xray_log/error.log&#34;    // 错误记录
+        &#34;loglevel&#34;: &#34;warning&#34;        // 内容从少到多: &#34;none&#34;, &#34;error&#34;, &#34;warning&#34;, &#34;info&#34;, &#34;debug&#34; 
+    },
+       
+    // 2_DNS设置
+    &#34;dns&#34;: {
+        &#34;servers&#34;: [
+            // 2.1 国外域名使用国外DNS查询
+            {
+                &#34;address&#34;: &#34;1.1.1.1&#34;,
+                &#34;domains&#34;: [
+                    &#34;geosite:geolocation-!cn&#34;
+                ]
+            },
+            // 2.2 国内域名使用国内DNS查询，并期待返回国内的IP，若不是国内IP则舍弃，用下一个查询
+            {
+                &#34;address&#34;: &#34;223.5.5.5&#34;,
+                &#34;domains&#34;: [
+                    &#34;geosite:cn&#34;
+                ],
+                &#34;expectIPs&#34;: [
+                    &#34;geoip:cn&#34;
+                ]
+            },
+            // 2.3 作为2.2的备份，对国内网站进行二次查询
+            {
+                &#34;address&#34;: &#34;114.114.114.114&#34;,
+                &#34;domains&#34;: [
+                    &#34;geosite:cn&#34;
+                ]
+            },
+            // 2.4 最后的备份，上面全部失败时，用本机DNS查询
+            &#34;localhost&#34;
+        ]
+    },
+       
+    // 3_分流设置
+    // 所谓分流，就是将符合否个条件的流量，用指定`tag`的出站协议去处理（对应配置的5.x内容）
+    &#34;routing&#34;: {
+        &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+        &#34;rules&#34;: [
+            // 3.1 广告域名屏蔽
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;domain&#34;: [
+                    &#34;geosite:category-ads-all&#34;
+                ],
+                &#34;outboundTag&#34;: &#34;block&#34;
+            },
+            // 3.2 国内域名直连
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;domain&#34;: [
+                    &#34;geosite:cn&#34;
+                ],
+                &#34;outboundTag&#34;: &#34;direct&#34;
+            },
+            // 3.3 国内IP直连
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;ip&#34;: [
+                    &#34;geoip:cn&#34;,
+                    &#34;geoip:private&#34;
+                ],
+                &#34;outboundTag&#34;: &#34;direct&#34;
+            },
+            // 3.4 国外域名代理
+            {
+                &#34;type&#34;: &#34;field&#34;,
+                &#34;domain&#34;: [
+                    &#34;geosite:geolocation-!cn&#34;
+                ],
+                &#34;outboundTag&#34;: &#34;proxy&#34;
+            }
+            // 3.5 默认规则
+            // 在Xray中，任何不符合上述路由规则的流量，都会默认使用【第一个outbound（5.1）】的设置，所以一定要把转发VPS的outbound放第一个
+        ]
+    },
+
+    // 4_入站设置
+    &#34;inbounds&#34;: [
+        // 4.1 一般都默认使用socks5协议作本地转发
+        {
+            &#34;tag&#34;: &#34;socks-in&#34;,
+            &#34;protocol&#34;: &#34;socks&#34;,
+            &#34;listen&#34;: &#34;127.0.0.1&#34;,   // 这个是通过socks5协议做本地转发的地址
+            &#34;port&#34;: 10800,           // 这个是通过socks5协议做本地转发的端口
+            &#34;settings&#34;: {
+                &#34;udp&#34;: true
+            }
+        },
+        // 4.2 有少数APP不兼容socks协议，需要用http协议做转发，则可以用下面的端口
+        {
+            &#34;tag&#34;: &#34;http-in&#34;,
+            &#34;protocol&#34;: &#34;http&#34;,
+            &#34;listen&#34;: &#34;127.0.0.1&#34;,   // 这个是通过http协议做本地转发的地址
+            &#34;port&#34;: 10801            // 这个是通过http协议做本地转发的端口
+        }
+    ],
+       
+    // 5_出站设置
+    &#34;outbounds&#34;: [
+    // 5.1 默认转发VPS
+    // 一定放在第一个，在routing 3.5 里面已经说明了，这等于是默认规则，所有不符合任何规则的流量都走这个
+        {
+            &#34;tag&#34;: &#34;proxy&#34;,
+            &#34;protocol&#34;: &#34;vless&#34;,
+            &#34;settings&#34;: {
+                &#34;vnext&#34;: [
+                    {
+                        &#34;address&#34;: &#34;a-name.yourdomain.com&#34;,  // 替换成你的真实域名
+                        &#34;port&#34;: 443,
+                        &#34;users&#34;: [
+                            {
+                                &#34;id&#34;: &#34;uuiduuid-uuid-uuid-uuid-uuiduuiduuid&#34;,  // 和服务器端的一致
+                                &#34;flow&#34;: &#34;xtls-rprx-direct&#34;,       // Windows, macOS 同学保持这个不变
+                                // &#34;flow&#34;: &#34;xtls-rprx-splice&#34;,    // Linux和安卓同学请改成Splice性能更强
+                                &#34;encryption&#34;: &#34;none&#34;,
+                                &#34;level&#34;: 0
+                            }
+                        ]
+                    }
+                ]
+            },
+            &#34;streamSettings&#34;: {
+                &#34;network&#34;: &#34;tcp&#34;,
+                &#34;security&#34;: &#34;xtls&#34;,
+                &#34;xtlsSettings&#34;: {
+                    &#34;serverName&#34;: &#34;a-name.yourdomain.com&#34;,  // 替换成你的真实域名
+                    &#34;allowInsecure&#34;: false  // 禁止不安全证书
+                }
+            }
+        },
+        // 5.2 用`freedom`协议直连出站，即当routing中指定&#39;direct&#39;流出时，调用这个协议做处理
+        {
+            &#34;tag&#34;: &#34;direct&#34;,
+            &#34;protocol&#34;: &#34;freedom&#34;
+        },
+        // 5.3 用`blackhole`协议屏蔽流量，即当routing中指定&#39;block&#39;时，调用这个协议做处理
+        {
+            &#34;tag&#34;: &#34;block&#34;,
+            &#34;protocol&#34;: &#34;blackhole&#34;
+        }
+    ]    
+}
+</code></pre></div></li></ol></br><h2 ref=84-附加题-2在pc端手工运行-xray-core>8.4 附加题 2：在PC端手工运行 <code>xray-core</code></h2><a class=anchor id=84-附加题-2在pc端手工运行-xray-core></a><hr><p>写好了配置文件该，要怎么让 <code>xray-core</code> 运行起来呢？双击好像并没有反应啊？</p><p>首先，你要找到电脑上的【命令行界面】。</p><ol><li>Linux桌面、macOS系统的同学肯定已经比较熟悉了，搜索 <code>Console</code> 或者 <code>Terminal</code> 就可以</li><li>Windows就可以搜索使用 <code>Cmd</code> 或者 <code>Powershell</code> 等程序（WSL的同学你坐下，你的 <code>Console</code> 当然也可以）</li></ol><p>其次，我们要做的事情是【让 <code>xray</code> 找到并读取配置文件 <code>config.json</code>，然后运行】，所以：</p><ol><li><p>在Windows下，假设你的 <code>Xray</code> 程序位置是 <code>C:\Xray-windows-64\xray.exe</code>，配置文件位置是<code>C:\Xray-windows-64\config.json</code>，那么正确的启动命令就是：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>C:\Xray-windows-64\xray.exe -c C:\Xray-windows-64\config.json
+</code></pre></div><div class="notices warning"><p><strong>说明：</strong> 这里的 <code>-c</code> 就是指定配置文件路径的参数，告诉 <code>xray</code> 去后面的位置找配置文件</p></div></li><li><p>相似的，在Linux和macOS下，假设你的 <code>Xray</code> 程序位置是 <code>/usr/local/bin/xray</code>，配置文件位置是<code>/usr/local/etc/xray/config.json</code>，那么正确的启动命令就是</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ /usr/local/bin/xray -c /usr/local/etc/xray/config.json
+</code></pre></div><div class="notices warning"><p><strong>说明：</strong> 每个系统都有系统路径变量，所以写 <code>Xray</code> 程序时不一定要写绝对路径。但是写了肯定没错，所以我就如此演示了。</p></div></li></ol></br><h2 ref=85-附加题-3在pc端开机自动运行-xray-core>8.5 附加题 3：在PC端开机自动运行 <code>xray-core</code></h2><a class=anchor id=85-附加题-3在pc端开机自动运行-xray-core></a><hr><p>如果你真的尝试了手动运行 <code>xray-core</code>，你一定会发现这个方式还有点小问题：</p><ol><li>每次运行 <code>Xray</code> 都要出现一个黑乎乎的窗口，很丑</li><li>不能开机自动运行，每次都要手工输入，十分不方便</li></ol><p>我可以肯定的告诉你：<strong>完全可以解决</strong>。但是具体的解决方式，就当作课外作业留给大家吧！（友情提示，文档站的问答区有线索哦）</p></br><h2 ref=86-圆满完成>8.6 圆满完成！</h2><a class=anchor id=86-圆满完成></a><hr><p>我相信，有耐心看到这里的同学，都是兼具好奇心和行动力的学习派！我现在要郑重的恭喜你，因为到了这里，你已经完完整整的【<strong>从第一条命令开始，完成了VPS服务器部署，并成功的在客户端配置使用Xray</strong>】了！这毫无疑问是一个巨大的胜利！</p><p>我相信，你现在一定对<code>Linux</code>不再恐惧，对<code>Xray</code>不再陌生了吧！</p><p><strong>至此，小小白白话文圆满结束！</strong> <code>⬛⬛⬛⬛⬛⬛⬛⬛</code> <strong><code>100%</code></strong></p></br><h2 ref=87-to-infinity-and-beyond>8.7 TO INFINITY AND BEYOND!</h2><a class=anchor id=87-to-infinity-and-beyond></a><hr><p><strong>但现在你看到的，远远不是Xray的全貌。</strong></p><p><code>Xray</code>是一个强大而丰富的网络工具集合，平台化的提供了众多模块，可以像瑞士军刀一样，通过灵活的配置组合解决各种不同的问题。而本文，仅仅蜻蜓点水的用了<strong>最简单</strong>、<strong>最直观</strong>的配置来做<strong>基础演示</strong>。</p><p>如果你觉得现在已经完全够用了，那就好好的享受它给你带来的信息自由。但如果你的好奇心依然不能停歇，那就去继续挖掘它无限的可能性吧！</p><p>需要更多信息，可以到这里寻找：</p><ol><li><a href=https://xtls.github.io/>xtls.github.io</a> - 官方文档站</li><li><a href=https://t.me/projectXray>官方Telegram群组</a> - 活跃而友善的官方讨论社区</li></ol><img src=../ch08-img02-buzz.png alt="TO INFINITY AND BEYOND!"><div class="notices warning"><p><strong>不算后记的后记：</strong></p><p>希望我陪你走过的这一段小小的旅程，可以成为你网络生活中的一份小小助力。</p><p>这篇文章里的工具和信息难免会一点点的陈旧过时，但你一定会逐渐成长为大佬。未来的某个时间，若你能偶尔想起这篇教程、想起我写下本文的初衷，那我衷心希望你能够薪火相传、把最新的知识分享给后来人，让这一份小小的助力在社区里坚定的传递下去。</p><p>这是个大雪封山乌云密布的世界，人们孤独的走在各自的路上试图寻找阳光，如果大家偶尔交汇时不能守望相助互相鼓励，那最终剩下的，恐怕只有【千山鸟飞绝 万径人踪灭】的凄凉了吧。</p></div></div><div class=chevrons></div></section><section class=right-menu><div class=TableOfContents><label><i class="fas fa-align-right"></i>&nbsp;&nbsp;What's on this page</label><nav><ul><li><a href=/documents/level-0/ch08-xray-clients/>【第8章】Xray客户端篇</a></li></ul></nav><nav id=TableOfContents><ul><li><a href=#81-xray的工作原理简述>8.1 Xray的工作原理简述</a></li><li><a href=#82-客户端与服务器端正确连接>8.2 客户端与服务器端正确连接</a></li><li><a href=#83-附加题-1在pc端手工配置-xray-core>8.3 附加题 1：在PC端手工配置 <code>xray-core</code></a></li><li><a href=#84-附加题-2在pc端手工运行-xray-core>8.4 附加题 2：在PC端手工运行 <code>xray-core</code></a></li><li><a href=#85-附加题-3在pc端开机自动运行-xray-core>8.5 附加题 3：在PC端开机自动运行 <code>xray-core</code></a></li><li><a href=#86-圆满完成>8.6 圆满完成！</a></li><li><a href=#87-to-infinity-and-beyond>8.7 TO INFINITY AND BEYOND!</a></li></ul></nav></div><div class=Actions><nav><ul><li><a href=https://github.com/XTLS/XTLS.github.io/tree/main/content/documents/level-0/ch08-xray-clients.md target=blank><i class="fab fa-github"></i>Improve this page</a></li><li><i class="fas fa-calendar"></i>Last update on 05 January 2021</li></ul></nav></div></section></article><footer><footer><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="User mailing list" aria-label="User mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Twitter aria-label=Twitter><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/twitter><i class="fab fa-twitter"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Stack Overflow" aria-label="Stack Overflow"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/stack><i class="fab fa-stack-overflow"></i></a></li></ul></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel="noopener noreferrer" href=https://github.com/XTLS><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Slack aria-label=Slack><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/slack><i class="fab fa-slack"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Developer mailing list" aria-label="Developer mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2020-2021 ProjectX Community All Rights Reserved</small></div></div></div></footer></footer></body></html>
