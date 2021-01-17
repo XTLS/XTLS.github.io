@@ -42,7 +42,7 @@ You will need a server outside the firewall to run the server-side xray. Configu
 }
 ```
 
-The server needs to be configured to ensure that the `id` and port are the same as the client's and you will be able to connect properly.
+The server needs to be configured to ensure that the `id` and the `port` are the same as the client's and you will be able to connect properly.
 
 <br />
 
