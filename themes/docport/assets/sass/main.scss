@@ -259,8 +259,7 @@ article section.page {
         margin-left: -1.5rem;
         padding-left: 1.5em;
         
-        position: -webkit-sticky;
-        position: sticky;
+        position: static;
         overflow-y: auto;
         top: 45px;
         background-color: inherit;
