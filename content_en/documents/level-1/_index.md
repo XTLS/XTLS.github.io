@@ -9,7 +9,7 @@ post: "&nbsp;"
 title: Getting Started
 weight: 2
 ---
-{{% alert theme="warning" %}}**This chapter is an entry-level experience of sharing Xray, if you want to master Xray use skills, you can start here**{{% /alert %}}
+{{% alert theme="warning" %}}**This chapter is an entry-level Xray experience sharing, if you want to master Xray use skills, you can start here**{{% /alert %}}
 <br>
 
 {{% notice dark %}}
