@@ -21,7 +21,7 @@ Please click [How to download and install xray](./install) to get xray.
 ## Configure and run
 Once you have downloaded and installed xray, simply configure it to work.
   
-Please click on [How to configure running xray](./config) to learn the easiest way to configure it.
+Please click on [How to configure and run xray](./config) to learn the easiest way to configure it.
 <--->
 ## Command parameters
 Xray has a wide range of commands and parameters available, making it flexible and powerful.
