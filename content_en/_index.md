@@ -14,7 +14,11 @@ hide:
 
 
 <div  align="center">  
-<img src="./LogoX2.png" width = "30%" height = "30%" alt="logo" align=center />
+<div class="row">
+<div class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+<img src="./LogoX2.png" alt="logo" align=center />
+</div>
+</div>
 
 <br />
 
@@ -37,7 +41,9 @@ hide:
 <div  align="center">  
 <div style="width:80%;display: inline-block;" >
 
-{{< columns >}}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+
+<div class="col">
 
 #### Extremely fast
 
@@ -46,7 +52,8 @@ hide:
 
 <font size="2" color="#606060" >Original XTLS & Direct/Splice Flow Control</font>
 
-<--->
+</div>
+<div class="col">
 
 #### Free Fallbacks
 
@@ -54,7 +61,8 @@ hide:
 
 <font size="2" color="#606060" >Free configuration of common ports - Multi-service</font>
 
-<--->
+</div>
+<div class="col">
 
 #### Extremely low cost
 
@@ -62,11 +70,8 @@ hide:
 
 <font size="2" color="#606060" >Can be used on all kinds of compact equipment</font>
 
-{{< /columns >}}
-
-<br />
-
-{{< columns >}}
+</div>
+<div class="col">
 
 #### Cross-platform
 
@@ -74,7 +79,8 @@ hide:
 
 <font size="2" color="#606060" >Can be used on a variety of platforms</font>
 
-<--->
+</div>
+<div class="col">
 
 #### Powerful compatibility
 
@@ -82,7 +88,8 @@ hide:
 
 <font size="2" color="#606060" >Fully compatible v2ray-core API calls</font>
 
-<--->
+</div>
+<div class="col">
 
 #### Affinity
 
@@ -90,7 +97,8 @@ hide:
 
 <font size="2" color="#606060" >MPL 2.0 License</font>
 
-{{< /columns >}}
+</div>
+</div >
 
 </div>
 </div>

@@ -1,20 +1,20 @@
 ---
 alwaysopen: false
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
+date: "2020-01-17T00:00:00.000Z"
+description: Project X Documents
 # head: <hr/>
 hide:
 # - toc
 # post: "&nbsp;\U0001F44B"
-title: 环境变量
+title: Environment Variables
 weight: 11
 ---
 
-Xray 提供以下环境变量以供修改 Xray 的一些底层配置。
+Xray provides the following environment variables for modifying some of xray's underlying configuration.
 
 <br />
 
-## XTLS 信息显示
+## XTLS information display
 
 ---
 
@@ -22,61 +22,61 @@ Xray 提供以下环境变量以供修改 Xray 的一些底层配置。
 
 ---
 
-- 名称：`xray.vless.xtls.show` 或 `XRAY_VLESS_XTLS_SHOW`。
-- 默认值：`""`。
+- Name: `xray.vless.xtls.show` or `XRAY_VLESS_XTLS_SHOW`.
+- Default value: `""`.
 
-使用 VLESS 协议时,设置此环境变量为 true 时, 会在终端或日志中输出 XTLS 的相关信息.
+If this environment variable is set to true when using the VLESS protocol, xray will output information about XTLS in the terminal or logs.
 
 {{% notice info %}}
 **TIP**\
-可打开此环境变量并根据是否有输出 XTLS 相关信息, 来确定 XTLS 是否成功被应用.
+You can turn on this environment variable and determine if XTLS has been successfully applied based on whether XTLS-related information is output.
 {{% /notice %}}
 
 ### TROJAN
 
 ---
 
-- 名称：`xray.trojan.xtls.show` 或 `XRAY_TROJAN_XTLS_SHOW`。
-- 默认值：`""`。
+- Name: `xray.trojan.xtls.show` or `XRAY_TROJAN_XTLS_SHOW`.
+- Default value: `""`.
 
-使用 trojan 协议时, 设置此环境变量为 true 时, 会在终端或日志中输出 XTLS 的相关信息.
+If this environment variable is set to true when using the trojan protocol, xray will output information about XTLS in the terminal or logs.
 
 {{% notice info %}}
 **TIP**\
-可打开此环境变量并根据是否有输出 XTLS 相关信息, 来确定 XTLS 是否成功被应用.
+You can turn on this environment variable and determine if XTLS has been successfully applied based on whether XTLS-related information is output.
 {{% /notice %}}
 
 <br />
 
-## 资源文件路径
+## Resource file path
 
 ---
 
-- 名称：`xray.location.asset` 或 `XRAY_LOCATION_ASSET`。
-- 默认值：和 Xray 文件同路径。
+- Name: `xray.location.asset` or `XRAY_LOCATION_ASSET`.
+- Default value: same path as xray file.
 
-这个环境变量指定了一个文件夹位置，这个文件夹应当包含 geoip.dat 和 geosite.dat 文件。
+This environment variable specifies a folder location which should contain the geoip.dat and geosite.dat files.
 
 <br />
 
-## 配置文件位置
+## Configuration file location
 
 ---
 
-- 名称：`xray.location.config` 或 `XRAY_LOCATION_CONFIG`。
-- 默认值：和 Xray 文件同路径。
+- Name: `xray.location.config` or `XRAY_LOCATION_CONFIG`.
+- Default value: same path as xray file.
 
-这个环境变量指定了一个文件夹位置，这个文件夹应当包含 config.json 文件。
+This environment variable specifies the location of a folder that should contain the config.json file.
 
 <br />
 
-## 多配置目录
+## Multi-configuration directory
 
 ---
 
-- 名称：`xray.location.confdir` 或 `XRAY_LOCATION_CONFDIR`。
-- 默认值：`""`。
+- Name: `xray.location.confdir` or `XRAY_LOCATION_CONFDIR`.
+- Default value: `""`.
 
-这个目录内的 `.json` 文件会按文件名顺序读取，作为多配置选项。
+The `.json` files in this directory are read in filename order as a multi-configuration option.
 
 <br />

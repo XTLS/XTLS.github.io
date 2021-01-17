@@ -1,53 +1,53 @@
 ---
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 使用文档
+date: "2020-01-17T00:00:00.000Z"
+description: Project X Documents
+title: Usage Documents
 weight: 4
 ---
 
-## 查看文档
+## View documents
 ---
-1. 您可以使用左侧的菜单选择您要看的相关分类<br />
+1. You can use the menu on the left to select the relevant category you want to see.<br />
 <!-- ![](../d1.png) -->
 
-2. 选择某一项菜单之后, 可以在正文区顶部的导航栏快速切换此分类中的文章.<br />
+2. Once you have selected a menu item, you can quickly switch between the articles in that category in the navigation bar at the top of the text area.<br />
 <div align=left>  <img src="../d2.png" width = "50%" height = "50%" alt="hero"/> </div>
 
-3. 在查看文章时, 可以通过右边的标题列表, 快速切换到其中一个标题.<br />
+3. When viewing an article, you can quickly switch to one of the headings by using the list of headings on the right.<br />
 <div align=left> <img src="../d3.png"  alt="hero" /> </div>
 
-## 改进文档
+## Improve documents
 ---
 
-Project X 的文档托管在[github](https://github.com/XTLS/XTLS.github.io)上.
+The documentation for Project X is maintained on [github](https://github.com/XTLS/XTLS.github.io).
 
-您可以通过以下步骤, 提交您对文档的改动:
+You can submit your changes to the documents by following these steps:
 
-1. 从[project X 文档仓库](https://github.com/XTLS/XTLS.github.io)打开仓库, 点击右上角的 fork, fork 一份文档仓库的镜像到您自己的 github 仓库.
+1. Open the repository from [project X documentation repository](https://github.com/XTLS/XTLS.github.io), click on fork in the top right corner, and fork a copy of the documentation repository image to your own github repository.
 
 
-2. 使用任何您喜欢的工具, 从您克隆的仓库获得文档的克隆, 如:
+2. You can use any tool you like to get a clone of the document from your cloned repository, e.g.:
 - 
   ```
   git clone https://github.com/yours/XTLS.github.io
   ```
 
-3. 基于 main 分支创建新的分支, 如:
+3. Create a new branch based on the main branch, e.g.:
 - 
   ```
   git checkout -b your-branch
   ```
 
-4. 在新分支上做修改, 完成后提交修改
+4. Make changes on the new branch, and commit the changes when finished
 
-5. 推送创建的分支到您的仓库
+5. Push the created branch to your repository
 - 
   ```
   git push -u origin your-branch
   ```
 
-6. 打开 github, 点击 'Pull request' 向 [project X 文档仓库](https://github.com/XTLS/XTLS.github.io)发出PR.
+6. Open github and click 'pull request' to send a PR to the [project X document repository](https://github.com/XTLS/XTLS.github.io).
 
-7. 请在 PR 的标题和正文中，概述此次 PR 新增/修改的内容等；
+7. In the title and body of the PR, summarize what is added/modified in the PR, etc.
 
-8. 等待回应, 如果 PR 被 merge, 您做的修改将直接呈现在 [Project X 文档网站](https://xtls.github.io)。
+8. Wait for a response, if the PR is merged, the changes you have made will be presented directly on the [project X documentation site](https://xtls.github.io).
