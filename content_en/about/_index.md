@@ -30,7 +30,7 @@ weight: 1
 Welcome to help make xray stronger!
 - 🖥️ Help develop and test xray, submitting high quality pull requests.
 - 📩 Start a constructive or meaningful issue/discussion on [gitHub issues](https://github.com/XTLS/Xray-core/issues) or [discussion forum](https://github.com/XTLS/Xray-core/discussions).
-- 📝 Write down your experiences and submit them to xray's [documentation site].(https://github.com/XTLS/XTLS.github.io).
+- 📝 Write down your experiences and submit them to xray's [documentation site](https://github.com/XTLS/XTLS.github.io).
 - 💬 Help/chat in Telegram groups.
 - **...In fact, every bit of positive energy given to xray makes it stronger!**
 <br />
