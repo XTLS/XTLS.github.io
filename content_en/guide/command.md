@@ -115,6 +115,6 @@ Generate new UUIDs.
 {{% notice info %}}
 When `-config` is not specified, xray will successively try to load `config.json` from the following path:
 - `-working directory` (working directory)
-- [Environment Variables](../config/env) from the path specified by `xray.location.asset`
+- [Environment Variables](../../config/env) from the path specified by `xray.location.asset`
 {{% /notice %}}
 
