@@ -6,7 +6,7 @@ description: Project X Documentation.
 hide:
 - toc
 post: "&nbsp;"
-title: Getting Started
+title: Getting Started Skills
 weight: 2
 ---
 {{% alert theme="warning" %}}**This chapter is an entry-level Xray experience sharing, if you want to master Xray use skills, you can start here**{{% /alert %}}
