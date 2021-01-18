@@ -15,6 +15,7 @@ weight: 1
 在使用Xray的过程中，你一定无数次的听说了【回落】这个功能。本文就稍微说明一下这个功能的逻辑以及使用方式。
 
 ## 1. 回顾《小小白白话文》中的回落
+---
 
 如果你用了《小小白白话文》中的[Xray配置](../../level-0/ch07-xray-server/#74-%E9%85%8D%E7%BD%AExray)，并完成了[HTTP自动跳转HTTPS优化](../../level-0/ch07-xray-server/#78-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%BC%98%E5%8C%96%E4%B9%8B%E4%BA%8C%E5%BC%80%E5%90%AFhttp%E8%87%AA%E5%8A%A8%E8%B7%B3%E8%BD%AChttps)，那么你已经有了基于 `VLESS` 协议的简易回落：
 ```
@@ -97,6 +98,7 @@ graph LR;
 </br>
 
 ## 2. 重新认识回落 (WHAT, HOW `v1`)
+---
 
 基于上面的示例，你应该就可以明白什么是回落（What）和怎么回落（How）了，简单地说就是下面这几个要素：
 
@@ -109,6 +111,8 @@ graph LR;
 </br>
 
 ## 3. 为什么要回落 (WHY `v1`)
+---
+
 最初，是为了防御 **【主动探测】** (Active Probing)
 
 **主动探测：** 简单粗暴的理解，就是指外部通过发送特定的网络请求，并解读服务器的回应内容，来推测服务器端是否运行了 `xray`, `v2fly`, `shadowsocks` 等代理工具。一旦可以准确认定，则服务器可能受到干扰或阻断。
@@ -131,6 +135,7 @@ graph LR;
 </br>
 
 ## 4. 重新认识【回落の完全体】 (WHAT, WHY, HOW `v2`)
+---
 
 为什么又要再次认识回落呢？ 因为，上面仅仅说清楚了基于“协议”的、抵抗【主动探测】的初版回落。
 
@@ -151,6 +156,7 @@ graph LR;
 </br>
 
 ## 5. 多层回落示例及解读
+---
 
 理解了【回落の完全体】是什么，那就可以动手操作配置多层回落了。其实，项目已经提供了非常完整的示例，即官方模板中的 [VLESS-TCP-XTLS-WHATEVER](https://github.com/XTLS/Xray-examples/blob/main/VLESS-TCP-XTLS-WHATEVER/)。
 
@@ -403,6 +409,7 @@ graph LR;
 </br>
 
 ## 6. 结语
+---
 
 至此，`Xray` 的【回落】功能就介绍完了。希望本文能够对你理解 `Xray` 的强大有所帮助。
 
@@ -410,6 +417,7 @@ graph LR;
 </br>
 
 ## 7. 附加题
+---
 
 我再无耻的留一个附加题：本文详解的 [VLESS-TCP-XTLS-WHATEVER](https://github.com/XTLS/Xray-examples/blob/main/VLESS-TCP-XTLS-WHATEVER/) 模板？是否有可以优化的地方？
 
