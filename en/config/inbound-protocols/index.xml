@@ -36,14 +36,14 @@ udp: true | false
 默认值为 false。</description></item><item><title>VLESS</title><link>https://xtls.github.io/en/config/inbound-protocols/vless/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/config/inbound-protocols/vless/</guid><description>important目前 VLESS 没有自带加密，请用于可靠信道，如 TLS。 目前 VLESS 不支持分享。
 VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部分，可以作为 Xray 客户端和服务器之间的桥梁。
 与 VMess 不同，VLESS 不依赖于系统时间，认证方式同样为 UUID，但不需要 alterId。
-InboundConfigurationObject { &amp;#34;clients&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;27848739-7e62-4138-9fd3-098a63964b6b&amp;#34;, &amp;#34;level&amp;#34;: 0, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34; } ], &amp;#34;decryption&amp;#34;: &amp;#34;none&amp;#34;, &amp;#34;fallbacks&amp;#34;: [ { &amp;#34;dest&amp;#34;: 80 } ] } clients: [ ClientObject ]
+InboundConfigurationObject { &amp;#34;clients&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;5783a3e7-e373-51cd-8642-c83782b807c5&amp;#34;, &amp;#34;level&amp;#34;: 0, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34;, &amp;#34;flow&amp;#34;: &amp;#34;xtls-rprx-direct&amp;#34; } ], &amp;#34;decryption&amp;#34;: &amp;#34;none&amp;#34;, &amp;#34;fallbacks&amp;#34;: [ { &amp;#34;dest&amp;#34;: 80 } ] } clients: [ ClientObject ]
 一个数组，代表一组服务端认可的用户.
 其中每一项是一个用户 ClientObject。
 decryption: &amp;ldquo;none&amp;rdquo;
 现阶段需要填 &amp;quot;none&amp;quot;，不能留空。 若未正确设置 decryption 的值，使用 Xray 或 -test 时会收到错误信息。
 注意这里是 decryption，和 clients 同级。 decryption 和 vmess 协议的 encryption 的位置不同，是因为若套一层约定加密，服务端需要先解密才能知道是哪个用户。</description></item><item><title>VMess</title><link>https://xtls.github.io/en/config/inbound-protocols/vmess/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/config/inbound-protocols/vmess/</guid><description>VMess 是一个加密传输协议，通常作为 Xray 客户端和服务器之间的桥梁。
 importantVMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在 90 秒之内，时区无关。在 Linux 系统中可以安装ntp服务来自动同步系统时间。
-InboundConfigurationObject { &amp;#34;clients&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;27848739-7e62-4138-9fd3-098a63964b6b&amp;#34;, &amp;#34;level&amp;#34;: 0, &amp;#34;alterId&amp;#34;: 0, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34; } ], &amp;#34;default&amp;#34;: { &amp;#34;level&amp;#34;: 0, &amp;#34;alterId&amp;#34;: 0 }, &amp;#34;detour&amp;#34;: { &amp;#34;to&amp;#34;: &amp;#34;tag_to_detour&amp;#34; }, &amp;#34;disableInsecureEncryption&amp;#34;: false } clients: [ ClientObject ]
+InboundConfigurationObject { &amp;#34;clients&amp;#34;: [ { &amp;#34;id&amp;#34;: &amp;#34;5783a3e7-e373-51cd-8642-c83782b807c5&amp;#34;, &amp;#34;level&amp;#34;: 0, &amp;#34;alterId&amp;#34;: 0, &amp;#34;email&amp;#34;: &amp;#34;love@xray.com&amp;#34; } ], &amp;#34;default&amp;#34;: { &amp;#34;level&amp;#34;: 0, &amp;#34;alterId&amp;#34;: 0 }, &amp;#34;detour&amp;#34;: { &amp;#34;to&amp;#34;: &amp;#34;tag_to_detour&amp;#34; }, &amp;#34;disableInsecureEncryption&amp;#34;: false } clients: [ ClientObject ]
 一个数组，代表一组服务端认可的用户.
 其中每一项是一个用户ClientObject。
 当此配置用作动态端口时，Xray 会自动创建用户。
