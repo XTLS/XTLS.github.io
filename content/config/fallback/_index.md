@@ -18,7 +18,7 @@ fallback 为 Xray 提供了高强度的防主动探测性, 并且具有独创的
 
 fallback 也可以将不同类型的流量根据 path 进行分流, 从而实现一个端口, 多种服务共享.
 
-目前您可以在使用 VLESS 或者 trojan 协议时, 通过配置 fallbacks 来使用回落这一特, 并且创造出非常丰富的组合玩法.
+目前您可以在使用 VLESS 或者 trojan 协议时, 通过配置 fallbacks 来使用回落这一特性,  并且创造出非常丰富的组合玩法.
 
 <br />
 
@@ -44,6 +44,7 @@ fallback 也可以将不同类型的流量根据 path 进行分流, 从而实现
 
 ```json
 {
+  "name": "",
   "alpn": "",
   "path": "",
   "dest": 80,
@@ -62,6 +63,9 @@ fallback 也可以将不同类型的流量根据 path 进行分流, 从而实现
 VLESS 会把 TLS 解密后首包长度 < 18 或协议版本无效、身份认证失败的流量转发到 `dest` 指定的地址。
 
 其它传输组合必须删掉 `fallbacks` 项或所有子元素，此时也不会开启 Fallback，VLESS 会等待读够所需长度，协议版本无效或身份认证失败时，将直接断开连接。
+
+{{% notice dark %}} `name`: string{{% /notice %}}
+尝试匹配 TLS SNI(Server Name Indication)，空为任意，默认为 ""
 
 {{% notice dark %}} `alpn`: string{{% /notice %}}
 
@@ -109,12 +113,15 @@ Fallback 内设置的 "alpn" 是匹配实际协商出的 ALPN，而 Inbound TLS 
 <br />
 
 ### 补充说明
-
 ---
 
-1. 将匹配到最精确的子元素，与子元素的排列顺序无关。若配置了几个 alpn 和 path 均相同的子元素，则会以最后的为准。
-2. 回落分流均是解密后 TCP 层的转发，而不是 HTTP 层，只在必要时检查首包 PATH。
-3. 不支持按域名分流。若有此需求，建议前置 Nginx 等并配置 stream SNI 分流。
+- 将匹配到最精确的子元素，与子元素的排列顺序无关。若配置了几个 alpn 和 path 均相同的子元素，则会以最后的为准。
+- 回落分流均是解密后 TCP 层的转发，而不是 HTTP 层，只在必要时检查首包 PATH。
+- 您可以查看更多的关于 Fallbacks 的使用技巧和心得
+  - [Fallbacks 功能简析]()
+
+</br>
+
 
 <br />
 
