@@ -6,15 +6,11 @@ description: Project X 的文档.
 hide:
   # - toc
 # post: "&nbsp;\U0001F44B"
-title: Fallbacks
-weight: 8
+title: Fallbacks 
+weight: 10
 ---
 
 {{% alert theme="warning" %}}**Fallback 是 Xray 的最强大功能之一, 可有效防止主动探测, 自由配置常用端口多服务共享**{{% /alert %}}
-
-<br />
-
-{{% badge warning %}}In progress{{% /badge %}}
 
 <br />
 
@@ -24,8 +20,10 @@ fallback 也可以将不同类型的流量根据 path 进行分流, 从而实现
 
 目前您可以在使用 VLESS 或者 trojan 协议时, 通过配置 fallbacks 来使用回落这一特, 并且创造出非常丰富的组合玩法.
 
-## fallbacks 配置
+<br />
 
+## fallbacks 配置
+---
 ```json
   "fallbacks": [
     {
@@ -110,10 +108,18 @@ Fallback 内设置的 "alpn" 是匹配实际协商出的 ALPN，而 Inbound TLS 
 
 <br />
 
-## 补充说明
+### 补充说明
 
 ---
 
 1. 将匹配到最精确的子元素，与子元素的排列顺序无关。若配置了几个 alpn 和 path 均相同的子元素，则会以最后的为准。
 2. 回落分流均是解密后 TCP 层的转发，而不是 HTTP 层，只在必要时检查首包 PATH。
 3. 不支持按域名分流。若有此需求，建议前置 Nginx 等并配置 stream SNI 分流。
+
+<br />
+
+## Fallbacks 设计理论
+---
+{{% badge warning %}}In progress{{% /badge %}}
+
+<br />

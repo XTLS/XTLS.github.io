@@ -20,7 +20,7 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
 {
   "clients": [
     {
-      "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+      "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
       "level": 0,
       "email": "love@xray.com",
       "flow": "xtls-rprx-direct"
@@ -60,7 +60,7 @@ decryption 和 vmess 协议的 encryption 的位置不同，是因为若套一�
 
 ```json
 {
-  "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+  "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
   "level": 0,
   "email": "love@xray.com",
   "flow": "xtls-rprx-direct"
@@ -79,7 +79,7 @@ level 的值, 对应 [policy](../../base/policy#policyobject) 中 level 的值. 
 
 {{% notice dark %}} `email`: string{{% /notice %}}
 
-用户邮箱，用于区分不同用户的流量（日志、统计）。
+用户邮箱，用于区分不同用户的流量（会体现在日志、统计中）。
 
 {{% notice dark %}} `flow`: string{{% /notice %}}
 
