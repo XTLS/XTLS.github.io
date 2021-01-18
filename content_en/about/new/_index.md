@@ -1,152 +1,168 @@
 ---
 alwaysopen: false
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
+date: "2020-01-17T00:00:00.000Z"
+description: Project X Documentation
 # head: <hr/>
 hide:
 # - toc
 post: "&nbsp;"
-title: 大史记
+title: The Great History
 weight: 1
 ---
+
+
+## 2021.01.17
+- The hard translation work has begun, thanks to <img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/>[@玖柒Max](https://github.com/jiuqi9997).
+- [English version](https://xtls.github.io/en/)
+
+<br />
+
+## 2021.01.15
+###  [v1.2.2](https://github.com/XTLS/Xray-core/releases/tag/v1.2.2)
+---
+- A strange new pose has been unlocked for fallback triage! You can now divide your data based on SNI in your fallbacks~!
+- The previously previewed UUID modifications are now live. ([scroll down to see](#2021.01.12))
+- The logs now look a little smoother than they did last time.
+- The remote DOH has learned to walk by triage just like the rest of the DNS schema.
+- And of course all the other little sweets. (Just update the tasting)
+- Ah, and by the way, the first man in the world to run xray on M1 was Anthony TSE
 ## 2021.01.12
 ---
-- 将要到来的 UUID 修改, 支持自定义字符串和 UUID 之间的映射. 这意味着你将可以这样在配置文件中写id来对应用户.
-  - 客户端写    "id": "我爱🍉老师1314",
-  - 服务端写    "id": "5783a3e7-e373-51cd-8642-c83782b807c5" (此UUID是 `我爱🍉老师1314` 的 UUID 映射)
-- 🍉老师的[小小白白话文](../../documents/level-0/)大结局, 撒花.
+- The UUID to come will be modified to support mapping between custom strings and UUIDs. This means you will be able to write ids to correspond to users in the configuration file like this.
+  - Client writes "id": "I will always love teacher🍉",
+  - server-side write "id": "ee2ed6d8-fa60-524f-a996-350f195118c7" (this UUID is the UUID map of `I will always love teacher🍉`)
+- Teacher🍉's [level 0 documentation](../../documents/level-0/) is finally over, clap clap!
 
 <br />
 
 ## 2021.01.10
 ---
-- [小小白白话文](../../documents/level-0/)连载上线啦,🍉老师呕心沥血之作, 手把手教你从什么都不会到熟练配置Xray! 
-- (可能是整个互联网上, 最详细最有耐心的教你从0开始配置的教程)
-- [透明代理](../../documents/level-2/)也增加了更多文章.
-- 还有很多细节修改, 文档将会越来越规范! 
-- 感谢 [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000)
+- The [level 0 documentation](../../documents/level-0/) are now online. They are the result of teacher🍉's hard work, teaching you how to go from nothing to xray proficiency! 
+- (Probably the most detailed and patient tutorial on the entire internet that teaches you how to configure from scratch)
+- Many articles have also been added to the [transparent proxy](../../documents/level-2/) series.
+- There are still a lot of details to change, and the documentation will become more and more standardised! 
+- Thanks to [@ricuhkaen](https://github.com/ricuhkaen) , [@BioniCosmos](https://github.com/BioniCosmos), [@kirin](https://github.com/kirin10000).
 
 ###  [v1.2.1](https://github.com/XTLS/Xray-core/releases/tag/v1.2.1)
 ---
-- 大量的 UDP 相关修复, 甚至可以在育碧的土豆服务器上玩彩虹六号! 
-- Google Voice 应该也可以正常使用 v2rayNG 拨打了.
-- 日志现在看起来更顺眼.
+- Lots of UDP-related fixes, and you can even play Rainbow Six on Ubisoft's potato servers! 
+- Google Voice should also work properly with v2rayNG dialing.
+- Logs now look much better.
 
 <br />
 
 ## 2021.01.07
 ---
-- 礼貌和尊重本应是社区不需要明说的准则之一。
+- Courtesy and respect should have been one of the guidelines that the community did not need to explicitly state.
 
 <br />
 
 
 ## 2021.01.05
 ---
-- 文档网站正在悄悄的进行着某些神秘的变化。。。，🙊🙊🙊
+- The documentation site is quietly undergoing some mysterious changes.🙊🙊🙊
 
 <br />
 
 ## 2021.01.03
 ---
-- 文档仓库第一个PR。🎉<br>
-[透明代理（TProxy）配置教程 ](../../documents/level-2/tproxy) ，感谢<img src="https://avatars2.githubusercontent.com/u/41363844?s=32" width="32px" height="32px" alt="a"/> [@BioniCosmos](https://github.com/BioniCosmos)
-- tg群突破2500。
+- The first PR of the document repository.🎉<br>
+[Transparent proxy (TProxy) configuration tutorial](../../documents/level-2/tproxy) ，thanks to <img src="https://avatars2.githubusercontent.com/u/41363844?s=32" width="32px" height="32px" alt="a"/> [@BioniCosmos](https://github.com/BioniCosmos)
+- The number of people in the tg group exceeds 2,500.
 
 <br />
 
 ## 2021.01.01
 ---
 
-【祝大家新年快乐，嗨皮牛耶！】🎆🎇🎆
+[Happy new year to everyone, 新年快乐！]🎆🎇🎆
 
 ###  [v1.2.0](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0)
 ---
 
-🎁在元旦的最后几分钟，v1.2.0它来了，带着周五必更的惯例，带着各位贡献大佬的心血以及 @rprxx 的黑眼圈，不负众望的来了!
-- 圣诞礼物[v1.1.5](#20201225)后的元旦礼物🎁，游戏玩家大福利，全面 FullCone。
-- （UDP还会继续增强！）
-- 如果你已经拆过圣诞礼物，这次还有比圣诞礼物更精美的包装和小糖果哦。（同样不用问，更新品尝就对了）
-- （不，下面不是广告，是里程碑。）
-- Xray 是有史以来第一个不受限制的多协议平台：只需 Xray 即可解决问题，无需借力其它实现。
-  - 一人扛起了所有！支持各大主流协议！
-  - 一骑绝尘的性能!
-  - 日趋完善的功能!
-  - 可怕的生命力与社区亲和力！
-- Xray 将继续保持前行！ 因此 [Xray 需要更多的英雄！！](https://github.com/XTLS/Xray-core/discussions/56)！
-- PS：请品，请细品[release notes](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0)每一句。似乎有一个小秘密小彩蛋 ~~（啊，有人敲门...我一会和你们说）~~
+In the final minutes of New Year's Day, v1.2.0 it came, as is customary with Friday updates, and with the efforts of all the contributors and the dark eye circles of @rprxx, it's here to live up to people's expectation!
+- New Year's presents after Christmas presents [v1.1.5](#20201225), big benefits for gamers, full FullCone.
+- (UDP functionality will continue to be enhanced!)
+- If you've already opened your Christmas presents, this time there's something even better than Christmas presents, with wrapping and little sweets. (Again, don't ask, just update and taste)
+- (No, it's not an ad below, it's a milestone.)
+- Xray is the first ever unrestricted multi-protocol platform: just xray solves the problem, no need to borrow from other implementations.
+  - One person carries it all! Support for all major protocols!
+  - Unbeatable performance!
+  - Increasingly sophisticated functionality!
+  - Fearless vitality and community affinity!
+- Xray will keep on going! So [xray needs more heroes](https://github.com/XTLS/Xray-core/discussions/56)!
+- PS: Please savor, please savor every sentence of [release notes](https://github.com/XTLS/Xray-core/releases/tag/v1.2.0). There seems to be a little surprise. ~~(Ah, there's a knock on the door... I'll talk to you guys later)~~
 
 <br />
 
 ## 2020.12.29
-透明代理的游戏玩家利好！ Xray-core tproxy 入站， socks出站 UDP FullCone 测试版, [TG群](https://t.me/projectXray)火热测试中
+Hello transparent proxy gamers! Xray-core tproxy inbound, socks outbound and UDP FullCone beta are being tested in the [telegram group](https://t.me/projectXray)
 
 <br />
 
 ## 2020.12.25
 ---
-圣诞节快乐！
+Merry Christmas!
 
 ###  [v1.1.5](https://github.com/XTLS/Xray-core/releases/tag/v1.1.5)
 ---
-- 游戏玩家的圣诞礼物！你可以用xray爽快的打游戏啦！因为有了 SS/trojan UDP fullcone 
-- 你可以用你喜欢的格式写配置文件了，比如yaml，比如toml...
-- （VLESS 的 UDP fullcone和更多增强很快就到！）
-- 无须再担心证书验证被墙，OCSP stapling 已经上线!
-- kirin带来了一大波   脚本更新.[脚本在此](https://github.com/XTLS/Xray-install)
-- 还有更多美味小樱桃！（不用问，更新品尝就对了）
+- A Christmas present for gamers! You can now play games with xray! Because now there is SS/trojan UDP fullcone 
+- You can now write configuration files in your preferred format, like yaml, like toml...
+- (UDP fullcone and more enhancements for VLESS coming soon!
+- Don't worry about certificate validation domains being banned, OCSP stapling is now live!
+- kirin has brought many script updates. [Scripts here](https://github.com/XTLS/Xray-install)
+- And more delicious little cherries! (Don't ask, just update to taste)
 
 <br />
 
 ## 2020.12.24
-因为某些不可描述的原因，Xray 的文档网站已在发布日前偷跑上线。<br>
-网址为：[没错你正在看的就是](https://xtls.github.io)
+For some indescribable reason, xray's documentation site has been sneaked online ahead of the release date.<br>
+The url is: [yes that's what you're looking at](https://xtls.github.io)
 
-大家可以查阅各种内容也欢迎纠错/提出建议（可发往文档github仓库的issue区）
+You can check out the various contents and feel free to correct/suggest (you can post to the issue section of the documentation github repository)
 
-文档网站需要不断完善和增加内容，以及完善设计。<br>
-因此更欢迎大家一起为文档建设添砖加瓦。<br>
-[文档的仓库](https://github.com/XTLS/XTLS.github.io)
+The documentation site needs constant refinement and addition of content, as well as refinement of the design. <br>
+So all are more than welcome to contribute to the documentation. <br>
+[Repository of documents](https://github.com/XTLS/XTLS.github.io)
 
-仓库的readme中有简略教程说明如何帮助xray改进文档网站.<br>
-欢迎大家查看，纠错，修改，增加心得。
+There is a short tutorial in the repository readme on how to help xray improve the documentation site. <br
+Feel free to check it out, correct errors, make changes and add ideas.
 
 <br />
 
 ## 2020.12.23
-Xray-core Shadowsocks UDP FullCone 测试版, [TG群](https://t.me/projectXray)火热测试中
+Xray-core Shadowsocks UDP FullCone beta, is being tested in the [telegram group](https://t.me/projectXray).
 
 <br />
 
 ## 2020.12.21
 ---
-- Project X 群人数 2000+
-- 群消息(含游戏群) 日均破万
-
+- More than 2,000 members in Project X group.
+- Group messages (including the game group) average over 10,000 per day.
 <br />
 
 ## 2020.12.18
 ---
 ###  [v1.1.4](https://github.com/XTLS/Xray-core/releases/tag/v1.1.4)
 ---
-- 更低的启动内占用和内存使用优化
-- 随意定制的 TLS 提高你的SSL评级
-- 支持 XTLS 入站的 Splice 以及支持 trojan 的 XTLS
-- 还有在您路由器上使用的Splice最佳使用模式建议
+- Lower in-boot footprint and memory usage optimisation
+- Arbitrarily configurable TLS to improve your SSL rating
+- Splice with XTLS inbound support and XTLS with trojan support
+- And advice on the best usage patterns for splice on your router
 
 <br />
 
 ## 2020.12.17
 ---
 
-鉴于日益增长群人数和游戏需求, 开启了[TG游戏群](https://t.me/joinchat/UO4NixbB_XDQJOUjS6mHEQ)
+In view a growing group size and demand for games, the [telegram games group](https://t.me/joinchat/UO4NixbB_XDQJOUjS6mHEQ) has been opened.
 
 <br />
 
 ## 2020.12.15
 ---
 
-[安装脚本dev分支](https://github.com/XTLS/Xray-install/tree/dev)开启, 持续更新功能中.
+The [dev branch](https://github.com/XTLS/Xray-install/tree/dev) of the installation script is open, and is being continuously updated.
 
 <br />
 
@@ -154,8 +170,8 @@ Xray-core Shadowsocks UDP FullCone 测试版, [TG群](https://t.me/projectXray)�
 ---
 ### [v1.1.3](https://github.com/XTLS/Xray-core/releases/tag/v1.1.3)
 ---
-- 完整版本的 REDIRECT 透明代理模式.
-- 软路由 splice 流控模式的优化建议.
+- Full version of redirect transparent proxy mode.
+- Suggested optimisation of the soft route splice flow control mode.
 
 <br />
 
@@ -163,22 +179,22 @@ Xray-core Shadowsocks UDP FullCone 测试版, [TG群](https://t.me/projectXray)�
 ---
 ### [v1.1.2](https://github.com/XTLS/Xray-core/releases/tag/v1.1.2)
 ---
-- 流控增加 splice 模式, Linux限定, 性能一骑绝尘.
-- 增强了 API 兼容
+- Splice mode added to flow control, available only on Linux, for unparalleled performance.
+- Enhanced API compatibility.
 
 <br />
 
 ## 2020.12.04
 ---
-增加 splice 模式
+Add splice mode.
 
 <br />
 
 ## 2020.11.27
 ---
-- Project X 的 GitHub 主仓库 Xray-core 已获 500+ stars
-- 登上了 GitHub Trending
-- Project X 群人数破千，频道订阅数 500+
+- Project X's GitHub master repository Xray-core has received 500+ stars
+- Featured on GitHub Trending
+- Project X has over 1,000 group members and 500+ channel subscribers
 
 <br />
 
@@ -186,12 +202,12 @@ Xray-core Shadowsocks UDP FullCone 测试版, [TG群](https://t.me/projectXray)�
 ---
 ### [v1.0.0](https://github.com/XTLS/Xray-core/releases/tag/v1.0.0)
 ---
-Xray的第一个版本.
-- 基于 v2ray-core 修改而来，改动较大
-- 全面增强, 性能卓越, 完全兼容
+The first version of xray.
+- Based on v2ray-core, with significant changes.
+- Fully enhanced, excellent performance, fully compatible.
 
 <br />
 
 ## 2020.11.23
 ---
-project X start
+Project X started.

@@ -1,65 +1,65 @@
 ---
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 下载安装
+date: "2020-01-17T00:00:00.000Z"
+description: Project X Documents
+title: Download and install
 weight: 1
 ---
 
-## 平台支持
+## Platform support
 
 ---
 
-Xray 在以下平台中可用：
+Xray is available in the following platforms.
 
-- Windows 7 及之后版本（x86 / amd64 / arm32）；
-- macOS 10.10 Yosemite 及之后版本（amd64）；
-- Linux 2.6.23 及之后版本（x86 / amd64 / arm / arm64 / mips64 / mips / ppc64 / s390x / riscv64）；
-  - 包括但不限于 Debian 7 / 8、Ubuntu 12.04 / 14.04 及后续版本、CentOS 7 / 8、Arch Linux 等；
-- FreeBSD (x86 / amd64)；
-- OpenBSD (x86 / amd64)；
-- Dragonfly BSD (amd64)；
+- Windows 7 and later (x86 / amd64 / arm32).
+- macOS 10.10 Yosemite and later (amd64).
+- Linux 2.6.23 and later (x86 / amd64 / arm / arm64 / mips64 / mips / ppc64 / s390x / riscv64).
+  - Including but not limited to Debian 7 / 8, Ubuntu 12.04 / 14.04 and later, CentOS 7 / 8, Arch Linux, etc.
+- FreeBSD (x86 / amd64).
+- OpenBSD (x86 / amd64).
+- Dragonfly BSD (amd64).
 
 <br />
 
-## 下载 Xray
+## Download xray
 
 ---
 
-预编译的二进制 ZIP 格式压缩包可在 [Github Releases](https://github.com/xtls/Xray-core/releases) 中找到。
+The pre-compiled binary ZIP archive can be found at [Github Releases](https://github.com/xtls/Xray-core/releases).
 
-下载对应平台的压缩包，解压后即可使用。
+Download the zip file for your platform, unzip it and you are ready to use it.
 
 <br />
 
-## 验证安装包
+## Verify the installation package
 
 ---
 
-Xray 提供两种验证方式：
+Xray provides two types of validation.
 
-- ZIP 压缩包的 SHA1 / SHA256 摘要: {{% badge warning %}}In progress{{% /badge %}}
-- 可复现构建：{{% badge warning %}}In progress{{% /badge %}}
-
-<br />
-
-## Windows 安装方式
-
-- 在 [Github Releases](https://github.com/xtls/Xray-core/releases) 下载适用于 Windows 平台的 ZIP 压缩包，解压后可得到可执行文件 `xray.exe`，然后[通过命令行带参数运行](../command) 即可
-- 通过 [Scoop](https://scoop.sh) 包管理器安装：{{% badge warning %}}In progress{{% /badge %}}
-- 通过 [Chocolatey](https://chocolatey.org) 包管理器安装：{{% badge warning %}}In progress{{% /badge %}}
+- ZIP archive with SHA1 / SHA256 digest: {{% badge warning %}}In progress{{% /badge %}}
+- Reproducible build: {{% badge warning %}}In progress{{% /badge %}}
 
 <br />
 
-## macOS 安装方式
+## Installation methods for Windows
 
-- 在 [Github Releases](https://github.com/xtls/Xray-core/releases) 下载适用于 macOS 平台的 ZIP 压缩包，解压后可得到可执行文件 `xray`，然后[通过命令行带参数运行](../command.md) 即可
-- 通过 [Homebrew](https://brew.sh) 包管理器安装：{{% badge warning %}}In progress{{% /badge %}}
+- Download the ZIP archive for Windows from [Github Releases](https://github.com/xtls/Xray-core/releases), unzip it to get the executable `xray.exe`, and then [run it with parameters via the command line](../command).
+- Install via [Scoop](https://scoop.sh) package manager: {{% badge warning %}}In progress{{% /badge %}}
+- Install via [Chocolatey](https://chocolatey.org) package manager: {{% badge warning %}}In progress{{% /badge %}}
 
 <br />
 
-## Linux 安装方式
+## Installation methods for macOS
+
+- Download the ZIP archive for Windows from [Github Releases](https://github.com/xtls/Xray-core/releases), unzip it to get the executable `xray.exe`, and then [run it with parameters via the command line](../command).
+- Install via [Homebrew](https://brew.sh) package manager: {{% badge warning %}}In progress{{% /badge %}}
+
+<br />
+
+## Installation methods for Linux
 ---
-### 安装脚本
+### Installation scripts
 ---
 
 - Linux Script
@@ -75,16 +75,16 @@ Xray 提供两种验证方式：
   - [Xray_For_Magisk](https://github.com/E7KMbb/Xray_For_Magisk)
 
 
-### Linux 发行版包管理器
+### Package managers for Linux releases
 
 ---
 
-Linux 发行版 Xray 包（可通过发行版相应的包管理器安装）：
+Xray packages for Linux releases (can be installed via the release's corresponding package manager).
 
 - Debian：{{% badge warning %}}In progress{{% /badge %}}
 - Arch Linux：{{% badge warning %}}In progress{{% /badge %}}
 
-### Linuxbrew 包管理器
+### Brew package manager
 
 ---
 
@@ -92,28 +92,28 @@ Linux 发行版 Xray 包（可通过发行版相应的包管理器安装）：
 
 <br />
 
-## Docker 安装方式
+## Installation as Docker
 
 ---
 
 - [teddysun/xray](https://hub.docker.com/r/teddysun/xray)
 - Xray-docker
-### Docker image 的文件结构
+### File structure of the Docker image
 
 ---
 
-- `/etc/xray/config.json`：配置文件
-- `/usr/bin/xray`：Xray 主程序
-- `/usr/local/share/xray/geoip.dat`：IP 数据文件
-- `/usr/local/share/xray/geosite.dat`：域名数据文件
+- `/etc/xray/config.json`：Configuration files
+- `/usr/bin/xray`：Xray host program
+- `/usr/local/share/xray/geoip.dat`：IP data file
+- `/usr/local/share/xray/geosite.dat`：Domain name data file
 
 <br />
 
-## 更多更多...
+## More and more...
 
 ---
 
-您可以点击 [传送至众多大佬集结区的任意门](../../links) 获取更多资源
+You can click on the [portal to the many big man's gathering area](../../links) for more resources.
 
 
 ## FAQ

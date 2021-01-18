@@ -1,20 +1,20 @@
 ---
-date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 命令参数
+date: "2020-01-17T00:00:00.000Z"
+description: Project X Documents
+title: Command parameters
 weight: 3
 ---
 
 {{% notice info %}}
 **TIP**\
-Xray 使用 go 风格的命令及参数
+Xray uses go-style commands and parameters
 {{% /notice %}}
 
-## 获取基本命令
+## Get basic commands
 
 ---
 
-您可以运行 xray help 来获得所有 xray 最基础的用法, 以及可用的命令及说明.
+You can run `"xray help"` to get all the basics of xray usage, as well as the available commands and instructions.
 
 ```
 Xray is a platform for building proxies.
@@ -25,7 +25,7 @@ Usage:
 
 The commands are:
 
-        run          Run Xray with config, the default command
+        run          Run xray with config, the default command
         version      Show current version of Xray
         api          Call an API in an Xray process
         tls          TLS tools
@@ -38,12 +38,12 @@ Use "xray help <command>" for more information about a command.
 
 ### xray run
 ---
-使用方法:
+Usage:
 ```
  xray run [-c config.json] [-confdir dir]
 ```
 
-Run Xray with config, the default command.
+Run xray with config, the default command.
 
 The -config=file, -c=file flags set the config files for
 Xray. Multiple assign is accepted.
@@ -60,7 +60,7 @@ without launching the server
 
 ### xray version
 ---
-使用方法:
+Usage:
 ```
  xray version
 ```
@@ -70,7 +70,7 @@ Version prints the build information for Xray executables.
 
 ### xray api
 ---
-使用方法:
+Usage:
 ```
 xray api <command> [arguments]
 ```
@@ -90,7 +90,7 @@ The commands are:
 
 ### xray tls
 ---
-使用方法:
+Usage:
 ```
 xray tls <command> [arguments]
 ```
@@ -104,7 +104,7 @@ The commands are:
 
 ### xray uuid
 ---
-使用方法:
+Usage:
 ```
 xray uuid
 ```
@@ -113,8 +113,8 @@ Generate new UUIDs.
 <br />
 
 {{% notice info %}}
-当`-config`没有指定时，Xray 将先后尝试从以下路径加载`config.json`:
-- 工作目录（Working Directory）
-- [环境变量](../config/env.md)中`Xray.location.asset`所指定的路径
+When `-config` is not specified, xray will successively try to load `config.json` from the following path:
+- `-working directory` (working directory)
+- [Environment Variables](../../config/env) from the path specified by `xray.location.asset`
 {{% /notice %}}
 

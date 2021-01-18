@@ -118,13 +118,16 @@ weight: 7
         
         chmod +r /home/vpsadmin/xray_cert/xray.key
         echo "Read Permission Granted for Private Key"
+
+        sudo systemctl restart xray
+        echo "Xray Restarted"
         ```
         
         {{% notice warning  %}}
 
-**注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 [`acme.sh`官方文档](https://github.com/acmesh-official/acme.sh)）
+**注意：** 经大家提醒，`acme.sh` 有一个 `reloadcmd` 命令，可以在证书更新时自动执行特定命令，那么就可以指定自动给 `Xray` 安装证书，但因为 `crontab` 是 Linux 系统中一个非常有用、非常常用的功能，所以本文保留 `crontab` 的方式来更新 `Xray` 证书。（对 `reloadcmd` 感兴趣的同学可以查看 `acme.sh` 的[官方文档](https://github.com/acmesh-official/acme.sh)）
 
-另外，理论上目前给 `Xray` 安装证书之后还需要手动重启 `Xray` 才能生效（`sudo systemctl restart xray`）。但是，`Xray` 很快将支持【证书热更新】功能，加入该功能后、更新证书就不需要重启了，所以这里的脚本中没有写这一条。（如果目前需要的话，可以手动重启解决）
+另外，录制动图时，脚本中没有加入重启 `Xray` 的命令，是因为 `Xray` 计划支持【证书热更新】功能，即 `Xray` 会自动识别证书更新并重载证书、无需手动重启。待功能加入后，我将适当修改 `config.json` 开启此设置，并删除脚本中的重启命令。
 {{% /notice %}}
         
     4. 给这个文件增加【可执行】权限
@@ -279,8 +282,7 @@ weight: 7
                         "certificates": [
                             {
                                 "certificateFile": "/home/vpsadmin/xray_cert/xray.crt",
-                                "keyFile": "/home/vpsadmin/xray_cert/xray.key",
-                                "ocspStapling": 3600    // 每3600秒（1小时）验证一次证书状态并缓存
+                                "keyFile": "/home/vpsadmin/xray_cert/xray.key"
                             }
                         ]
                     }
@@ -428,10 +430,19 @@ weight: 7
         deb http://deb.debian.org/debian buster-backports main
         ```
         
-    3. 刷新软件库并安装Debian官方的最新版【云服务器内核】（稳定+优化兼而有之！）
+    3. 刷新软件库并查询 Debian 官方的最新版内核并安装。请务必安装你的VPS对应的版本（本文以比较常见的【amd64】为例）。
         ```
-        $ sudo apt update && sudo apt -t buster-backports install linux-image-cloud-amd64
+        $ sudo apt update && sudo apt -t buster-backports install linux-image-amd64
         ```
+    
+        {{% notice warning  %}} 
+**注意：** 如果你的VPS支持，可以尝试【云服务器专用内核】`linux-image-cloud-amd64`，优点就是精简、资源占用低，缺点嘛是有同学反馈不支持的系统强行安装会导致无法开机（Kernel无法识别）。
+
+为了避免无法识别的悲剧，请确保：
+- 尝试前做一个系统快照，或者
+- 你有 `vnc` 可以救场（并且你知道怎么用）
+
+{{% /notice %}}
 
     4. 修改 `kernel` 参数配置文件 `sysctl.conf` 并指定开启 `BBR`
         ```
@@ -456,7 +467,38 @@ weight: 7
 
     7. 完整流程演示如下：
 
+        {{% notice warning  %}} 
+**啰嗦君：** 因为我做展示的VPS支持云服务器专用内核，所以动图中我用了 `linux-image-cloud-amd64` 。如果你不确定你的VPS是否支持，那请务必按照第3步的命令，使用常规内核 `linux-image-amd64`。
+{{% /notice %}}
+
         <img src="../ch07-img06-bbr-proper.gif"  alt="更新Debian内核并开启`BBR`"/>
+
+
+    8. 确认`BBR`开启
+
+        如果你想确认 `BBR` 是否正确开启，可以使用下面的命令：
+
+        ```
+        $ lsmod | grep bbr
+        ```
+
+        此时应该返回这样的结果：
+
+        ```
+        tcp_bbr
+        ```
+
+        如果你想确认 `fq` 算法是否正确开启，可以使用下面的命令：
+
+        ```
+        $ lsmod | grep fq
+        ```
+
+        此时应该返回这样的结果：
+
+        ```
+        sch_fq
+        ```
 
 
 </br>
