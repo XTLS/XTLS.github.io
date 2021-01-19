@@ -392,6 +392,10 @@ graph LR;
     X1 --> |path = /vmessws 的流量| X3456(Xray-inbound:3456)
     X1 --> |其它所有流量| X1310(Xray-inbound:1310)
 
+    X1234 --> X2
+    X2345 --> X2
+    X3456 --> X2
+
     X1310 --> |协议 = trojan 的流量| X2
     X1310 --> |其他所有流量| N80(Nginx:80)
 
