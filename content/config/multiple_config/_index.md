@@ -7,7 +7,7 @@ hide:
 # - toc
 # post: "&nbsp;\U0001F44B"
 title: 多文件配置
-weight: 12
+weight: 13
 ---
 
 Xray 程序支持使用多个配置文件。

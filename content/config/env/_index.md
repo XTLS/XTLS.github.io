@@ -7,7 +7,7 @@ hide:
 # - toc
 # post: "&nbsp;\U0001F44B"
 title: 环境变量
-weight: 11
+weight: 12
 ---
 
 Xray 提供以下环境变量以供修改 Xray 的一些底层配置。

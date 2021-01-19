@@ -313,6 +313,14 @@ Linux服务器的安全防护是一个纷繁复杂的巨大课题。无数的网
 
     <img src="../ch04-img19-putty-privatekey-passphrase.png"  alt="输入私钥密码"/>
 
+6. 别忘了给`WinSCP`也做对应的密钥设置，否则之后想要传输文件时就无法登录了：
+
+    <img src="../ch04-img20-winscp-privatekey-location.png"  alt="WinSCP指定私钥位置"/>
+
+    {{% notice warning  %}} 
+**注意：** 任何需要借助SSH进行登录的软件都需要密钥验证了，软件过多，无法逐一展示，请根据你的需要自行设置好哦
+{{% /notice %}}
+
 
 </br>
 

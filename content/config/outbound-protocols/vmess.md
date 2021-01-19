@@ -25,7 +25,7 @@ VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在
       "port": 37192,
       "users": [
         {
-          "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+          "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
           "alterId": 0,
           "security": "auto",
           "level": 0
@@ -75,7 +75,7 @@ VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在
 ---
 ```json
 {
-  "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+  "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
   "alterId": 0,
   "security": "auto",
   "level": 0
@@ -84,7 +84,15 @@ VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在
 
 {{% notice dark %}} `id`：string{{% /notice %}}
 
-VMess 用户的主 ID。必须是一个合法的 UUID。
+Vmess 的用户 ID，可以是任意小于30字节的字符串, 也可以是一个合法的UUID. </br>
+自定义字符串和其映射的 UUID 是等价的, 这意味着你将可以这样在配置文件中写id来标识同一用户,即
+  - 写    "id": "我爱🍉老师1314",
+  - 或写    "id": "5783a3e7-e373-51cd-8642-c83782b807c5" (此UUID是 `我爱🍉老师1314` 的 UUID 映射)  
+ 
+其映射标准在[VLESS UUID 映射标准：将自定义字符串映射为一个 UUIDv5](https://github.com/XTLS/Xray-core/issues/158)
+
+你可以使用命令 `xray uuid -map "自定义字符串"` 生成自定义字符串所映射的的 UUID.</br> 
+也可以使用命令 `xray uuid` 生成随机的UUID. 
 
 {{% notice dark %}} `alterId`：number{{% /notice %}}
 

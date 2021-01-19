@@ -52,8 +52,15 @@ weight: 1
 - 感谢各类脚本、Docker 镜像、客户端支持...感谢所有帮忙完善生态的大佬们！
 - 感谢为 Xray 网站和文档添砖加瓦的朋友们.
 - 感谢提出有意义的建议和意见的朋友们.
-- 感谢 Telegram 群每一位帮助群友的朋友们.
+- 感谢 Telegram 群每一位帮助群友的朋友.
 <br />
+<br />
+
+### 更多关于 project X
+---
+- 如果你想知道更多关于 project X 的理念与密闻, 请点击[这里](../faq/about/)
+- 如果你想知道更多关于 project X 的足迹与成长, 请点击[这里](./new/)
+
 <br />
 ### License
 ---
@@ -61,6 +68,6 @@ weight: 1
 <br /><br />
 ### Stargazers over time
 ---
-{{% badge info %}}Project X 的 GitHub 主仓库 Xray-core 已获 近2000 stars；Project X 群人数破2500，频道订阅数 1000{{% /badge %}}
+{{% badge info %}}Project X 的 GitHub 主仓库 Xray-core 已获 2000 stars；Project X 群人数近 3000，频道订阅数 1000+{{% /badge %}}
 
 [![Stargazers over time](https://starchart.cc/XTLS/Xray-core.svg)](https://starchart.cc/XTLS/Xray-core)

@@ -25,7 +25,7 @@ VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在
       "port": 37192,
       "users": [
         {
-          "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+          "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
           "alterId": 0,
           "security": "auto",
           "level": 0
@@ -75,7 +75,7 @@ VMess 依赖于系统时间，请确保使用 Xray 的系统 UTC 时间误差在
 ---
 ```json
 {
-  "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+  "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
   "alterId": 0,
   "security": "auto",
   "level": 0

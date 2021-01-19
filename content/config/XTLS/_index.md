@@ -6,8 +6,8 @@ description: Project X 的文档.
 hide:
 - toc
 # post: "&nbsp;\U0001F44B"
-title: XTLS
-weight: 10
+title: XTLS 深度剖析
+weight: 11
 ---
 
 {{% alert theme="warning" %}}**XTLS 是 Xray 的原创黑科技, 也是使 Xray 性能一骑绝尘的核心动力**{{% /alert %}}

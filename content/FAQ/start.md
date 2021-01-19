@@ -25,4 +25,11 @@ weight: 1
 
 {{% /panel %}}
 
+{{% panel theme="warning" header="**Q: 路由器容量小, Xray 放不进去!** " %}}
+
+可以使用 [UPX](https://github.com/upx/upx/releases) 工具来压缩文件大小.
+1. 启动速度可能会变慢, 但这是必须付出的代价
+2. 占用的内存，在启动静置稳定后是差不多的，实际运行占用看具体负载, 与UPX无关。
+
+{{% /panel %}}
 

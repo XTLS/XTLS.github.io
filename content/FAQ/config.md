@@ -122,3 +122,29 @@ fullcone的核心改变在于对游戏性能、使用到UDP的语音视频性能
 {{% /panel %}}
 
 <br />
+
+{{% panel theme="warning" header="**Q: 实现Full Cone NAT时,设置了iptables后降低了NAT等级怎么办?** " %}}
+
+请参见[这个issue里提出的方式](https://github.com/XTLS/Xray-core/issues/161)
+
+{{% /panel %}}
+
+<br />
+
+{{% panel theme="warning" header="**Q: 打开证书的时候提示没有权限?** " %}}
+
+1. 首先需要给证书文件以读取权限.
+2. 其次要给证书所在目录及上层目录x权限.
+
+{{% /panel %}}
+
+<br />
+
+{{% panel theme="warning" header="**Q: log 里面有大量报 warning 的信息, 好可怕!** " %}}
+
+连接异常断开是常有的现象, 如果能正常使用, 不必惊慌, 如果不能正常使用, 拿好你的配置文件和log, 去开一个issue.
+
+{{% /panel %}}
+
+<br />
+

@@ -41,7 +41,8 @@ Trojan 被设计工作在正确配置的加密 TLS 隧道
 
 {{% notice dark %}} `fallbacks`: \[ [FallbackObject](../../fallback) \]{{% /notice %}}
 
-一个数组，包含一系列强大的回落分流配置（可选）。
+一个数组，包含一系列强大的回落分流配置（可选）。<br>
+fallbacks 的具体配置请点击[FallbackObject](../../fallback/#fallbacks-配置)
 
 {{% notice  %}}
 **TIP**\

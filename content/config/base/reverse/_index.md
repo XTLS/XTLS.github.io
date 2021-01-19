@@ -17,7 +17,7 @@ weight: 10
 
 {{% notice info %}}
 **TIP**\
-反向代理默认已开启 [Mux](mux.md)，请不要在其用到的outbound上再次开启 Mux。
+反向代理默认已开启 [Mux](/develop/protocols/muxcool/)，请不要在其用到的outbound上再次开启 Mux。
 {{% /notice %}}
 
 {{% notice warning %}}
@@ -149,7 +149,7 @@ outbound:
                 "port": 1024,
                 "users": [
                     {
-                        "id": "27848739-7e62-4138-9fd3-098a63964b6b"
+                        "id": "5783a3e7-e373-51cd-8642-c83782b807c5"
                     }
                 ]
             }
@@ -223,7 +223,7 @@ inbound:
     "settings": {
         "clients": [
             {
-                "id": "27848739-7e62-4138-9fd3-098a63964b6b"
+                "id": "5783a3e7-e373-51cd-8642-c83782b807c5"
             }
         ]
     }

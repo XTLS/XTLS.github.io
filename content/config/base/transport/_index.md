@@ -35,27 +35,27 @@ weight: 8
 }
 ```
 
-{{% notice dark %}} `tcpSettings`: [TcpObject](../base/transports/tcp){{% /notice %}}
+{{% notice dark %}} `tcpSettings`: [TcpObject](../../transports/tcp){{% /notice %}}
 
 针对 TCP 连接的配置。
 
-{{% notice dark %}} `kcpSettings`: [KcpObject](../base/transports/mkcp){{% /notice %}}
+{{% notice dark %}} `kcpSettings`: [KcpObject](../../transports/mkcp){{% /notice %}}
 
 针对 mKCP 连接的配置。
 
-{{% notice dark %}} `wsSettings`: [WebSocketObject](../base/transports/websocket){{% /notice %}}
+{{% notice dark %}} `wsSettings`: [WebSocketObject](../../transports/websocket){{% /notice %}}
 
 针对 WebSocket 连接的配置。
 
-{{% notice dark %}} `httpSettings`: [HttpObject](../base/transports/h2){{% /notice %}}
+{{% notice dark %}} `httpSettings`: [HttpObject](../../transports/h2){{% /notice %}}
 
 针对 HTTP/2 连接的配置。
 
-{{% notice dark %}} `quicSettings`: [QuicObject](../base/transports/quic){{% /notice %}}
+{{% notice dark %}} `quicSettings`: [QuicObject](../../transports/quic){{% /notice %}}
 
 针对 QUIC 连接的配置。
 
-{{% notice dark %}} `dsSettings`: [DomainSocketObject](../base/transports/domainsocket){{% /notice %}}
+{{% notice dark %}} `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
 针对 Domain Socket 连接的配置。
 
@@ -93,7 +93,7 @@ weight: 8
 是否启用传输层加密，支持的选项有 
 - `"none"` 表示不加密（默认值）
 - `"tls"` 表示使用 [TLS](https://en.wikipedia.org/wiki/base/transport_Layer_Security)。
-- `"xtls"` 表示使用 [XTLS](../xtls)。
+- `"xtls"` 表示使用 [XTLS](../../xtls)。
 
 {{% notice dark %}}  `tlsSettings`: [TLSObject](#tlsobject){{% /notice %}}
 
@@ -102,34 +102,34 @@ TLS 配置。TLS 由 Golang 提供，通常情况下TLS协商的结果为使用 
 {{% notice dark %}}  `xtlsSettings`: [XTLSObject](#tlsobject){{% /notice %}}
 
 XTLS 配置。XTLS 是 Xray 的原创黑科技, 也是使 Xray 性能一骑绝尘的核心动力.<br>
-XTLS 与 TLS 有相同的安全性, 配置方式也和TLS一致. 点击此处查看[XTLS的技术细节剖析](../xtls)
+XTLS 与 TLS 有相同的安全性, 配置方式也和TLS一致. 点击此处查看[XTLS的技术细节剖析](../../xtls)
 {{% notice danger important %}}
 TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型和正常上网具有一致性.<br>
 启用 XTLS 并且配置合适的XTLS流控模式, 可以在保持和 TLS 相同的安全性的前提下, 性能达到数倍甚至十几倍的提升.<br>
 当 `security` 的值从'tls'改为'xtls'时, 只需将`tlsSettings` 修改成为 `xtlsSettings`
 {{% /notice %}}
 
-{{% notice dark %}}  `tcpSettings`: [TcpObject](../base/transports/tcp){{% /notice %}}
+{{% notice dark %}}  `tcpSettings`: [TcpObject](../../transports/tcp){{% /notice %}}
 
 当前连接的 TCP 配置，仅当此连接使用 TCP 时有效。配置内容与上面的全局配置相同。
 
-{{% notice dark %}}  `kcpSettings`: [KcpObject](../base/transports/mkcp){{% /notice %}}
+{{% notice dark %}}  `kcpSettings`: [KcpObject](../../transports/mkcp){{% /notice %}}
 
 当前连接的 mKCP 配置，仅当此连接使用 mKCP 时有效。配置内容与上面的全局配置相同。
 
-{{% notice dark %}}  `wsSettings`: [WebSocketObject](../base/transports/websocket){{% /notice %}}
+{{% notice dark %}}  `wsSettings`: [WebSocketObject](../../transports/websocket){{% /notice %}}
 
 当前连接的 WebSocket 配置，仅当此连接使用 WebSocket 时有效。配置内容与上面的全局配置相同。
 
-{{% notice dark %}}  `httpSettings`: [HttpObject](../base/transports/h2){{% /notice %}}
+{{% notice dark %}}  `httpSettings`: [HttpObject](../../transports/h2){{% /notice %}}
 
 当前连接的 HTTP/2 配置，仅当此连接使用 HTTP/2 时有效。配置内容与上面的全局配置相同。
 
-{{% notice dark %}}  `quicSettings`: [QUICObject](../base/transports/quic){{% /notice %}}
+{{% notice dark %}}  `quicSettings`: [QUICObject](../../transports/quic){{% /notice %}}
 
 当前连接的 QUIC 配置，仅当此连接使用 QUIC 时有效。配置内容与上面的全局配置相同。
 
-{{% notice dark %}}  `dsSettings`: [DomainSocketObject](../base/transports/domainsocket){{% /notice %}}
+{{% notice dark %}}  `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
 当前连接的 Domain socket 配置，仅当此连接使用 Domain socket 时有效。配置内容与上面的全局配置相同。
 
@@ -382,5 +382,5 @@ ocspStapling 检查更新时间间隔。 单位：秒
 透明代理需要 Root 或 CAP\_NET\_ADMIN 权限。
 
 {{% notice danger important %}}
-当 [Dokodemo-door](../inbound-protocols/dokodemo) 中指定了 `followRedirect`为`true`，且 Sockopt设置中的`tproxy` 为空时，Sockopt设置中的`tproxy` 的值会被设为 `"redirect"`。
+当 [Dokodemo-door](../../inbound-protocols/dokodemo) 中指定了 `followRedirect`为`true`，且 Sockopt设置中的`tproxy` 为空时，Sockopt设置中的`tproxy` 的值会被设为 `"redirect"`。
 {{% /notice %}}
