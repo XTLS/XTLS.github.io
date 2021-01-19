@@ -1,44 +1,44 @@
 ---
 date: "2020-12-23T00:00:00.000Z"
-description: Project X 的文档.
-title: 透明代理入门 
+description: Project X Documentation.
+title: Getting Started with Transparent Proxy
 weight: 1
 ---
 
-## 什么是透明代理
-透明代理简单地说就是不让被代理的设备感觉到自己被代理了。简单地说就是，被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备已经被代理了。
+## What is Transparent Proxy(TProxy)?
+General speaking the Transparent Proxy is not let the device which has been proxied feeling itself to be proxied, further speaking is the proxied device do not need to run any proxy software(such as Xray, V2rayNG and so on). When you connected to the network, your device has been proxied.
 
-这也意味着，代理的软件运行在别的地方，比如运行在路由器中，通过路由器上网的设备就自动被代理了。
-## 透明代理的实现
-透明代理的实现目前主要有两种方式：
+And it means that, the proxy software is running in other places, such as running in the router, all the devices connected to the Internet via the router can automatically be proxied.
+## Implementation of Transparent Proxy
+Now the implementation of transparent proxy has two ways:
 
 ### tun2socks
 
-可用Windows/Linux(包括安卓)实现。因为实现过程比较简单，很少有教程，我这里简单描述一下。
+It can be implemented on Windows/Linux (including Android). Because the implementation process is relatively simple and there are few tutorials, I will briefly describe it here.
 
 **Windows**
 
-1. 安装 **[Netch](https://github.com/NetchX/Netch/releases)** ，使用模式`[3] [TUN/TAP] 绕过局域网`启动。
+1. Install **[Netch](https://github.com/NetchX/Netch/releases)** ，Using mode`[3] [TUN/TAP] Bypass LAN`and active it.
 
-2. 开启热点
+2. Turn on the Hotspot
 
-3. 打开`控制面板`->`网络和 Internet`->`网络和共享中心`->`更改适配器设置`，找到`TAP-Windows Adapter`和`Microsoft Wi-Fi Direct Virtual Adapter`。
+3. Open`Control Panel`->`Networok and Internet`->`Network and Sharing Center`->`Change adapter settings`，find`TAP-Windows Adapter`and`Microsoft Wi-Fi Direct Virtual Adapter`。
 
-4. 鼠标右键点击`TAP-Windows Adapter`，`属性`->`共享`，勾选`允许其他网络用户通过此计算机的 Internet 连接来连接`，在`家庭网络连接`中选择`Microsoft Wi-Fi Direct Virtual Adapter`的那个网络连接，点击确定。
+4. Right Click`TAP-Windows Adapter`，`Properties`->`Sharing`，Check`Allow other network users to connect through this computer’s Internet connection`，select the network connection of `Microsoft Wi-Fi Direct Virtual Adapter` in `Home Network Connection`, and click OK.
 
 **Android**
 
-1. 配置连接V2RayNG
+1. Configure connection V2RayNG
 
-2. 开启热点
+2. Open Hotspot
 
-3. 热点设置 -> 允许热点使用VPN(部分安卓系统可能没有这个选项)
+3. Hotspot settings -> Allow Hotspot use VPN(partly Android may not have this option)
 
 ### iptables/nftables
 
-iptables与nftables实现透明代理的原理相同，下文统一使用iptables。
+iptables & nftables are the same way to implemented Transparent Proxy，and the following uses iptables uniformly.
 
-基于iptables的透明代理实现只能用于Linux系统(包括openwrt/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
+The Transparent Proxy which based on iptables only available in Linux system(concluding Openwrt/Android). For its more efficiency than tun2socks and it is suitable on router, make it be widely used.
 
 现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： **[新 V2Ray 白话文指南-透明代理](https://guide.v2fly.org/app/transparent_proxy.html)** 、 **[新 V2Ray 白话文指南-透明代理(TPROXY)](https://guide.v2fly.org/app/tproxy.html)** 、 **[透明代理（TProxy）配置教程](../../tproxy)** 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
 
