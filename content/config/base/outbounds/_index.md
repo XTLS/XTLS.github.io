@@ -5,7 +5,7 @@ title: Outbounds
 weight: 7
 ---
 
-出站连接用于发送数据，可用的协议请见[outbound 可用协议列表](../outbound-protocols)。
+出站连接用于发送数据，可用的协议请见[outbound 可用协议列表](../../outbound-protocols)。
 
 ## OutboundObject
 
@@ -40,7 +40,7 @@ weight: 7
 用于发送数据的 IP 地址，当主机有多个 IP 地址时有效，默认值为 `"0.0.0.0"`。
 {{% notice dark %}}`protocol`: string{{% /notice %}}
 
-连接协议名称，可选的协议类型见[outbound 可用协议列表](../outbound-protocols)。
+连接协议名称，可选的协议类型见[outbound 可用协议列表](../../outbound-protocols)。
 {{% notice dark %}}`settings`: OutboundConfigurationObject{{% /notice %}}
 
 具体的配置内容，视协议不同而不同。详见每个协议中的 `OutboundConfigurationObject`。
@@ -52,7 +52,7 @@ weight: 7
 当其不为空时，其值必须在所有 `tag` 中 **唯一**。
 {{% /notice %}}
 
-{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../base/transport#streamsettingsobject){{% /notice %}}
+{{% notice dark %}}`streamSettings`: [StreamSettingsObject](../../base/transport#streamsettingsobject){{% /notice %}}
 
 底层传输方式（transport）是当前 Xray 节点和其它节点对接的方式
 
@@ -80,7 +80,7 @@ Mux 相关的具体配置。
 <br />
 ### MuxObject
 ---
-Mux 功能是在一条 TCP 连接上分发多个 TCP 连接的数据。实现细节详见 [Mux.Cool](../developer/protocols/muxcool.md)。Mux 是为了减少 TCP 的握手延迟而设计，而非提高连接的吞吐量。使用 Mux 看视频、下载或者测速通常都有反效果。Mux 只需要在客户端启用，服务器端自动适配。
+Mux 功能是在一条 TCP 连接上分发多个 TCP 连接的数据。实现细节详见 [Mux.Cool](../../../develop/protocols/muxcool)。Mux 是为了减少 TCP 的握手延迟而设计，而非提高连接的吞吐量。使用 Mux 看视频、下载或者测速通常都有反效果。Mux 只需要在客户端启用，服务器端自动适配。
 
 `MuxObject` 对应 `OutboundObject` 中的 `mux` 项。
 

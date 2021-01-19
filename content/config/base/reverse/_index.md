@@ -17,7 +17,7 @@ weight: 10
 
 {{% notice info %}}
 **TIP**\
-反向代理默认已开启 [Mux](mux.md)，请不要在其用到的outbound上再次开启 Mux。
+反向代理默认已开启 [Mux](/develop/protocols/muxcool/)，请不要在其用到的outbound上再次开启 Mux。
 {{% /notice %}}
 
 {{% notice warning %}}

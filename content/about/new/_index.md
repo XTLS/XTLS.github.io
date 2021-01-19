@@ -10,8 +10,18 @@ title: 大史记
 weight: 1
 ---
 
+## 2021.01.19
+- 一些数字
+  - 版本发布了 10&nbsp;&nbsp; 个 tag 
+  - 解决掉了 100&nbsp; 个 issue
+  - 复刻了 300&nbsp; 个 fork
+  - 点了 2000 个 star
+  - 群 3000 个 人
+
+<br />
+
 ## 2021.01.17
-- 辛苦的翻译工作开始了, 感谢<img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/> [@玖柒Max](https://github.com/jiuqi9997)
+- 辛苦的翻译工作开始了, 感谢<img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/> [@玖柒Max](https://github.com/jiuqi9997)和其他所有的翻译大佬们.
 - [English version](https://xtls.github.io/en/)
 
 <br />
@@ -25,6 +35,9 @@ weight: 1
 - 远程 DOH 和其他的DNS模式一样学会了走路由分流.
 - 当然还有其他各种小糖果.(更新品尝就对了)
 - 啊, 还有, 世界上第一個 M1 上跑起 Xray 的男人是 Anthony TSE
+
+<br />
+
 ## 2021.01.12
 ---
 - 将要到来的 UUID 修改, 支持自定义字符串和 UUID 之间的映射. 这意味着你将可以这样在配置文件中写id来对应用户.
