@@ -26,7 +26,7 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
       "port": 443,
       "users": [
         {
-          "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+          "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
           "encryption": "none",
           "flow": "xtls-rprx-direct",
           "level": 0
@@ -53,7 +53,7 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
   "port": 443,
   "users": [
     {
-      "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+      "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
       "encryption": "none",
       "flow": "xtls-rprx-direct",
       "level": 0
@@ -82,7 +82,7 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
 
 ```json
 {
-  "id": "27848739-7e62-4138-9fd3-098a63964b6b",
+  "id": "5783a3e7-e373-51cd-8642-c83782b807c5",
   "encryption": "none",
   "flow": "xtls-rprx-direct",
   "level": 0
@@ -91,7 +91,15 @@ VLESS 是一个无状态的轻量传输协议，它分为入站和出站两部�
 
 {{% notice dark %}} `id`: string{{% /notice %}}
 
-VLESS 的用户 ID，必须是一个合法的 UUID，你可以用 [在线工具]() 生成它。
+VLESS 的用户 ID，可以是任意小于30字节的字符串, 也可以是一个合法的UUID. </br>
+自定义字符串和其映射的 UUID 是等价的, 这意味着你将可以这样在配置文件中写id来标识同一用户,即
+  - 写    "id": "我爱🍉老师1314",
+  - 或写    "id": "5783a3e7-e373-51cd-8642-c83782b807c5" (此UUID是 `我爱🍉老师1314` 的 UUID 映射)  
+ 
+其映射标准在[VLESS UUID 映射标准：将自定义字符串映射为一个 UUIDv5](https://github.com/XTLS/Xray-core/issues/158)
+
+你可以使用命令 `xray uuid -map "自定义字符串"` 生成自定义字符串所映射的的 UUID.</br> 
+也可以使用命令 `xray uuid` 生成随机的UUID. 
 
 {{% notice dark %}} `encryption`: "none"{{% /notice %}}
 
@@ -148,44 +156,3 @@ Splice 模式的的使用限制：
 level 的值, 对应 [policy](../../base/policy#policyobject) 中 level 的值. 如不指定, 默认为 0.
 
 <br />
-
-## 配置模板
-
----
-
-[Xray-examples](https://github.com/xtls/Xray-examples) 有完整的 VLESS 配置示例供参考。（但目前不能保证其它协议的配置示例质量）
-
-</br>
-
-## 客户端开发指引
-
----
-
-1. VLESS 协议本身还会有不兼容升级，但客户端配置文件参数基本上是只增不减的。**所以如果你开发了用 core 的客户端，现在就可以适配。** iOS 客户端的协议实现则需紧跟升级。
-2. **视觉标准：UI 标识请统一用 VLESS**，而不是 VLess / Vless / vless，配置文件不受影响，代码内则顺其自然。
-3. `encryption` 应做成输入框而不是选择框，新配置的默认值应为 `none`，若用户置空则应代填 `none`。
-
-**以下为已支持图形化配置 VLESS 的部分客户端列表，推荐使用：**（按实现时间先后顺序排列）
-
-<!-- - [QXray](https://github.com/QXray/QXray)（v2.6.3+），支持 Linux、macOS、Windows
-- [XrayN](https://github.com/2dust/XrayN)（v3.21+），支持 Windows
-- [XrayNG](https://github.com/2dust/XrayNG)（v1.3.0+），支持 Android
-- [PassWall](https://github.com/xiaorouji/openwrt-package)（v3.9.35+），支持 OpenWrt
-- [XrayA](https://github.com/mzz2017/XrayA)（v1.0.0+），支持 Linux
-- [XrayU](https://github.com/yanue/XrayU)（v3.0.0+），支持 macOS -->
-
-</br>
-
-## 新型协议回落模式解析
-
----
-
-{{% badge warning %}}In progress{{% /badge %}}
-
-</br>
-
-## VLESS 分享链接标准
-
----
-
-{{% badge warning %}}In progress{{% /badge %}}

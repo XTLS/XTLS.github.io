@@ -33,3 +33,16 @@ XTLS去掉了旧时代翻墙模式中不必要的对加密数据的重复加密�
 因此XTLS数据仍然是完全TLS加密的，并且去掉了毫无意义的不必要的重复加密，而不是所谓的不完全加密。<br>
 同时外部看来流量类型和正常上网具有一致性，更具隐蔽性，是最安全的模式。
 {{% /panel %}}
+
+{{% panel theme="warning" header="**Q: 配置了XTLS, 出现 failed to use xtls-rprx-splice, maybe security is not xtls 的错误怎么办?** " %}}
+
+1. 首先请确定你的设置正确, 比如XTLS设置的位置是否写对,拼写有无错误等等.
+2. 去掉 HTTP 伪装.
+
+{{% /panel %}}
+
+{{% panel theme="warning" header="**Q: XTLS的direct和origin模式似乎不能混用?** " %}}
+
+不能, 建议使用 direct 模式.
+
+{{% /panel %}}
