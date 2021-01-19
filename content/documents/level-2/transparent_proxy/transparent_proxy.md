@@ -207,7 +207,8 @@ iptables -t mangle -A XRAY_MASK -d 网关所在网段2 -j RETURN
 ...
 iptables -t mangle -A XRAY_MASK -d VPS公网ip/32 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT ! -p icmp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ```
 但是这么配置有个缺点，如果使用CDN或者VPS很多的话，就不好写规则了。
 
