@@ -155,11 +155,13 @@ iptables -t mangle -A PREROUTING -j XRAY
 
 #代理网关本机
 iptables -t mangle -N XRAY_MASK
+iptables -t mangle -A XRAY_MASK -m owner --gid-owner 23333 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段1 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段1 -j RETURN
 ...
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT -m owner ! --gid-owner 23333 ! -p icmp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ```
 
 **代理ipv6(可选)**
@@ -183,10 +185,12 @@ ip6tables -t mangle -A XRAY6 -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 ip6tables -t mangle -A PREROUTING -j XRAY6
 
 # 代理网关本机
-ip6tables -t mangle -N XRAY6_MASK 
+ip6tables -t mangle -N XRAY6_MASK
+ip6tables -t mangle -A XRAY6_MASK -m owner --gid-owner 23333 -j RETURN
 ip6tables -t mangle -A XRAY6_MASK -d 网关所在ipv6网段1 -j RETURN
 ip6tables -t mangle -A XRAY6_MASK -d 网关所在ipv6网段2 -j RETURN
 ...
 ip6tables -t mangle -A XRAY6_MASK -j MARK --set-mark 1
-ip6tables -t mangle -A OUTPUT -m owner ! --gid-owner 23333 ! -p icmp -j XRAY6_MASK
+ip6tables -t mangle -A OUTPUT -p tcp -j XRAY6_MASK
+ip6tables -t mangle -A OUTPUT -p udp -j XRAY6_MASK
 ```
