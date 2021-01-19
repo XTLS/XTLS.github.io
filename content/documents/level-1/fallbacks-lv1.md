@@ -226,7 +226,9 @@ graph LR;
     3. `path` 为 `vmessws` 的流量，回落给端口 `3456` 后续处理 </font>
     4. 其它所有流量，回落给端口 `1310` 后续处理 </font>
 
-4. <font size=4>**上述回落结构如下图所示：**</font>
+4. <font size=4>**`xver` 为 `1` 表示开启 `proxy protocol` 功能，向后传递来源真实IP**</font>
+
+5. <font size=4>**上述回落结构如下图所示：**</font>
 
     {{<mermaid align="left">}}
 graph LR;
@@ -241,22 +243,6 @@ graph LR;
     X1 --> |其它所有流量| X1310(Xray-inbound:1310)
 
 {{< /mermaid >}}
-
-5. <font size=4>**将来源真实IP回落给后续程序**</font>
-
-    因为【回落】发生在VPS内部，所以端口的监听和流量的转发都基于内部，即 `127.0.0.1`，但这样，就会使流量统计、来源日志分析等功能失效。为了解决这个问题，回落功能贴心的提供了 `xver` 这个参数。
-
-    - `xver` 为 `1` 时，来源真实IP会一并回落
-    - `xver` 为 `0` 时，仅传递 `127.0.0.1` 
-
-    {{% notice warning  %}}
-**说明：** 需要后续程序开启 `acceptProxyProtocol` 来配合接收：
-
-如果后续处理是在 `Xray`，则在后续的 `Xray-inbound` 里面设置开启（继续往后读就知道了）
-    
-如果后续处理是在 `Nginx`, `Caddy` 等 Web 程序，则应在Web程序中设置开启，并从 `Xray` 后续配置中删除该选项，本文不展开
-{{% /notice %}}
-
 
 6. <font size=4>**网页回落不见了！**</font>
 
