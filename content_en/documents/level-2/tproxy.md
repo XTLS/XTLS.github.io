@@ -5,7 +5,7 @@ title: TProxy Configuration
 weight: 2
 ---
 
-This configuration is based on [New V2Ray vernacular tutorial on TProxy (transparent proxy)] (https://guide.v2fly.org/app/tproxy.html), adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
+This configuration is based on [New V2Ray vernacular tutorial on TProxy (transparent proxy)](https://guide.v2fly.org/app/tproxy.html), adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
 
 All the configurations in this article have been successfully tested in Raspberry Pi 2B and Ubuntu 20.04 environments. If you use them in other environments, please adjust the configuration yourself.
 
