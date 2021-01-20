@@ -174,7 +174,7 @@ Linux服务器的安全防护是一个纷繁复杂的巨大课题。无数的网
     # visudo
     ```
 
-    在 `User Priviledge Specification` 下加入一行 `vpsadmin ALL=(ALL) NOPASSWD: ALL` 即可。
+    在 `User Privilege Specification` 下加入一行 `vpsadmin ALL=(ALL) NOPASSWD: ALL` 即可。
     
 
     {{% notice warning  %}} 
