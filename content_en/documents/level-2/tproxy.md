@@ -298,7 +298,7 @@ What I want to add here is that many transparent proxy tutorials will use Netfil
 ```
 
 {{% notice %}}
-**TIP**
+**TIPs**
 
 This configuration will hijack all traffic sent to port 53 to solve the DNS pollution problem, so the address of the client and the local DNS server address of this machine can be configured at will.
 
@@ -439,7 +439,7 @@ ExecStop=/usr/sbin/nft flush ruleset ; /usr/sbin/ip route del local default dev 
 WantedBy=sysinit.target
 ```
 
-And Finally enable will be done.
+And finally enable will be done.
 {{< /tab >}}
 
 {{< tab "iptables" >}}
