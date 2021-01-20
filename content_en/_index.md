@@ -13,9 +13,10 @@ hide:
 <br />
 
 
-<div  align="center">  
-<div class="row">
-<div class="col-xs-10 offset-xs-1 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+<div  align="center"> 
+
+<div class="row justify-content-center">
+<div class="col-xs-10 col-sm-8 col-md-6 col-lg-5 col-xl-4">
 <img src="./LogoX2.png" alt="logo" align=center />
 </div>
 </div>
@@ -24,9 +25,27 @@ hide:
 
 <br />
 
+<div class="d-none d-md-block">
 <font size="6" >不 畏 浮 云 遮 望 眼  ·  金 睛 如 炬 耀 苍 穹</font>
+</div>
 
+<div class="d-block d-md-none"><div class="row justify-content-center gap-3">
+<div class="col-12 mb-2"><font size="6" >不 畏 浮 云 遮 望 眼</font></div>
+<div class="col-12"><font size="6" >金 睛 如 炬 耀 苍 穹</font></div>
+</div></div>
+
+<br class="d-block d-md-none"/>
+
+<div class="d-none d-sm-block">
 <font size="3" >K E E P &nbsp; R I D I N G &nbsp; / &nbsp; N E V E R &nbsp; L O O K &nbsp; B A C K</font>
+</div>
+
+
+
+<div class="d-block d-sm-none"><div class="row justify-content-center">
+<div class="col-12"><font size="3" >K E E P &nbsp; R I D I N G &nbsp;</font></div>
+<div class="col-12"><font size="3" >N E V E R &nbsp; L O O K &nbsp; B A C K</font></div>
+</div></div>
 
 <br/>
 
