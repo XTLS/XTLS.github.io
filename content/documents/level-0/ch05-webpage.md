@@ -115,7 +115,7 @@ weight: 5
 
     3. 让 `nginx` 重新载入配置使其生效
         ```
-        sudo systemctl reload nginx
+        $ sudo systemctl reload nginx
         ```
 
     4. 完整的设置流程如下：
