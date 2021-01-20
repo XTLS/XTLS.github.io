@@ -62,14 +62,14 @@ sudo -u xray_tproxy id
 2. 修改iptables规则，删除mark相关内容，并在OUTPUT链应用规则处添加选项"-m owner ! --gid-owner 23333"。
 
 如：
-
-`iptables -t mangle -A OUTPUT -j XRAY_SELF`
-
+```bash
+iptables -t mangle -A OUTPUT -j XRAY_SELF
+```
 改为
-
-`iptables -t mangle -A OUTPUT -m owner ! --gid-owner 23333 -j XRAY_SELF`
-
-3. 修改运行Xray的方式，使其运行在uid为0，gid为23333的用户上，参考[这里](#3-配置最大文件大开数运行Xray客户端)。
+```bash
+iptables -t mangle -A OUTPUT -m owner ! --gid-owner 23333 -j XRAY_SELF
+```
+3. 修改运行Xray的方式，使其运行在uid为0，gid为23333的用户上，参考[这里](#3-配置最大文件大开数运行xray客户端)。
 ## 下面提供一个实现tproxy全局代理的完整配置过程
 ### 1. 完成 **[前期准备](#1-前期准备)** 和 **[添加用户](#2-添加用户安卓用户请忽略)**
 ### 2. 准备Xray配置文件
