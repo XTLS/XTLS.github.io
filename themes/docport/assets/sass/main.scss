@@ -67,6 +67,7 @@ body{
         color:($c_light2);
         a, a:hover {
             color:invert($c_dark2);
+            font-weight: bold;
         }
         > div {
             display: flex; 
@@ -111,7 +112,7 @@ body{
                 a {
                     color:lighten(invert($c_dark2),4%);
                     padding: 0 1rem;
-                    font-weight: bold;
+                    font-weight: normal;
                     font-size: 90%;
                 }
             }

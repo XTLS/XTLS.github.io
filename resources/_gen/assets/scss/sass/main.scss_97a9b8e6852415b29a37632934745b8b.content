@@ -19,7 +19,8 @@ body {
     align-items: stretch;
     color: #e6e6e6; }
     body header a, body header a:hover {
-      color: #cccccc; }
+      color: #cccccc;
+      font-weight: bold; }
     body header > div {
       display: flex;
       flex-direction: row;
@@ -47,7 +48,7 @@ body {
         body header nav.shortcuts li a {
           color: #d6d6d6;
           padding: 0 1rem;
-          font-weight: bold;
+          font-weight: normal;
           font-size: 90%; }
   body article {
     background-color: white; }

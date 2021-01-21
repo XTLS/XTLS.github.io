@@ -58,20 +58,98 @@ weight: 6
 
 </br>
 
-## 6.3 申请证书
+## 6.3 测试证书申请
+
+在正式申请证书之前，我们先用测试命令(`--issue --test`)来验证是否可以成功申请，这样可以避免在本地配置有误时，反复申请证书失败，超过 Let's Encrypt 的频率上限（比如，每小时、每个域名、每个用户失败最多5次），导致后面的步骤无法进行。
+
+1. 测试证书申请的命令如下（本文均以 `ECC` 证书为例，因为时至今日，实在没什么理由不用它）：
+    ```
+    $ acme.sh --issue --test -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256
+    ```
+
+    {{% notice warning  %}} 
+**说明：** `ECC`证书的主要优势在于它的Keysize更小，意味着同等大小下安全性的提升和加密解密速度的加快。如 ECC-256bit 的强度大约相当于 RSA-3072bit，何乐而不为呢？当然，有人说ECC证书握手会明显更快，这我觉得就有些夸张了，因为RSA握手也没有太慢，就算有差别应该也是毫秒级，很难直接感知。
+
+另外，如果有些网站确实需要兼容某些古老设备的，那也还是请按需选择`RSA`证书。
+{{% /notice %}}
+
+2. 你最终应该看到类似这样的提示：
+    ```
+    [Wed 30 Dec 2022 04:25:12 AM EST] Using ACME_DIRECTORY: https://acme-staging-v02.api.letsencrypt.org/directory
+    [Wed 30 Dec 2022 04:25:13 AM EST] Using CA: https://acme-staging-v02.api.letsencrypt.org/directory
+    [Wed 30 Dec 2022 04:25:13 AM EST] Create account key ok.
+    [Wed 30 Dec 2022 04:25:13 AM EST] Registering account: https://acme-staging-v02.api.letsencrypt.org/directory
+    [Wed 30 Dec 2022 04:25:13 AM EST] Registered
+    [Wed 30 Dec 2022 04:25:13 AM EST] ACCOUNT_THUMBPRINT='CU6qmPKuRqhyTAIrF4swosR375194z_1ddUlWef8xDc'
+    [Wed 30 Dec 2022 04:25:13 AM EST] Creating domain key
+    [Wed 30 Dec 2022 04:25:13 AM EST] The domain key is here: /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/二级域名.你的域名.com.key
+    [Wed 30 Dec 2022 04:25:13 AM EST] Single domain='二级域名.你的域名.com'
+    [Wed 30 Dec 2022 04:25:13 AM EST] Getting domain auth token for each domain
+    [Wed 30 Dec 2022 04:25:14 AM EST] Getting webroot for domain='二级域名.你的域名.com'
+    [Wed 30 Dec 2022 04:25:14 AM EST] Verifying: 二级域名.你的域名.com
+    [Wed 30 Dec 2022 04:25:23 AM EST] Pending
+    [Wed 30 Dec 2022 04:25:25 AM EST] Success
+    [Wed 30 Dec 2022 04:25:25 AM EST] Verify finished, start to sign.
+    [Wed 30 Dec 2022 04:25:25 AM EST] Lets finalize the order.
+    [Wed 30 Dec 2022 04:25:25 AM EST] Le_OrderFinalize='https://acme-staging-v02.api.letsencrypt.org/acme/finalize/490205995/7730242871'
+    [Wed 30 Dec 2022 04:25:25 AM EST] Downloading cert.
+    [Wed 30 Dec 2022 04:25:25 AM EST] Le_LinkCert='https://acme-staging-v02.api.letsencrypt.org/acme/cert/xujss5xt8i38waubafz2xujss5xt8i38waubz2'
+    [Wed 30 Dec 2022 15:21:52 AM EST] Cert success.
+    -----BEGIN CERTIFICATE-----
+    sxlYqPvWreKgD5b8JyOQX0Yg2MLoRUoDyqVkd31PthIiwzdckoh5eD3JU7ysYBtN
+    cTFK4LGOfjqi8Ks87EVJdK9IaSAu7ZC6h5to0eqpJ5PLhaM3e6yJBbHmYA8w1Smp
+    wAb3tdoHZ9ttUIm9CrSzvDBt6BBT6GqYdDamMyCYBLooMyDEM4CUFsOzCRrEqqvC
+    2mTTEmhvpojo5rhdTSJxibozyNWTGwoTj0v9pTUeQcGqLIzqi4DowjBHD5guwRid
+    SjAFnm6JT2xUQgWFm58A1gv1OhbH1TRPUUmtE1nFEN7YiSjI4xgxqAXT3CLD2EUb
+    wXlUrO6c75zSsQP4bRMzgOjJUqHtSb6IEqELzt4M7KzL5iCOruCChCo2DZxUwvVX
+    tOoaAyQJzCbTqE6aUqwiKi3gVyoxvDP9mI5JdRYzsDL6GVud7EHPnYeMl9ubLZAK
+    0vg84mbMP3f6mYM4KRa1cqiyOIcQPT4AzGFYVv4sm049bZQg7sd0Bz9CaFvE7yDA
+    1y17XlgCDnsjxl66bqI1vkENN9XT5xeFHONqc18b5fZEKSIvdX7iWPFWp1PyMPpG
+    0pMCP1EymZNFxIMJLgbWqExwLWfPc5Ib3PjBaIqhXPnw6sT2MQSxXwDupq1UJVhV
+    7E3hQRVlwI4CXi6WLHJMNvNRyyK87gCrLH1bKYsPeRVaz77poWBq49zwBCts6hPY
+    IeF4ltGXyANNIOPEi8vy138fRU4LYh81d8FjOtFfJZogMjwhfNvapqxPMsioPlmX
+    TnZu0n7setrVNUEfTMHWqPpDgk5MPrWLA4LapqaDfEX4pwnQJLMwMi6s94z165c0
+    iMRSKA1yU5zqv8aNsDfPoY4OkSPWs4MaXgRRSLBsUfZ15DwQXPk76kegHIyxWvwF
+    tYw9HKR5QCMK66fa0z4aJoFVFLK0IIOGEZOanRFUCnkLUDd3QZ3YU8lEcrj7Uxos
+    haiRNICyC6UfsCJ94a8vcNyMosPv3xBLMp19WXgiFYqEFQkntkv1FLRI35fjeJmg
+    0fmD9VG9bkzGPHihJgQLRlCHasGf6XrdfkSsODAyCUHUHJ0RzqF4YEZMcxDxzuQ2
+    YO7bFwj7S3mUdVPZ6MPasjxdyBjJgEBMch2uy4AhmudXfEBQBye8W6ZI4ztZjLVV
+    FmP4SIuaNUmMe20TjR8b9NVC96AhxOanWT3mRROsdokpKQGTJvl27EHH8KuAbUOc
+    G6KtPy4wslNZNXWcBy9n63RcWak12r7kAIFn38tZxmlw2WUKoRSMAH64GcDTjRQd
+    Am65hBHzvGrj93wEuVNIebvNIsJOlng3HFjpIxVqKGMCIfWIKGDE3YzK3p4LbGZ6
+    NZFQWYJLNVf2M9CCJfbEImPYgvctrxl39H6KVYPCw1SAdaj9NneUqmREOQkKoEB0
+    x6PmNirbMscHhQPSC0JQaqUgaQFgba1ALmzRYAnYhNb0twkTxWbY7DBkAarxqMIp
+    yiLKcBFc5H7dgJCImo7us7aJeftC44uWkPIjw9AKH=
+    -----END CERTIFICATE-----
+    [Wed 30 Dec 2022 15:21:52 AM EST] Your cert is in  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/二级域名.你的域名.com.cer
+    [Wed 30 Dec 2022 15:21:52 AM EST] Your cert key is in  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/二级域名.你的域名.com.key
+    [Wed 30 Dec 2022 15:21:52 AM EST] The intermediate CA cert is in  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/ca.cer
+    [Wed 30 Dec 2022 15:21:52 AM EST] And the full chain certs is there:  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/fullchain.cer
+    ```
+
+3. 注意：这里申请的是测试证书，没办法直接用的，只是用来证明你的域名、配置全都正确。仔细观察，你会发现给你发证书的域名是 `https://acme-staging-v02.api.letsencrypt.org`，这个 `staging` 你就理解成【测试服】吧！
+
+4. 如果这一步出错的话，你可以运行下面的命令，来查看详细的申请过程和具体的错误。（看不懂就隐藏掉敏感信息后，去Xray群里问吧）
+    ```
+    $ acme.sh --issue --test -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256 --debug
+    ```
+
+    嗯没错，就是在命令的最后加了一个 `--debug` 参数
+
+5. 这一步确定成功之后，就可以申请正式的证书了。（测试证书不需要删除，它会自动被正式证书覆盖）
+
+
+</br>
+
+## 6.4 正式证书申请
 ---
 
-1. 申请证书的命令如下，本文以ECC证书为例：
+1. 申请正式证书的命令如下（即删掉 `--test` 参数）：
     ```
     $ acme.sh --issue -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256
     ```
 
-    {{% notice warning  %}} 
-**说明：** 目前没有任何理由不用ECC证书，因为它的Keysize更小，意味着安全性的提升和加密解密速度的加快。如 ECC-256bit 的强度大约相当于 RSA-3072bit，何乐而不为呢？当然有人说ECC证书握手会明显更快，这我觉得就有些夸张了，因为RSA握手也没有太慢，就算有差别应该也是毫秒级，很难直接感知。
-{{% /notice %}}
-
-
-2. 你最终应该看到类似这样的提示：
+2. 你最终应该看到跟上面很像的提示：
     ```
     vpsadmin@vps-server:~$ acme.sh --issue -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256
     [Wed 30 Dec 2022 15:22:51 AM EST] Using CA: https://acme-v02.api.letsencrypt.org/directory
@@ -121,9 +199,12 @@ weight: 6
     [Wed 30 Dec 2022 15:22:52 AM EST] And the full chain certs is there:  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/fullchain.cer
     ```
 
+3. 仔细观察，你会发现这次给你发证书的域名是 `https://acme-v02.api.letsencrypt.org`，少了 `staging`，自然就是【正式服】了！
+
+
 </br>
 
-## 6.4 你的进度
+## 6.5 你的进度
 ---
 
 至此，Xray所需要的两个基础设施终于全部就位！千呼万唤始出来的Xray马上就要揭开面纱，我们终于要进入最激动人心章节啦！
