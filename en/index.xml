@@ -244,7 +244,7 @@ http inbound 更有意义的用法是在局域网或本机环境下监听，为�
 TIP
 http proxy 只能代理 tcp 协议，udp 系的协议均不能通过。
 OutboundConfigurationObject { &amp;#34;servers&amp;#34;: [ { &amp;#34;address&amp;#34;: &amp;#34;192.168.108.1&amp;#34;, &amp;#34;port&amp;#34;: 3128, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;my-username&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;my-password&amp;#34; } ] } ] } TIP
-目前 HTTP 协议 ounbound 中 streamSettings 设置 security 和 tlsSettings 是生效的。
+目前 HTTP 协议 outbound 中 streamSettings 设置 security 和 tlsSettings 是生效的。
 servers: [ ServerObject ]
 HTTP 服务器列表，其中每一项是一个服务器配置，若配置多个，循环使用 (RoundRobin)。
 ServerObject { &amp;#34;address&amp;#34;: &amp;#34;192.168.108.1&amp;#34;, &amp;#34;port&amp;#34;: 3128, &amp;#34;users&amp;#34;: [ { &amp;#34;user&amp;#34;: &amp;#34;my-username&amp;#34;, &amp;#34;pass&amp;#34;: &amp;#34;my-password&amp;#34; } ] } address: string</description></item><item><title>mKCP</title><link>https://xtls.github.io/en/config/transports/mkcp/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/config/transports/mkcp/</guid><description>mKCP 使用 UDP 来模拟 TCP 连接。
