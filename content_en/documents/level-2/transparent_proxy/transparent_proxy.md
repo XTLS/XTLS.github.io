@@ -53,48 +53,48 @@ The traffic direction of LAN devices accessing the Internet through the router:
 
 `PREROUTING CHAIN->FORWARD CHAIN->POSTINGROUTING CHAIN`
 
-LAN device to access the router traffic (such as  login router web management interface / ssh connection router / access dns servers of router, etc.) direction:
+LAN device to access the router traffic (such as login router web management interface / ssh connection router / access dns servers of router, etc.) direction:
 
 `PREROUTING CHAIN->INPUT CHAIN->Gateway native`
 
-路由器访问互联网的流量方向：
+The direction of traffic from the router access to the Internet:
 
-`网关本机->OUTPUT链->POSTINGROUTING链`
+`Gateway Native->OUTPUT CHAIN->POSTINGROUTING CHAIN`
 
-**通过使用iptables操控`PREROUTING链`和`OUTPUT链`的流量走向，转发到Xray，就可以代理局域网设备和网关本机。**
-## 透明代理难在哪里
+**By using iptables to manipulate the traffic direction of `PREROUTING CHAIN` and `OUTPUT CHAIN`, and forward it to Xray, it can proxy LAN equipment and gateway native.**
+## Where is the difficulty of transparent proxy?
 
-透明代理的难点就在于路由，所谓路由，就是区分哪些流量是直连的，哪些该被代理，所以我个人认为叫做**分流**更加合适。
+The difficulty of transparent proxy lies in routing. The so-called routing is to distinguish which traffic is directly connected and which should be proxied, so I personally think that it is more appropriate to call it **Diversion**.
 
-我们可以把路由由易到难分为以下几个阶段：
+We can divide routing from easy to difficult into the following stages:
 
-1. 代理全部请求
+1. Proxy all the requests.
 
-2. 本地局域网IP/组播IP请求直连，其它请求代理
+2. Local LAN IP / Multicast IP request direct connection，others request proxy.
 
-3. 在2的基础上直连Xray发起的连接请求
+3. Directly connect the connection request which initiated by Xray on the basic of the second point.
 
-4. 在3的基础上直连指向中国大陆IP的连接请求，并对国内外域名选择国内外DNS服务器解析。
+4. On the basis of the third point, directly connect to the connection request pointing to the IP in mainland China, and select the domestic and foreign DNS server to resolve the domestic and foreign domain names.
 
-上面说的三篇教程，都是在第四阶段。所以新手直接阅读可能显得有点难懂。
+The three tutorials mentioned above are all in the fourth stage. So it may seem a bit difficult to understand for novices to read directly.
 
-## 从零开始一步步实现基于iptables-tproxy的透明代理
-### 在开始之前，你需要有一定的基础知识：
-1. 大概知道什么是TCP/IP协议、域名和DNS服务器
+## Step by step implementation of transparent proxy based on iptables-tproxy from zero
+### Before the start, you need to have certain basic knowledge:
+1. You need to know about TCP/IP protocol, domain name and DNS server.
 
-2. 知道什么是WAN口，LAN口，LAN_IP，WAN_IP以及DHCP服务器。对于旁路由，只有一个网口，这里称其为LAN口
+2. Know what is WAN port, LAN port, LAN_IP, WAN_IP and DHCP server. For the bypass route, there is only one network port, which is called the LAN port here
 
-3. 对Linux系统有最基础的了解(知道怎么运行命令)
+3. Have the most basic understanding of the Linux system (know how to run commands)
 
-4. 能够手写客户端json文件配置，至少要能看懂
-### 前期准备工作
-**1. 准备一个运行Linux系统的网关**
+4. Be able to write the client json file configuration, and at least the configuration can be understood.
+### Initial Preparation Work
+**1. Prepare a gateway running Linux system**
 
-比如，刷了OpenWRT的路由器
+For example, a router with OpenWRT.
 
-**2. 在网关(路由器)准备好Xray可执行文件以及配置文件**
+**2. Prepare Xray executable files and configuration files at the gateway (router)**
 
-配置文件监听12345端口，开启tproxy：
+The configuration file monitors port 12345 and enables tproxy:
 ```json
 {
   "log": {
@@ -117,16 +117,16 @@ LAN device to access the router traffic (such as  login router web management in
   ],
   "outbounds": [
     {
-       你的服务器配置
+       The configuration of your server
     }
   ]
 }
 ```
-我们由易到难，不写routing，只写一个inbound一个outbound。
-### 首先，我们先试试做到第一阶段
-将所有`PREROUTING链`的流量，都转发到Xray中。
+We start from easy to difficult. Without writing routing, we only write one inbound and one outbound.
+### First, let’s try to do the first stage
+Forward all traffic of the `PREROUTING CHAIN` to Xray.
 
-运行Xray，执行以下指令：
+Run Xray and execute the following commands:
 ```bash
 ip rule add fwmark 1 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
@@ -162,8 +162,8 @@ iptables -t mangle -N XRAY
 
 # 所有目标地址在网关所在网段的请求直连
 # 通过运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，一般来说有多个
-iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
-iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
+iptables -t mangle -A XRAY -d Network segment 1 where the gateway is located -j RETURN
+iptables -t mangle -A XRAY -d Network segment 2 where the gateway is located -j RETURN
 ...
 
 # 目标地址为组播IP的请求直连
@@ -186,7 +186,7 @@ iptables-tproxy do not support `OUTPUT CHAIN` operation，but `Netfilter` has a 
 
 If you want to proxy all the requests sent by the gateway native, it will introduce a problem, Xray runs on the gateway, Xray sends a request to the proxy server, and the request is proxied again, will form a loop.
 
-因此要代理网关本机，就要避免回环发生，即代理规则中规避Xray请求的流量。
+Therefore, to proxy the gateway native, it is necessary to avoid loopback happening, that is, to circumvent Xray request traffic in proxy rules.
 
 **常见的方法有三种：**
 
@@ -195,12 +195,12 @@ If you want to proxy all the requests sent by the gateway native, it will introd
 重启网关，运行Xray，执行以下指令：
 ```bash
 #Proxy LAN Device
-#继承上一个阶段的成果
+#Inherit the results of the previous stage
 ip rule add fwmark 1 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
 iptables -t mangle -N XRAY
-iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
-iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
+iptables -t mangle -A XRAY -d Network segment 1 where the gateway is located -j RETURN
+iptables -t mangle -A XRAY -d Network segment 2 where the gateway is located -j RETURN
 ...
 iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
@@ -208,27 +208,27 @@ iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A PREROUTING -j XRAY
 
-#代理网关本机
+#Proxy Gateway Native
 iptables -t mangle -N XRAY_MASK
-iptables -t mangle -A XRAY_MASK -d 网关所在网段1 -j RETURN
-iptables -t mangle -A XRAY_MASK -d 网关所在网段2 -j RETURN
+iptables -t mangle -A XRAY_MASK -d Network segment 1 where the gateway is located -j RETURN
+iptables -t mangle -A XRAY_MASK -d Network segment 2 where the gateway is located -j RETURN
 ...
 iptables -t mangle -A XRAY_MASK -d 224.0.0.0/4 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 255.255.255.255/32 -j RETURN
-iptables -t mangle -A XRAY_MASK -d VPS公网ip/32 -j RETURN
+iptables -t mangle -A XRAY_MASK -d VPS Public IP/32 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
 iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
 iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ```
-但是这么配置有个缺点，如果使用CDN或者VPS很多的话，就不好写规则了。
+But to configure like this has a disadvantage. If you use CDN or have a lot of VPS, it is hard to write rules.
 
-2. 通过mark规避
+2. Circumvent through Mark
 
-三个白话文教程都是使用这种方法规避，自行参考，这里不再赘述。
+The three vernacular tutorials all use this method to circumvent, and refer it by yourself, so I won't repeat them here.
 
-3. 通过gid规避(推荐)
+3. Circumvent through gid (recommended)
 
-参考 **[[透明代理]通过gid规避Xray流量](../../iptables_gid)**
+Reference **[[透明代理]通过gid规避Xray流量](../../iptables_gid)**
 
 这样就完成了第三阶段的代理，也就是平时说的全局代理。但是记得把网关的DNS服务器设置为国外的DNS服务器，否则可能依然返回被污染的结果。
 
@@ -245,7 +245,7 @@ iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 
 2. **[新 V2Ray 白话文指南-透明代理(TPROXY)#设置网关](https://guide.v2fly.org/app/tproxy.html#设置网关)** 中的第三条说：`手动配置 PC 的网络，将默认网关指向树莓派的地址即 192.168.1.22。此时 PC 应当能正常上网（由于还没设置代理，“正常”是指可以上国内的网站）`。实际上，Ubuntu、CentOS、debian等系统就算开启了IP转发，PC也不能正常上网，这是正常的。事实上只有OpenWRT能做到文中所描述的那样，据 **[@BioniCosmos](https://github.com/BioniCosmos)** 点拨，这是由于一般的Linux系统没有Masquery规则。
 
-3. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
+3. **[The Problem of "Too many open files"](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
 
 4. 关于开启ip_forward，待补充...
 
