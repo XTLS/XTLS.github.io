@@ -81,6 +81,9 @@ weight: 7
 - 启动内存占用有人很少, 有人很多, 有人忽大忽小
 - 名侦探们为了寻求真相, 开始了探索, 然而他们一开始甚至摸索到了错误的方向...
 - 当然最终, 他们解开了谜底, 并且让启动内存占用终于完美.
+{{% notice danger 相关卷宗 %}}
+- [希望能够优化一下内存占用](https://github.com/XTLS/Xray-core/issues/68) 
+{{% /notice %}}
 {{% notice success 经办 %}} 
 <img src="https://avatars2.githubusercontent.com/u/71564206?s=60" width="32px" height="32px" alt="a"/>[@rprx](https://github.com/rprx)
 <img src="https://avatars2.githubusercontent.com/u/15129300?s=60" width="32px" height="32px" alt="a"/>[@AT!Mi](https://github.com/timi-owo)

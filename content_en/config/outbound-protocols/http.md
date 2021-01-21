@@ -41,7 +41,7 @@ HTTP 协议。
 
 {{% notice info %}}
 **TIP**\
-目前 HTTP 协议 ounbound 中 `streamSettings` 设置 `security` 和 `tlsSettings` 是生效的。
+目前 HTTP 协议 outbound 中 `streamSettings` 设置 `security` 和 `tlsSettings` 是生效的。
 {{% /notice %}}
 
 {{% notice dark %}} `servers`: \[ [ServerObject](#serverobject) \]{{% /notice %}}

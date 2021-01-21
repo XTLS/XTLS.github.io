@@ -11,11 +11,11 @@ weight: 8
 
 传输方式（transport）配置有两部分: 
 1. 全局设置（[TransportObject](#transportobject)）
-2. 指定inbound/ounbound配置（[StreamSettingsObject](#streamsettingsobject)）。
+2. 指定inbound/outbound配置（[StreamSettingsObject](#streamsettingsobject)）。
 
-   指定inbound/ounbound配置时,可以指定每个单独的inbound/ounbound用怎样的方式传输。
+   指定inbound/outbound配置时,可以指定每个单独的inbound/outbound用怎样的方式传输。
    
-   通常来说客户端和服务器对应的inbound和ounbound需要使用同样的传输方式。当inbound/ounbound配置指定了一种传输方式，但没有填写其具体设置时，此传输方式会使用全局配置中的设置。
+   通常来说客户端和服务器对应的inbound和outbound需要使用同样的传输方式。当inbound/outbound配置指定了一种传输方式，但没有填写其具体设置时，此传输方式会使用全局配置中的设置。
 
 <br />
 ## TransportObject
@@ -62,7 +62,7 @@ weight: 8
 <br />
 ## StreamSettingsObject
 ---
-`StreamSettingsObject` 对应inbound/outbound中的 `streamSettings` 项。每一个 inbound/ounbound 都可以分别配置不同的传输配置，都可以设置 `streamSettings` 来进行一些传输的配置。
+`StreamSettingsObject` 对应inbound/outbound中的 `streamSettings` 项。每一个 inbound/outbound 都可以分别配置不同的传输配置，都可以设置 `streamSettings` 来进行一些传输的配置。
 
 ```json
 {
