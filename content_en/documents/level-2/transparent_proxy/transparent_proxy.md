@@ -70,7 +70,7 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 
 1. 代理全部请求
 
-2. 本地局域网IP请求直连，其它请求代理
+2. 本地局域网IP/组播IP请求直连，其它请求代理
 
 3. 在2的基础上直连Xray发起的连接请求
 
@@ -144,7 +144,7 @@ iptables -t mangle -A PREROUTING -j XRAY
 ip rule add fwmark 1 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
 iptables -t mangle -N XRAY
-#网关LAN_IP地址段，运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，是其中的一个
+# "网关LAN_IP地址段" 通过运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，是其中的一个
 iptables -t mangle -A XRAY ! -s 网关LAN_IP地址段 -j RETURN
 iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
@@ -152,18 +152,24 @@ iptables -t mangle -A PREROUTING -j XRAY
 ```
 然后你会发现，虽然ssh连接断开了，但是透明代理已经可用了。只要我们修改系统dns为公共dns，就能正常上网了(因为现在网关访问不了，所以dns设置为网关是不行的)。
 
-至此，第一阶段就完成了。之所以无法访问网关，是因为代理规则代理了全部流量，包括访问网关的流量。试想在VPS上访问你本地的网关，肯定是访问不了的。
-### 接下来我们试试实现第二阶段
+至此，第一阶段就完成了。之所以无法访问网关，是因为代理规则代理了全部流量，包括访问网关的流量。试想在VPS上访问你本地的网关，肯定是访问不了的，所以我们要对这部分流量直连，请看第二阶段：
+### 第二阶段
 重启网关，运行Xray，执行以下指令：
 ```bash
 ip rule add fwmark 1 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
 iptables -t mangle -N XRAY
-#所有目标地址在网关所在网段的请求直连
-#通过运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，一般来说有多个
+
+# 所有目标地址在网关所在网段的请求直连
+# 通过运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，一般来说有多个
 iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
 ...
+
+# 目标地址为组播IP的请求直连
+iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
+
 iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A PREROUTING -j XRAY
@@ -196,6 +202,8 @@ iptables -t mangle -N XRAY
 iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
 ...
+iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
 iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A PREROUTING -j XRAY
@@ -205,9 +213,12 @@ iptables -t mangle -N XRAY_MASK
 iptables -t mangle -A XRAY_MASK -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在网段2 -j RETURN
 ...
+iptables -t mangle -A XRAY_MASK -d 224.0.0.0/4 -j RETURN
+iptables -t mangle -A XRAY_MASK -d 255.255.255.255/32 -j RETURN
 iptables -t mangle -A XRAY_MASK -d VPS公网ip/32 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT ! -p icmp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ```
 但是这么配置有个缺点，如果使用CDN或者VPS很多的话，就不好写规则了。
 
@@ -239,3 +250,5 @@ iptables -t mangle -A OUTPUT ! -p icmp -j XRAY_MASK
 4. 关于开启ip_forward，待补充...
 
 5. 避免已有连接的包二次通过 TPROXY ,待补充...
+
+6. 主路由、单臂路由与旁路由，待补充...
