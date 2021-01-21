@@ -40,22 +40,22 @@ iptables & nftables are the same way to implemented Transparent Proxy，and the 
 
 The Transparent Proxy which based on iptables only available in Linux system(concluding Openwrt/Android). For its more efficiency than tun2socks and it is suitable on router, make it be widely used.
 
-现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： **[新 V2Ray 白话文指南-透明代理](https://guide.v2fly.org/app/transparent_proxy.html)** 、 **[新 V2Ray 白话文指南-透明代理(TPROXY)](https://guide.v2fly.org/app/tproxy.html)** 、 **[透明代理（TProxy）配置教程](../../tproxy)** 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
+The existing three vernacular transparent proxy tutorials actually talk about this transparent proxy implementation based on this scheme，they are： **[New V2Ray vernacular tutorials-Transparent Proxy](https://guide.v2fly.org/app/transparent_proxy.html)** , **[New V2Ray vernacular tutorials-TPROXY](https://guide.v2fly.org/app/tproxy.html)** 、 **[Tproxy Configuration](../../tproxy)** . And the first article is based on iptables-redirect mode, but is outdated and not recommended for use, only reference. The second and third articles talk about the implementation of transparent proxy based on iptables-tproxy mode.
 
-## iptables实现透明代理原理
-Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
+## iptables implement the principle of transparent proxy
+Linux use `Netfilter` to manage network，the `Netfilter` model is as follows:
 
 ![Netfilter](../netfilter.png)
 
-**假设使用路由器作为网关(即我们平时的上网方式)，那么：**
+**Assuming that a router is used as a gateway (that is, our usual way of surfing the Internet), then:**
 
-局域网设备通过路由器访问互联网的流量方向：
+The traffic direction of LAN devices accessing the Internet through the router:
 
-`PREROUTING链->FORWARD链->POSTINGROUTING链`
+`PREROUTING CHAIN->FORWARD CHAIN->POSTINGROUTING CHAIN`
 
-局域网设备访问路由器的流量(如登陆路由器web管理界面/ssh连接路由器/访问路由器的dns服务器等)方向：
+LAN device to access the router traffic (such as  login router web management interface / ssh connection router / access dns servers of router, etc.) direction:
 
-`PREROUTING链->INPUT链->网关本机`
+`PREROUTING CHAIN->INPUT CHAIN->Gateway native`
 
 路由器访问互联网的流量方向：
 
@@ -178,13 +178,13 @@ iptables -t mangle -A PREROUTING -j XRAY
 
 至此，第二阶段完成。网关已经可以访问，ssh不会断开。
 
-### 第三阶段
+### The third phase
 
-我们平时用的DNS一般来自路由器，但这个iptables规则只代理了局域网中的设备，却没有代理网关本机，这样返回的DNS查询结果可能是错误的或者污染的。
+The DNS we usually use comes from routers, but this iptables rule only proxies the devices in the local area network, but does not proxy the gateway native, so the returned DNS query results may be wrong or polluted.
 
-iptables-tproxy不支持对`OUTPUT链`操作，但是`Netfilter`有个特性，在`OUTPUT链`给包打标记为`1`后相应的包会重路由到`PREROUTING链`上。所以我们就给网关本机需要代理的请求在`OUTPUT链`上标记`1`即可。
+iptables-tproxy do not support `OUTPUT CHAIN` operation，but `Netfilter` has a feature，after marking the packet as `1` at `OUTPUT CHAIN` , the corresponding packet will be rerouted to the `PREROUTING CHAIN`. Therefore, the request that the gateway native needs to proxy, we can mark `1` at `OUTPUT CHAIN` .
 
-如果要代理网关本机发出的的全部请求，就会引入一个问题，Xray运行在网关，Xray向代理服务端发送请求，这个请求又被代理了，就形成了回环。
+If you want to proxy all the requests sent by the gateway native, it will introduce a problem, Xray runs on the gateway, Xray sends a request to the proxy server, and the request is proxied again, will form a loop.
 
 因此要代理网关本机，就要避免回环发生，即代理规则中规避Xray请求的流量。
 
@@ -194,7 +194,7 @@ iptables-tproxy不支持对`OUTPUT链`操作，但是`Netfilter`有个特性，�
 
 重启网关，运行Xray，执行以下指令：
 ```bash
-#代理局域网设备
+#Proxy LAN Device
 #继承上一个阶段的成果
 ip rule add fwmark 1 table 100
 ip route add local 0.0.0.0/0 dev lo table 100
