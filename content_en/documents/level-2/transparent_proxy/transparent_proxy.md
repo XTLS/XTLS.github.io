@@ -40,7 +40,7 @@ iptables & nftables are the same way to implemented Transparent Proxy，and the 
 
 The Transparent Proxy which based on iptables only available in Linux system(concluding Openwrt/Android). For its more efficiency than tun2socks and it is suitable on router, make it be widely used.
 
-The existing three vernacular transparent proxy tutorials actually talk about this transparent proxy implementation based on this scheme，they are： **[New V2Ray vernacular tutorials-Transparent Proxy](https://guide.v2fly.org/app/transparent_proxy.html)** , **[New V2Ray vernacular tutorials-TPROXY](https://guide.v2fly.org/app/tproxy.html)** 、 **[Tproxy Configuration](../../tproxy)** . And the first article is based on iptables-redirect mode, but is outdated and not recommended for use, only reference. The second and third articles talk about the implementation of transparent proxy based on iptables-tproxy mode.
+The existing three vernacular transparent proxy tutorials actually talk about this transparent proxy implementation based on this scheme，they are： **[New V2Ray vernacular tutorials-Transparent Proxy](https://guide.v2fly.org/app/transparent_proxy.html)** , **[New V2Ray vernacular tutorials-TPROXY](https://guide.v2fly.org/app/tproxy.html)** , **[Tproxy Configuration](../../tproxy)** . And the first article is based on iptables-redirect mode, but is outdated and not recommended for use, only reference. The second and third articles talk about the implementation of transparent proxy based on iptables-tproxy mode.
 
 ## iptables implement the principle of transparent proxy
 Linux use `Netfilter` to manage network，the `Netfilter` model is as follows:
