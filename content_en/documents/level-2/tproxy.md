@@ -5,7 +5,7 @@ title: TProxy Configuration
 weight: 2
 ---
 
-This configuration is based on [New V2Ray vernacular tutorial on TProxy (transparent proxy)] (https://guide.v2fly.org/app/tproxy.html), adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
+This configuration is based on [New V2Ray vernacular tutorial on TProxy (transparent proxy)](https://guide.v2fly.org/app/tproxy.html) , adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
 
 All the configurations in this article have been successfully tested in Raspberry Pi 2B and Ubuntu 20.04 environments. If you use them in other environments, please adjust the configuration yourself.
 
@@ -13,7 +13,7 @@ All the configurations in this article have been successfully tested in Raspberr
 
 Please check if your device has an available network connection, and the server has been configured successfully, the client has been installed.
 
-It should be noticed that many transparent proxy tutorials currently open the IP forwarding of the Linux system, but this will cause the performance decreasing of Splice. For details, please refer to [Chapter 3 "Record of solving the Big case"--How we cracked the mystery of Splice performance degradation even lower than Direct performance](https://github.com/XTLS/Xray-core/discussions/59)。
+It should be noticed that many transparent proxy tutorials currently open the IP forwarding of the Linux system, but this will cause the performance decreasing of Splice. For details, please refer to [Chapter 3 "Record of solving the Big case"--How we cracked the mystery of Splice performance degradation even lower than Direct performance](https://github.com/XTLS/Xray-core/discussions/59).
 
 What I want to add here is that many transparent proxy tutorials will use Netfilter to diverse traffic, so that direct traffic is sent directly without going through Xray. At this time, IP forwarding must be enabled; And some tutorials, such as this article, will import all traffic into Xray. And then Xray's routing module performs traffic distribution, and there is no need to enable IP forwarding at this time.
 
@@ -298,7 +298,7 @@ What I want to add here is that many transparent proxy tutorials will use Netfil
 ```
 
 {{% notice %}}
-**TIP**
+**TIPs**
 
 This configuration will hijack all traffic sent to port 53 to solve the DNS pollution problem, so the address of the client and the local DNS server address of this machine can be configured at will.
 
@@ -364,7 +364,7 @@ table ip xray {
 {{% notice %}}
 **Instructions**
 
-Write the above configuration into a file (such as `nft.conf`), then grant the file executable permissions, and finally execute the file with root permissions（`# ./nft.conf`）。
+Write the above configuration into a file (such as `nft.conf`), then grant the file executable permissions, and finally execute the file with root permissions（`# ./nft.conf`）.
 {{% /notice %}}
 {{% /tab %}}
 
@@ -414,7 +414,7 @@ After the configuration is complete, change the default gateway of other devices
 {{< tabs >}}
 
 {{% tab "nftables" %}}
-First move the edited nftables configuration file to the `/etc` directory，and rename it to `nftables.conf`. And then edit `/lib/systemd/system/nftables.service`.
+First move the edited nftables configuration file to the `/etc` directory, and rename it to `nftables.conf`. And then edit `/lib/systemd/system/nftables.service`.
 
 ```ini
 [Unit]
@@ -439,7 +439,7 @@ ExecStop=/usr/sbin/nft flush ruleset ; /usr/sbin/ip route del local default dev 
 WantedBy=sysinit.target
 ```
 
-And Finally enable will be done.
+And finally enable will be done.
 {{< /tab >}}
 
 {{< tab "iptables" >}}
