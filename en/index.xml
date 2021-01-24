@@ -27,7 +27,8 @@ OutboundConfigurationObject { &amp;#34;response&amp;#34;: { &amp;#34;type&amp;#3
 Blackhole 会在收到待转发数据之后，发送指定的响应数据，然后关闭连接，待转发的数据将被丢弃。 如不指定此项，Blackhole 将直接关闭连接。
 ResponseObject { &amp;#34;type&amp;#34;: &amp;#34;none&amp;#34; } type: &amp;ldquo;http&amp;rdquo; | &amp;ldquo;none&amp;rdquo;
 当 type 为 &amp;quot;none&amp;quot;（默认值）时，Blackhole 将直接关闭连接。
-当 type 为 &amp;quot;http&amp;quot; 时，Blackhole 会发回一个简单的 HTTP 403 数据包，然后关闭连接。</description></item><item><title>TCP</title><link>https://xtls.github.io/en/config/transports/tcp/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/config/transports/tcp/</guid><description>TCP 传输模式是目前推荐使用的传输模式之一.
+当 type 为 &amp;quot;http&amp;quot; 时，Blackhole 会发回一个简单的 HTTP 403 数据包，然后关闭连接。</description></item><item><title>Getting Started with Transparent Proxy</title><link>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</guid><description>What is Transparent Proxy(TProxy)? General speaking the Transparent Proxy is not let the device which has been proxied feeling itself to be proxied, further speaking is the proxied device do not need to run any proxy software(such as Xray, V2rayNG and so on). When you connected to the network, your device has been proxied.
+And it means that, the proxy software is running in other places, such as running in the router, all the devices connected to the Internet via the router can automatically be proxied.</description></item><item><title>TCP</title><link>https://xtls.github.io/en/config/transports/tcp/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/config/transports/tcp/</guid><description>TCP 传输模式是目前推荐使用的传输模式之一.
 可以和各种协议有多种组合模式.
 TcpObject TcpObject 对应传输配置的 tcpSettings 项。
 { &amp;#34;acceptProxyProtocol&amp;#34;: false, &amp;#34;header&amp;#34;: { &amp;#34;type&amp;#34;: &amp;#34;none&amp;#34; } } acceptProxyProtocol: true | false
@@ -53,24 +54,7 @@ git clone https://github.com/XTLS/Xray-core.git
 go env -w GOPROXY=https://goproxy.io,direct
 手工编译 important本小节的命令需要在 Xray 项目根目录内运行。
 在 Linux 环境下, 只需执行以下命令, 即可在当前目录下生成刚构建的 xray 可执行文件。
-CGO_ENABLED=0 go build -o xray -trimpath -ldflags &amp;#34;-s -w -buildid=&amp;#34; ./main 如果需要编译可以进行debug的程序,即可以用dlv附加到运行的程序进行调试, 请去掉 ldflags 中的 &amp;lsquo;-w -s&amp;rsquo; 选项.</description></item><item><title>透明代理入门</title><link>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</guid><description>什么是透明代理 透明代理简单地说就是不让被代理的设备感觉到自己被代理了。简单地说就是，被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备已经被代理了。
-这也意味着，代理的软件运行在别的地方，比如运行在路由器中，通过路由器上网的设备就自动被代理了。
-透明代理的实现 透明代理的实现目前主要有两种方式：
-tun2socks 可用Windows/Linux(包括安卓)实现。因为实现过程比较简单，很少有教程，我这里简单描述一下。
-Windows
-安装 Netch ，使用模式[3] [TUN/TAP] 绕过局域网启动。
-开启热点
-打开控制面板-&amp;gt;网络和 Internet-&amp;gt;网络和共享中心-&amp;gt;更改适配器设置，找到TAP-Windows Adapter和Microsoft Wi-Fi Direct Virtual Adapter。
-鼠标右键点击TAP-Windows Adapter，属性-&amp;gt;共享，勾选允许其他网络用户通过此计算机的 Internet 连接来连接，在家庭网络连接中选择Microsoft Wi-Fi Direct Virtual Adapter的那个网络连接，点击确定。
-Android
-配置连接V2RayNG
-开启热点
-热点设置 -&amp;gt; 允许热点使用VPN(部分安卓系统可能没有这个选项)
-iptables/nftables iptables与nftables实现透明代理的原理相同，下文统一使用iptables。
-基于iptables的透明代理实现只能用于Linux系统(包括openwrt/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
-现存的三篇白话文透明代理教程其实讲的都是这种基于这种方案的透明代理实现，它们是： 新 V2Ray 白话文指南-透明代理 、 新 V2Ray 白话文指南-透明代理(TPROXY) 、 透明代理（TProxy）配置教程 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
-iptables实现透明代理原理 Linux使用Netfilter来管理网络，Netfilter模型如下：
-假设使用路由器作为网关(即我们平时的上网方式)，那么：</description></item><item><title>Download and install</title><link>https://xtls.github.io/en/guide/install/</link><pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/guide/install/</guid><description>Platform support Xray is available in the following platforms.
+CGO_ENABLED=0 go build -o xray -trimpath -ldflags &amp;#34;-s -w -buildid=&amp;#34; ./main 如果需要编译可以进行debug的程序,即可以用dlv附加到运行的程序进行调试, 请去掉 ldflags 中的 &amp;lsquo;-w -s&amp;rsquo; 选项.</description></item><item><title>Download and install</title><link>https://xtls.github.io/en/guide/install/</link><pubDate>Fri, 17 Jan 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/guide/install/</guid><description>Platform support Xray is available in the following platforms.
 Windows 7 and later (x86 / amd64 / arm32). macOS 10.10 Yosemite and later (amd64). Linux 2.6.23 and later (x86 / amd64 / arm / arm64 / mips64 / mips / ppc64 / s390x / riscv64). Including but not limited to Debian 7 / 8, Ubuntu 12.04 / 14.04 and later, CentOS 7 / 8, Arch Linux, etc. FreeBSD (x86 / amd64).</description></item><item><title>【第2章】原料准备篇</title><link>https://xtls.github.io/en/documents/level-0/ch02-preparation/</link><pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-0/ch02-preparation/</guid><description>这一章比较特殊，因为涉及到金钱交易行为，本文基于项目的中立立场，不做具体的推荐。我能做的，是告诉你需要准备哪些东西。
 2.1 获取一台VPS 你需要获取一台健康的、IP没有被墙的VPS，并在管理后台做下面这些基础准备：
 在VPS的后台安装 Debian 10 64bit 系统 小本本记下VPS的IP地址（本文会用 &amp;quot;100.200.300.400&amp;quot; 来表示） 注意： 这是一个故意写错的非法IP，请替换成你的真实IP）
@@ -102,7 +86,7 @@ timeout: number
 连接空闲的时间限制。单位为秒。默认值为 300。处理一个连接时，如果在 timeout 时间内，没有任何数据被传输，则中断该连接。
 followRedirect: true | false
 当值为 true 时，dokodemo-door 会识别出由 iptables 转发而来的数据，并转发到相应的目标地址。
-可参考 传输配置 中的 tproxy 设置。</description></item><item><title>TProxy Configuration</title><link>https://xtls.github.io/en/documents/level-2/tproxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/tproxy/</guid><description>This configuration is based on [New V2Ray vernacular tutorial on TProxy (transparent proxy)] (https://guide.v2fly.org/app/tproxy.html), adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
+可参考 传输配置 中的 tproxy 设置。</description></item><item><title>TProxy Configuration</title><link>https://xtls.github.io/en/documents/level-2/tproxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/tproxy/</guid><description>This configuration is based on New V2Ray vernacular tutorial on TProxy (transparent proxy) , adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
 All the configurations in this article have been successfully tested in Raspberry Pi 2B and Ubuntu 20.</description></item><item><title>VMess 协议</title><link>https://xtls.github.io/en/develop/protocols/vmess/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/develop/protocols/vmess/</guid><description>VMess 是一个加密传输协议，可以作为 Xray 客户端和服务器之间的桥梁。
 版本 当前版本号为 1。
 依赖 底层协议 VMess 是一个基于 TCP 的协议，所有数据使用 TCP 传输。
