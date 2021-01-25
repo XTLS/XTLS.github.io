@@ -24,7 +24,7 @@ weight: 1
 - _(VLESS: Nyaaaaaa~~)_
 - The weird UDP bug has been solved, one word "stable"!
 - Sniffing can exclude domains you don't want to sniff, and you will get some new approaches in this area.
-- Salution to the big shot who finds the problem -> opens an issue -> tests it himself -> analyzes it himself -> finds the problem himself -> solves it himself -> then submits a PR to upstream and downstream <img src="https://avatars2.githubusercontent.com/u/8384161?s=32" width="" 32px" height="32px" alt="a"/>[@Bohan Yang](https://github.com/bohanyang)!
+- Salution to the big shot who finds the problem -> opens an issue -> tests it himself -> analyzes it himself -> finds the problem himself -> solves it himself -> then submits a PR to upstream and downstream <img src="https://avatars2.githubusercontent.com/u/8384161?s=32" width="32px" height="32px" alt="a"/>[@Bohan Yang](https://github.com/bohanyang)!
 - There are also other delicious little cherries, just update to taste them as usual.
 
 ## 2021.01.19
