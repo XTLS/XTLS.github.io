@@ -1,18 +1,44 @@
 ---
 alwaysopen: false
-date: "2020-01-17T00:00:00.000Z"
+date: "2020-01-25T00:00:00.000Z"
 description: Project X Documentation
 # head: <hr/>
 hide:
 # - toc
 post: "&nbsp;"
-title: The Great History
+title: X History
 weight: 1
 ---
+## 2021.01.25
+- Have you practiced the best and most detailed documentation in the Internet? Mr.🍉 started writting the [level 1 secret script](../../documents/level-1/)...
+- The [English version of the documentation website](/en) is gradually being added, thanks to the hard work of all of you!
 
+<br>
+
+## 2021.01.22
+
+### [v1.2.3](https://github.com/XTLS/Xray-core/releases/tag/v1.2.3)
+---
+- Support for the SS protocol has been enhanced **again**. It supports the use of multiple users on a single port now!
+- Support for the trojan protocol has been enhanced **again**, and we have a new way in trojan fallbacks to separate traffic using SNI~!
+- _(VLESS: Nyaaaaaa~~)_
+- The weird UDP bug has been solved, one word "stable"!
+- Sniffing can exclude domains you don't want to sniff, and you will get some new approaches in this area.
+- Salution to the big shot who finds the problem -> opens an issue -> tests it himself -> analyzes it himself -> finds the problem himself -> solves it himself -> then submits a PR to upstream and downstream <img src="https://avatars2.githubusercontent.com/u/8384161?s=32" width="" 32px" height="32px" alt="a"/>[@Bohan Yang](https://github.com/bohanyang)!
+- There are also other delicious little cherries, just update to taste them as usual.
+
+## 2021.01.19
+- Some numbers
+    - 10 released tags
+    - 100 solved issues
+    - 300 forks
+    - 2,000 stars
+    - 3,000 people in chat group
+
+<br>
 
 ## 2021.01.17
-- The hard translation work has begun, thanks to <img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/>[@玖柒Max](https://github.com/jiuqi9997).
+- The hard translation work has begun, thanks to <img src="https://avatars2.githubusercontent.com/u/60207794?s=32" width="32px" height="32px" alt="a"/>[@玖柒Max](https://github.com/jiuqi9997) and all the big shots who translate.
 - [English version](https://xtls.github.io/en/)
 
 <br />
@@ -29,9 +55,9 @@ weight: 1
 ## 2021.01.12
 ---
 - The UUID to come will be modified to support mapping between custom strings and UUIDs. This means you will be able to write ids to correspond to users in the configuration file like this.
-  - Client writes "id": "I will always love teacher🍉",
-  - server-side write "id": "ee2ed6d8-fa60-524f-a996-350f195118c7" (this UUID is the UUID map of `I will always love teacher🍉`)
-- Teacher🍉's [level 0 documentation](../../documents/level-0/) is finally over, clap clap!
+  - Configuration of the client: `"id": "I will always love Mr.🍉"`
+  - Configuration of the server: `"id": "9017f6ef-7fa9-5afb-a6b4-76648028f1a4"` (this UUID is the UUID map of `I will always love Mr.🍉`)
+- Mr.🍉's [level 0 documentation](../../documents/level-0/) is finally over, clap clap!
 
 <br />
 
