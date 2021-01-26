@@ -42,11 +42,11 @@ weight: 1
 
 这一段配置用人话要怎么解释呢？
 
-1. <font size=4>**`Xray` 的入站端口 (`inbound port`) 是 `443`**</font>
+1. <font size=4>**`Xray` 的入站端口 `[inbound port]` 是 `443`**</font>
     
     <font size=2>即由 `Xray` 负责监听 `443` 端口的 `HTTPS` 流量</font>
 
-2. <font size=4>**`Xray` 的入站协议 (`inbound protocol`) 是 `vless`**</font>
+2. <font size=4>**`Xray` 的入站协议 `[inbound protocol]` 是 `vless`**</font>
     
     <font size=2>只有 `vless` 协议的流量才会流入 `Xray` 中做后续处理。</font>
 
@@ -54,7 +54,7 @@ weight: 1
 **注：** `VLESS` 这个轻量协议开发的初衷就是给 `xray` 及 `v2fly` 等核心引入回落功能、并同时减少冗余校验/加密。（当然，到目前为止，`xray` 中的 `trojan` 协议也已完整支持回落功能。）
 {{% /notice %}}
 
-3. <font size=4>**回落目标端口 (`fallback dest`) 是 `8080`**</font>
+3. <font size=4>**回落目标端口 `[fallback dest]` 是 `8080`**</font>
 
     <font size=2>`Xray` 接受 `443` 端口的访问流量后，属于 `vless` 协议的流量、由 `Xray` 进行内部处理并转发至出站模块。而其他非 `vless` 协议的流量，则转发至 `8080` 端口。</font>
 
