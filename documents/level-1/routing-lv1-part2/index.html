@@ -1,0 +1,222 @@
+<!doctype html><html><head><title>路由 (routing) 功能简析（下） :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-01-26T08:28:16 UTC"><meta name=description content="入门心得"><meta name=author content="Project X"><title>路由 (routing) 功能简析（下） :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https:\/\/xtls.github.io";</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/documents/level-1/routing-lv1-part2/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><div class=search><div class=searchbox><input data-search-input id=search-by type=text placeholder></div><script type=text/javascript src=/vendor/lunr/lunr.min.js></script><script type=text/javascript src=/vendor/auto-complete/auto-complete.js></script><link href=/vendor/auto-complete/auto-complete.css rel=stylesheet><script type=text/javascript>var baseurl="https:\/\/xtls.github.io";</script><script type=text/javascript src=/js/search.js></script></div><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
+<script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/about/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/about/>Project X&nbsp;⚡</a><ul><li data-nav-id=https://xtls.github.io/about/new/ class="dd-item
+item_level_$level"><a href=/about/new/>大史记&nbsp;</a></li></ul></li><hr><li data-nav-id=https://xtls.github.io/guide/ class="dd-item alwaysopen
+item_level_$level"><a href=/guide/>快速入门&nbsp;</a></li><li data-nav-id=https://xtls.github.io/config/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/config/>配置文件&nbsp;📜</a><ul><li data-nav-id=https://xtls.github.io/config/base/ class="dd-item haschildren
+item_level_$level"><a href=/config/base/>基础配置模块&nbsp;</a>
+<i class="fas fa-chevron-right ddexp"></i><ul><li data-nav-id=https://xtls.github.io/config/base/log/ class="dd-item
+item_level_$level"><a href=/config/base/log/>日志配置</a></li><li data-nav-id=https://xtls.github.io/config/base/api/ class="dd-item
+item_level_$level"><a href=/config/base/api/>API接口</a></li><li data-nav-id=https://xtls.github.io/config/base/dns/ class="dd-item
+item_level_$level"><a href=/config/base/dns/>内置DNS服务器</a></li><li data-nav-id=https://xtls.github.io/config/base/routing/ class="dd-item
+item_level_$level"><a href=/config/base/routing/>路由</a></li><li data-nav-id=https://xtls.github.io/config/base/policy/ class="dd-item
+item_level_$level"><a href=/config/base/policy/>本地策略</a></li><li data-nav-id=https://xtls.github.io/config/base/inbounds/ class="dd-item
+item_level_$level"><a href=/config/base/inbounds/>Inbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/outbounds/ class="dd-item
+item_level_$level"><a href=/config/base/outbounds/>Outbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/transport/ class="dd-item
+item_level_$level"><a href=/config/base/transport/>传输方式</a></li><li data-nav-id=https://xtls.github.io/config/base/stats/ class="dd-item
+item_level_$level"><a href=/config/base/stats/>统计信息</a></li><li data-nav-id=https://xtls.github.io/config/base/reverse/ class="dd-item
+item_level_$level"><a href=/config/base/reverse/>反向代理</a></li></ul></li><li data-nav-id=https://xtls.github.io/config/inbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/inbound-protocols/>Inbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/outbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/outbound-protocols/>Outbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/transports/ class="dd-item
+item_level_$level"><a href=/config/transports/>传输方式列表</a></li><li data-nav-id=https://xtls.github.io/config/vless/ class="dd-item
+item_level_$level"><a href=/config/vless/>VLESS 协议详解</a></li><li data-nav-id=https://xtls.github.io/config/fallback/ class="dd-item
+item_level_$level"><a href=/config/fallback/>Fallbacks</a></li><li data-nav-id=https://xtls.github.io/config/xtls/ class="dd-item
+item_level_$level"><a href=/config/xtls/>XTLS 深度剖析</a></li><li data-nav-id=https://xtls.github.io/config/env/ class="dd-item
+item_level_$level"><a href=/config/env/>环境变量</a></li><li data-nav-id=https://xtls.github.io/config/multiple_config/ class="dd-item alwaysopen
+item_level_$level"><a href=/config/multiple_config/>多文件配置</a></li></ul></li><li data-nav-id=https://xtls.github.io/documents/ class="dd-item parent haschildren
+item_level_$level"><i class="fas fa-chevron-down ddexp"></i><a href=/documents/>使用心得&nbsp;📚</a><ul><li data-nav-id=https://xtls.github.io/documents/level-0/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-0/>小小白白话文&nbsp;📙</a></li><li data-nav-id=https://xtls.github.io/documents/level-1/ class="dd-item parent active alwaysopen
+item_level_$level"><a href=/documents/level-1/>入门技巧&nbsp;📚</a></li><li data-nav-id=https://xtls.github.io/documents/level-2/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-2/>进阶文档&nbsp;📘</a></li></ul></li><li data-nav-id=https://xtls.github.io/develop/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/develop/>开发指南&nbsp;🖥️</a><ul><li data-nav-id=https://xtls.github.io/develop/intro/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/intro/>开发手册</a></li><li data-nav-id=https://xtls.github.io/develop/protocols/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/protocols/>协议详解</a></li></ul></li><li data-nav-id=https://xtls.github.io/faq/ class="dd-item alwaysopen
+item_level_$level"><a href=/faq/>常见问答&nbsp;💬</a></li><li data-nav-id=https://xtls.github.io/caseslip/ class="dd-item alwaysopen
+item_level_$level"><a href=/caseslip/>大案牍术&nbsp;</a></li><hr><li data-nav-id=https://xtls.github.io/links/ class="dd-item alwaysopen
+item_level_$level"><a href=/links/>常用链接&nbsp;🤝</a></li></ul></aside><section class=page><nav id=ariane aria-label=breadcrumb><ol class=ariane><li><a class=text-link href=https://xtls.github.io></a></li><li><a class=text-link href=/documents/>使用心得</a></li><li><a class=text-link href=/documents/level-1/>入门技巧</a></li><li class=active>路由 (routing) 功能简析（下）</li></ol></nav><h1>入门技巧<span>路由 (routing) 功能简析（下）</span></h1><nav class=subpages><li><a title=$pagetitle href=/documents/level-1/fallbacks-lv1/>回落 (fallbacks) 功能简析&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-1/routing-lv1-part1/>路由 (routing) 功能简析（上）&nbsp;📙</a></li><li class=active><a title=$pagetitle href=/documents/level-1/routing-lv1-part2/>路由 (routing) 功能简析（下）&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-1/work/>Xray的工作模式</a></li></nav><div class=jump-to-section><span onclick="$h=$(this);$h.next('nav').slideToggle(100,function(){$h.children('i').attr('class',function(){return $h.next('nav').is(':visible')?'fas fa-chevron-down':'fas fa-chevron-right';});});"><span class="fas fa-align-right"></span><i class="fas fa-chevron-right"></i></span><nav id=TableOfContents><ul><li><a href=#5-崭露锋芒---多种路由匹配条件-域名-ip-协议-etc>5. 崭露锋芒 - 多种路由匹配条件 <code>[域名], [IP], [协议], etc.</code></a></li><li><a href=#6-大战略和小战术的整体回顾>6. 大战略和小战术的整体回顾</a></li><li><a href=#7-常见错误>7. 常见错误</a></li><li><a href=#8-沟通-domain-与-ip-的桥梁domainstrategy>8. 沟通 <code>[domain]</code> 与 <code>[ip]</code> 的桥梁：<code>domainStrategy</code></a></li><li><a href=#9-思考题>9. 思考题</a></li><li><a href=#10-结语>10. 结语</a></li></ul></nav></div><div class=content><p>欢迎回来继续学习 <code>Xray</code> 强大灵活的【路由】功能！</p><p>在 <a href=../routing-lv1-part1>《路由 (routing) 功能简析（上）》</a> 中，我们已经对【路由】功能的逻辑有了清晰的理解，也基于 <code>geosite.dat</code> 文件做了简单的路由配置。</p><p>但需要强调的是，<code>geosite.dat</code> 仅仅是【路由】功能的一个角度而已，完整的路由功能还支持很多其他的判断依据！下面就让我们来看看都有什么可以用的内容吧！</p><h2 ref=5-崭露锋芒---多种路由匹配条件-域名-ip-协议-etc>5. 崭露锋芒 - 多种路由匹配条件 <code>[域名], [IP], [协议], etc.</code></h2><a class=anchor id=5-崭露锋芒---多种路由匹配条件-域名-ip-协议-etc></a><p>虽然在之前三分天下中，我们已经让网络流量的到了基本合理的路由分流，但截至目前位置的规则只能说是如《隆中对》一般指出了明确的战略方向而已。在战术执行时，其实还有很多细节需要推敲。比如：</p><ol><li>我读了《小小白白话文》后，给VPS新申请了一个域名 <code>proxy.yourdomain.com</code> 希望无论如何都代理怎么办？</li><li>如果我还有个 <code>direct.yourdomain.com</code> 希望无论如何都直连怎么办？</li><li>本机 <code>127.0.0.1</code> 的内部流量，是否正确直连了？</li><li>路由器、本地局域网 <code>192.168.*.*</code> 的流量，是否正确直连了？</li><li>我的国内DNS查询（如 <code>223.5.5.5</code>）是否正确直连了？</li><li>我的国外DNS查询（如 <code>1.1.1.1</code>）是否正确代理了？</li><li>其他类似国内公共DNS一样没有域名、只有IP地址的国内网站，是否正确直连了？</li><li>其他类似国外公共DNS一样没有域名、只有IP地址的国外网站，是否正确代理了？</li><li>BT下载的流量，虽然是国外，但是通过一般VPS下载的话，很可能导致VPS被封，这该如何强制直连？</li><li>&mldr;&mldr;</li></ol><p>首先做一个统一的解答：【<code>geosite.dat</code> 中只有常用域名，所以 <strong>无法处理上述任何一个基于IP地址的规则、基于协议的规则，或者未知新域名的规则</strong> 】，那么根据前面的配置，上面这些情况全部都会触发隐藏路由规则【<strong>当入站流量不符合任何条件时，转发给第一个出站</strong> 】，换言之：</p><ul><li>当你的第一个出站是 <code>[direct-out]</code> 时，需要直连的都正确了，需要代理的则都错误</li><li>当你的第一个出站是 <code>[proxy-out-vless]</code> 时，需要代理的都正确了，需要直连的则都错误</li></ul><p>那么，我们是否有办法精确的控制这些呢，让所有的流量都被正确配置呢？【<strong>当然有！</strong> 】</p><p>我们只是需要更多的【<strong>流量判断依据</strong>】而已</p></br><p><strong>5.1 基于域名的判断依据：<code>[domain], [full]</code> 等配置项</strong></p><ol><li>如果需要匹配某个子域名，如 <code>a-name.yourdomain.com</code>，我们使用 <code>full: "a-name.yourdomain.com"</code></li><li>前面的 <code>问题1</code> 和 <code>问题2</code>，就可以通过给 <code>proxy.yourdomain.com</code> 指定 <code>[proxy-out-vless]</code> 出站，给 <code>direct.yourdomain.com</code> 指定 <code>[direct-out]</code> 出站来解决</li><li>如果需要匹配 <code>yourdomain.com</code> 的所有子域名，我们使用 <code>domain: "yourdomain.com"</code> 实现</li><li>上述两个可以成为两个独立的路由规则，达到某些子域名直连，其他子域名代理的配置</li><li>另外，<code>[domain]</code> 还支持正则表达式等匹配方式。详情请参考 <a href=../../../config/base/routing/>《基础配置模块 - 路由》文档</a></li></ol><p>上述配置如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;full&#34;: [
+                &#34;direct.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },        
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;full&#34;: [
+                &#34;proxy.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;domain&#34;: [
+                &#34;yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        }
+    ]
+}
+</code></pre></div></br><p><strong>5.2 基于IP地址的判断依据：路由规则文件之二：<code>geoip.dat</code>及 <code>[ip]</code> 等配置项</strong></p><p>与 <code>geosite.dat</code> 规则文件十分类似的，我们还有 <code>geoip.dat</code> 这个规则文件，它是供【路由功能】驱使的<strong>第二个神兵利器</strong>，它致力于为用户提供成熟完善的【IP分类表】。让用户可以简单的通过 <code>geoip:xxx</code> 这种格式方便的调用任何子类，定制符合自身需求的路由规则 。</p><ol><li>解决前面的 <code>[问题3], [问题4]</code>，我们使用 <code>geoip:private</code> 类别来指定 <code>[direct-out]</code></li><li>解决前面的 <code>[问题5]</code>，我们使用 <code>ip: "223.5.5.5"</code> 来指定 <code>[direct-out]</code></li><li>解决前面的 <code>[问题6]</code>，我们使用 <code>ip: "1.1.1.1"</code> 来指定 <code>[proxy-out-vless]</code></li><li>解决前面的 <code>[问题7]</code>，我们使用 <code>geoip:cn</code> 类别来指定 <code>[direct-out]</code></li><li>解决前面的 <code>[问题8]</code>，由于 <code>geoip</code> 中暂无【非中国IP】这个分类，所以我们用隐藏规则代替，也就是将 <code>[proxy-out-vless]</code> 放在第一个出站</li></ol><p>上述配置如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;geoip:private&#34;,
+                &#34;geoip:cn&#34;,
+                &#34;223.5.5.5&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;1.1.1.1&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        }
+    ]
+}
+</code></pre></div></br><p><strong>5.3 基于协议类型的判断依据：<code>[protocol]</code> 等</strong></p><ol><li>解决前面的 <code>[问题9]</code>，我们使用 <code>"protocol": ["bittorrent"]</code> 类别来指定 <code>[direct-out]</code></li></ol><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;protocol&#34;: [
+                &#34;bittorrent&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        }
+    ]
+}
+</code></pre></div><p><strong>5.4 还有很多判断依据！</strong></p><p>我们一直在强调 <code>Xray</code> 的路由功能何其强大灵活，就是因为，它除了我们已经讲过的内容之外，还支持很多判断条件！我在此简单罗列如下：</p><p>本文讲过的：</p><ul><li><code>inboundTag</code></li><li><code>domain</code></li><li><code>ip</code></li><li><code>protocol</code></li></ul><p>本文还没有讲过的：</p><ul><li><code>port</code></li><li><code>sourcePort</code></li><li><code>network</code></li><li><code>source</code></li><li><code>user</code></li><li><code>attrs</code></li></ul><p>内容实在是过多，而且全部展开就不是 <code>level-1</code> 的内容了，所以，需要这些复杂条件的朋友，请仔细阅读 <a href=../../../config/base/routing/>《基础配置模块 - 路由》文档</a> 即可！</p></br><h2 ref=6-大战略和小战术的整体回顾>6. 大战略和小战术的整体回顾</h2><a class=anchor id=6-大战略和小战术的整体回顾></a><p>到现在为止，我们已经累积出了一套战略雄伟、战术精准的路由规则，为了避免混乱，现在就对它进行一次完整的整理和回顾。</p><div class="notices warning"><p><strong>注意：</strong> 路由生效的顺序是：【从上往下，依次判断】，所以我一般推荐的规则顺序是：</p><p><code>[1-block] --> [2-direct] --> [3-proxy] --> [4-first-outbound]</code></p></div><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        // [1-block]
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;domain&#34;: [
+                &#34;geosite:category-ads-all&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;block&#34;
+        },
+        // [2-direct]
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;geoip:private&#34;,
+                &#34;geoip:cn&#34;,
+                &#34;223.5.5.5&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;full&#34;: [
+                &#34;direct.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;protocol&#34;: [
+                &#34;bittorrent&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },
+        // [3-proxy]
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;domain&#34;: [
+                &#34;geosite:geolocation-!cn&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;1.1.1.1&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;full&#34;: [
+                &#34;proxy.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;domain&#34;: [
+                &#34;yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;proxy-out-vless&#34;
+        }
+        // [4-first-outbound]
+        // 这里就不用写规则了，对于无法匹配的流量，`Xray`会自动调用第一条出站
+    ]
+}
+</code></pre></div><p>此时，路由规则其实变成了：</p><script defer src=https://unpkg.com/mermaid@8.8.2/dist/mermaid.min.js>mermaid.initialize({startOnLoad:true});</script><div class=mermaid align=left>graph LR;
+S(APP数据) .-> I[入站]
+subgraph Xray
+I --> R[路由] -- "geosite:category-ads-all" --> O1[block]
+R[路由] -- "geosite:cn" --> O2[direct]
+R[路由] -- "geoip:private" --> O2[direct]
+R[路由] -- "ip:223.5.5.5" --> O2[direct]
+R[路由] -- "direct.yourdomain.com" --> O2[direct]
+R[路由] -- "protocol:bittorrent" --> O2[direct]
+R[路由] -- "geosite:geolocation-!cn" --> O3[proxy]
+R[路由] -- "ip:1.1.1.1" --> O3[proxy]
+R[路由] -- "proxy.yourdomain.com" --> O3[proxy]
+R[路由] -- "*.yourdomain.com" --> O3[proxy]
+R[路由] -. "没有命中规则的流量" .-> O4[第一条出站]
+end
+O2 .-> D(国内服务器)
+O3 .-> V(VPS)
+O1:::redclass
+V:::greyclass
+S:::greyclass
+R:::routingclass
+classDef redclass fill:#FF0000
+classDef greyclass fill:#C0C0C0
+classDef routingclass fill:#FFFFDE,stroke:#000000</div><p>至于第一条出站是 <code>[direct-out]</code> 还是 <code>[proxy-out-vless]</code>，这就全看你的需求了。</p></br><h2 ref=7-常见错误>7. 常见错误</h2><a class=anchor id=7-常见错误></a><p>请大家注意看，我上面每一条路由规则，都是一个独立的匹配依据，这样才能确保生效。</p><p>新人在自定义路由规则时，经常会犯的一个错误是，在一条规则内匹配多种不同依据。比如，他希望实现的配置是：</p><ol><li>自己的 <code>direct.yourdomain.com</code> 直连</li><li>国内DNS查询（如 <code>223.5.5.5</code>）直连</li></ol></br><p><strong>7.1 错误示范</strong></p><p>为了实现上面的目标，他写成出了以下路由规则：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;223.5.5.5&#34;
+            ],
+            &#34;full&#34;: [
+                &#34;direct.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        }
+    ]
+}
+</code></pre></div><p>你能看出这里面的错误吗？乍一看，似乎是对的？</p><div class="notices warning"><p><strong>注意：</strong> <strong>同一个规则之内，各个依据需要同时成立，才会匹配成功</strong>，逻辑关系是 <code>AND</code>，而不是 <code>OR</code>。</p></div><p>换言之，这条规则的意思是：【当你访问的 <code>目标 = direct.yourdomain.com</code>, <strong>并且</strong> 同时还满足 <code>目标 = 223.5.5.5</code> 时，<code>Xray</code> 才会将流量转发给 <code>[direct-out]</code> 直连出站】</p><p>很显然，一个目标不可能同时等于两个不同的值，所以这不但是一个永远不可能实现的无效规则，更与原本的目标风马牛不相及。</p></br><p><strong>7.2 正确示范</strong></p><p>正确示范，自然就是将不同的匹配依据独立出来：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>&#34;routing&#34;: {
+    &#34;domainStrategy&#34;: &#34;AsIs&#34;,
+    &#34;rules&#34;: [
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;ip&#34;: [
+                &#34;223.5.5.5&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        },
+        {
+            &#34;type&#34;: &#34;field&#34;,
+            &#34;full&#34;: [
+                &#34;direct.yourdomain.com&#34;
+            ],
+            &#34;outboundTag&#34;: &#34;direct-out&#34;
+        }
+    ]
+}
+</code></pre></div><p>其实，第6点已经是我整理过的规则了，原则就是【相同的匹配依据可以合并，不同的匹配依据保持独立】。</p></br><h2 ref=8-沟通-domain-与-ip-的桥梁domainstrategy>8. 沟通 <code>[domain]</code> 与 <code>[ip]</code> 的桥梁：<code>domainStrategy</code></h2><a class=anchor id=8-沟通-domain-与-ip-的桥梁domainstrategy></a><p>我们在 5.4 中提交了多种流量判断的【依据】，其中一种是域名 <code>[domain]</code>、一种是 <code>[IP]</code>。</p><p>如果你初步了解过DNS的运作过程，就会知道，我们对一个域名 <code>[domain]</code> 发起访问请求时，其实需要先向 <code>DNS</code> 发起请求来解析域名 <code>[domain]</code> 对应的 <code>[IP]</code>，在得到 <code>[IP]</code> 后再向它发起实际请求。</p><p>所以，面对入站的一次域名请求，<code>Xray</code> 其实有两次机会去判断它的类型。那么，究竟是否要用这两次机会呢？这就是由 <code>domainStrategy</code> 这个配置来决定的。它有三个选项：</p><ul><li><code>AsIs</code></li><li><code>IPIfNonMatch</code></li><li><code>IPOnDemand</code></li></ul><p>按么我们逐个来解释一下：</p></br><p><strong>8.1 域名策略: <code>"AsIs"</code></strong></p><p>就是 &ldquo;As Domain Is&rdquo;，也就是说 【域名什么样，就什么样，不多折腾】。</p><p>简单粗暴理解就是说【仅用 <code>[domain]</code> 来匹配】。</p><p>这个方式的处理都在 <code>Xray</code> 内部完成，没有与外界的数据往来，所以速度最快。它的兜底策略也很清晰：即前面所说的、无法匹配的域名自动转入第一条出站处理。所以，对于常规使用路由功能这最推荐的策略。</p></br><p><strong>8.2 域名策略: <code>"IPIfNonMatch"</code></strong></p><p>就是 &ldquo;lookup IP if (there&rsquo;s) no matching rule&rdquo;，也就是说【如果其他所有规则都匹配不上，那就转化成 <code>IP</code> 去匹配 <code>IP</code> 规则】。</p><p>简单粗暴理解就是说【先把访问目标和其他所有类型规则匹配，如果匹配不上，那就通过 <code>DNS</code> 查询转化成 <code>IP</code>，再从头和所有规则匹配一次】。</p><p>该策略下没有命中任何规则的这一部分域名，会需要再经历 <code>DNS</code> 查询过程、以及第二轮规则匹配的过程，其耗时会多于 <code>AsIs</code> 策略，所以并不是首选推荐的策略。</p></br><p><strong>8.3 域名策略: <code>"IPOnDemand"</code></strong></p><p>这里其实说 <code>Demand IP</code> 更准确些，也就是说【当匹配时碰到任何基于 IP 的规则，将域名立即解析为 IP 进行匹配】。</p><p>简单粗暴理解就是说【只要路由规则中有 <code>IP</code> 类规则，那么所有基于域名 <code>[domain]</code> 的请求都要解析成 <code>[IP]</code> 然后去匹配 <code>[IP]</code> 类规则】。</p><p>它要对所有首次域名访问进行 <code>DNS</code> 解析，所以首次查询比较耗时。虽然由于 <code>Xray</code> 中 <code>DNS</code> 缓存机制的存在，后续对相同域名的访问速度会重回巅峰，但总体来说也不是首选推荐的策略。</p><div class="notices warning"><p><strong>啰嗦君：</strong> <code>domainStrategy</code> 仅对域名生效，不要搞混了哦~</p></div></br><h2 ref=9-思考题>9. 思考题</h2><a class=anchor id=9-思考题></a><p>迄今为止，我们都是在【单入站】和【单出站】的基础上，讲解【路由】内部的各种配置逻辑。</p><p>但是，如你所知，<code>Xray</code> 本身是支持多端口，多协议的。那么，如果我问你：</p><ol><li>我希望 <code>VLESS</code> 协议将我日常的网页浏览和APP流量转发给美国的大流量服务器</li><li>我希望 <code>trojan</code> 协议将我的所有Netflix流量转发给日本的服务器解锁各种二次元</li><li>我希望 <code>shadowsocks</code> 协议将我所有的游戏流量转发给香港的服务器达到最低的延迟</li><li>我希望有一个独立的端口，能够把 <code>telegram</code> 的流量全都转发给VPS</li><li>我希望有一个独立的端口，能够把 <code>bittorrent</code> 下载流量全都转发给欧洲大盘鸡</li><li>我希望&mldr;&mldr;</li></ol><p>这些想法，是否能通过【路由】功能配置实现呢？</p><p>答案当然是 <strong>【完全可以】</strong> 啦！ 但是这些对于 <code>level-1</code> 来说已经超纲了，就留给各位自由的探索吧！</p></br><h2 ref=10-结语>10. 结语</h2><a class=anchor id=10-结语></a><p>至此，<code>Xray</code> 的【路由】功能就介绍完了。希望本文能够对你理解 <code>Xray</code> 的灵活有所帮助。</p></div><div class=chevrons></div></section><section class=right-menu><div class=TableOfContents><label><i class="fas fa-align-right"></i>&nbsp;&nbsp;</label><nav><ul><li><a href=/documents/level-1/routing-lv1-part2/>路由 (routing) 功能简析（下）</a></li></ul></nav><nav id=TableOfContents><ul><li><a href=#5-崭露锋芒---多种路由匹配条件-域名-ip-协议-etc>5. 崭露锋芒 - 多种路由匹配条件 <code>[域名], [IP], [协议], etc.</code></a></li><li><a href=#6-大战略和小战术的整体回顾>6. 大战略和小战术的整体回顾</a></li><li><a href=#7-常见错误>7. 常见错误</a></li><li><a href=#8-沟通-domain-与-ip-的桥梁domainstrategy>8. 沟通 <code>[domain]</code> 与 <code>[ip]</code> 的桥梁：<code>domainStrategy</code></a></li><li><a href=#9-思考题>9. 思考题</a></li><li><a href=#10-结语>10. 结语</a></li></ul></nav></div><div class=Actions><nav><ul><li><a href=https://github.com/XTLS/XTLS.github.io/tree/main/content/documents/level-1/routing-lv1-part2.md target=blank><i class="fab fa-github"></i></a></li><li><i class="fas fa-calendar"></i>05 January 2021</li></ul></nav></div></section></article><footer><footer><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="User mailing list" aria-label="User mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Twitter aria-label=Twitter><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/twitter><i class="fab fa-twitter"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Stack Overflow" aria-label="Stack Overflow"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/stack><i class="fab fa-stack-overflow"></i></a></li></ul></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel="noopener noreferrer" href=https://github.com/XTLS><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Slack aria-label=Slack><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/slack><i class="fab fa-slack"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Developer mailing list" aria-label="Developer mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2020-2021 ProjectX Community All Rights Reserved</small></div></div></div></footer></footer></body></html>
