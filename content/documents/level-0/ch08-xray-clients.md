@@ -130,7 +130,7 @@ weight: 8
         // 注意，本例中我默认注释掉了日志文件，因为windows, macOS, Linux 需要写不同的路径，请自行配置
         "log": {
             // "access": "/home/local/xray_log/access.log",    // 访问记录
-            // "error": "/home/local/xray_log/error.log"    // 错误记录
+            // "error": "/home/local/xray_log/error.log",    // 错误记录
             "loglevel": "warning"        // 内容从少到多: "none", "error", "warning", "info", "debug" 
         },
         
