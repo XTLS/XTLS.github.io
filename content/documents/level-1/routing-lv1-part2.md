@@ -11,40 +11,52 @@ title: 路由 (routing) 功能简析（下）
 weight: 3
 ---
 
-欢迎回来继续学习 `Xray` 强大灵活的【路由】功能！
+欢迎继续学习 `Xray` 的【路由】功能！
 
-在 [《路由 (routing) 功能简析（上）》](../routing-lv1-part1) 中，我们已经对【路由】功能的逻辑有了清晰的理解，也基于 `geosite.dat` 文件做了简单的路由配置。
+在 [《路由 (routing) 功能简析（上）》](../routing-lv1-part1) 中，我们已经对【路由】功能的工作逻辑有了清晰的理解，也基于 `geosite.dat` 文件做了简单的域名分流配置。
 
-但需要强调的是，`geosite.dat` 仅仅是【路由】功能的一个角度而已，完整的路由功能还支持很多其他的判断依据！下面就让我们来看看都有什么可以用的内容吧！
+如前面所说，域名分流仅仅是【路由】功能的牛刀小试而已。下面就让我们来看看除了域名之外，还什么可以用做分流依据的东西吧！
 
 
-## 5. 崭露锋芒 - 多种路由匹配条件 `[域名], [IP], [协议], etc.`
+## 5. 攻城略池 - 多种路由匹配条件
+#### `[域名], [IP], [协议], etc.`
 
-虽然在之前三分天下章节中，我们给网络流量设计了基本合理的路由分流规则，但截至目前为止，这些规则最多也只是如《隆中对》一般指出了战略方向而已。在战术执行时，其实还有很多细节需要推敲。比如：
+</br>
+基于域名的分流，已经可以让我们对网络流量进行基本合理的分流。为什么说【基本合理】呢？
 
-1. 我读了《小小白白话文》后，给VPS新申请了一个域名 `proxy.yourdomain.com` 希望无论如何都代理怎么办？
-2. 如果我还有个 `direct.yourdomain.com` 希望无论如何都直连怎么办？
-3. 本机 `127.0.0.1` 的内部流量，是否正确直连了？
-4. 路由器、本地局域网 `192.168.*.*` 的流量，是否正确直连了？
+因为【三分天下】虽然是正确的战略方向，但如果只用【域名】来实现这个战略，其实漏洞百出，比如：
+
+1. 我读了《小小白白话文》后，给VPS新申请了一个 `proxy.yourdomain.com` 的域名, 我希望它无论如何都代理，`geosite.dat` 里面有吗？
+2. 如果我还有个 `direct.yourdomain.com` 的域名，我希望它无论如何都直连， `geosite.dat` 里面有吗？
+3. 本机 `127.0.0.1` 的内部流量，是否正确直连了？（比如 `docker` 等）
+4. 路由器、本地局域网 `192.168.*.*` 的流量，是否正确直连了？（比如路由器、群晖等）
 5. 我的国内DNS查询（如 `223.5.5.5`）是否正确直连了？
 6. 我的国外DNS查询（如 `1.1.1.1`）是否正确代理了？
 7. 其他类似国内公共DNS一样没有域名、只有IP地址的国内网站，是否正确直连了？
 8. 其他类似国外公共DNS一样没有域名、只有IP地址的国外网站，是否正确代理了？
-9. BT下载的流量，虽然是国外，但是通过一般VPS下载的话，很可能导致VPS被封，这该如何强制直连？
+9. BT下载的流量，虽然来源是国外，但如果通过VPS下载很可能导致违规使用被封，这该如何强制直连？
 10. ......
 
-首先做一个统一的解答：【`geosite.dat` 中只有常用域名，所以 **无法处理上述任何一个基于IP地址的规则、基于协议的规则，也无法精准处理未知的新域名** 】，那么根据前面的配置，上面这些情况全部都会触发隐藏路由规则【**当入站流量不符合任何条件时，转发给第一个出站** 】，换言之：
+我之所以说只用【域名分流】会漏洞百出，是因为 `geosite.dat` 文件内只包含了一部分常用的域名。换言之，仅仅依赖它，则会：
 
-- 当你的第一个出站是 `[direct-out]` 时，需要直连的都正确了，需要代理的则都错误
-- 当你的第一个出站是 `[proxy-out-vless]` 时，需要代理的都正确了，需要直连的则都错误
+- 无法匹配文件里没有的新域名
+- 无法匹配基于IP地址的规则
+- 无法匹配基于网络协议的规则
 
-那么，我们是否有办法精确的控制这些呢，让所有的流量都被正确配置呢？【**当然有！** 】
+{{% notice warning  %}}
+**罗嗦君：** 那我们来复习一下，当上面这些情况无法匹配时，会发生什么？对了，会触发隐藏路由规则，即【**转发给第一个出站** 】。这其实就是说：
 
-我们只是需要更多的【**流量判断依据**】而已。
+- 当你的第一个出站是 `[direct-out]` 时：**需要直连的都正确了，但需要代理的则都错误**
+- 当你的第一个出站是 `[proxy-out-vless]` 时：**需要代理的都正确了，但需要直连的则都错误**
+{{% /notice %}}
+
+
+所以，我们需要一个办法，让我们鱼与熊掌兼得。这样的办法是否存在呢？**当然存在！** 我们需要的只是【域名】之外更多的【**分流判断依据**】而已。
+
 
 </br>
 
-**5.1 基于域名的判断依据：`[domain], [full]` 等配置项**
+**5.1 基于指定域名分流：`[domain], [full]` 等**
 
 1. 如果需要匹配某个子域名，如 `a-name.yourdomain.com`，我们使用 `full: "a-name.yourdomain.com"`
 2. 前面的 `问题1` 和 `问题2`，就可以通过给 `proxy.yourdomain.com` 指定 `[proxy-out-vless]` 出站，给 `direct.yourdomain.com` 指定 `[direct-out]` 出站来解决
@@ -58,20 +70,23 @@ weight: 3
 "routing": {
     "domainStrategy": "AsIs",
     "rules": [
+        // 指定子域名直连
         {
             "type": "field",
-            "full": [
-                "direct.yourdomain.com"
+            "domain": [
+                "full:direct.yourdomain.com"
             ],
             "outboundTag": "direct-out"
-        },        
+        },
+        // 指定子域名转发VPS
         {
             "type": "field",
-            "full": [
-                "proxy.yourdomain.com"
+            "domain": [
+                "full:proxy.yourdomain.com"
             ],
             "outboundTag": "proxy-out-vless"
         },
+        // 指定泛域名转发VPS
         {
             "type": "field",
             "domain": [
@@ -85,15 +100,13 @@ weight: 3
 
 </br>
 
-**5.2 基于IP地址的判断依据：路由规则文件之二：`geoip.dat`及 `[ip]` 等配置项**
+**5.2 基于IP文件分流：`geoip.dat`**
 
-与 `geosite.dat` 规则文件十分类似的，我们还有 `geoip.dat` 这个规则文件，它是供【路由功能】驱使的**第二个神兵利器**，它致力于为用户提供成熟完善的【IP分类表】。让用户可以简单的通过 `geoip:xxx` 这种格式方便的调用任何子类，定制符合自身需求的路由规则 。
+与 `geosite.dat` 规则文件十分类似的，我们还有 `geoip.dat` 这个规则文件，它致力于为用户提供成熟完善的【IP分类表】。让用户可以简单的通过 `geoip:xxx` 这种格式方便的调用任何子类，定制符合自身需求的路由规则 。
 
 1. 解决前面的 `[问题3], [问题4]`，我们使用 `geoip:private` 类别来指定 `[direct-out]`
-2. 解决前面的 `[问题5]`，我们使用 `ip: "223.5.5.5"` 来指定 `[direct-out]`
-3. 解决前面的 `[问题6]`，我们使用 `ip: "1.1.1.1"` 来指定 `[proxy-out-vless]`
-4. 解决前面的 `[问题7]`，我们使用 `geoip:cn` 类别来指定 `[direct-out]`
-5. 解决前面的 `[问题8]`，由于 `geoip` 中暂无【非中国IP】这个分类，所以我们用隐藏规则代替，也就是将 `[proxy-out-vless]` 放在第一个出站
+2. 解决前面的 `[问题7]`，我们使用 `geoip:cn` 类别来指定 `[direct-out]`
+3. 解决前面的 `[问题8]`，由于 `geoip` 中没有【非中国IP】这个分类（因为这等于要收集全世界的IP段），所以我们用隐藏规则代替，也就是将 `[proxy-out-vless]` 放在第一个出站
 
 上述配置如下：
     
@@ -101,15 +114,50 @@ weight: 3
 "routing": {
     "domainStrategy": "AsIs",
     "rules": [
+        // 本机内部地址、局域网地址直连
         {
             "type": "field",
             "ip": [
-                "geoip:private",
-                "geoip:cn",
+                "geoip:private"
+            ],
+            "outboundTag": "direct-out"
+        },
+        // 国内IP集直连
+        {
+            "type": "field",
+            "ip": [
+                "geoip:cn"
+            ],
+            "outboundTag": "direct-out"
+        }
+    ]
+}
+```
+
+</br>
+
+**5.3 基于指定IP地址分流**
+
+与 `geosite.dat` 规则文件十分类似的，我们还有 `geoip.dat` 这个规则文件，它是供【路由功能】驱使的**第二个神兵利器**，它致力于为用户提供成熟完善的【IP分类表】。让用户可以简单的通过 `geoip:xxx` 这种格式方便的调用任何子类，定制符合自身需求的路由规则 。
+
+1. 解决前面的 `[问题5]`，我们使用 `ip: "223.5.5.5"` 来指定 `[direct-out]`
+2. 解决前面的 `[问题6]`，我们使用 `ip: "1.1.1.1"` 来指定 `[proxy-out-vless]`
+
+上述配置如下：
+    
+```
+"routing": {
+    "domainStrategy": "AsIs",
+    "rules": [
+        // 指定IP地址直连
+        {
+            "type": "field",
+            "ip": [
                 "223.5.5.5"
             ],
             "outboundTag": "direct-out"
         },
+        // 指定IP地址转发VPS
         {
             "type": "field",
             "ip": [
@@ -123,7 +171,7 @@ weight: 3
 
 </br>
 
-**5.3 基于协议类型的判断依据：`[protocol]` 等**
+**5.4 基于协议类型分流：`[protocol]` 等**
 
 1. 解决前面的 `[问题9]`，我们使用 `"protocol": ["bittorrent"]` 类别来指定 `[direct-out]`
 
@@ -131,6 +179,7 @@ weight: 3
 "routing": {
     "domainStrategy": "AsIs",
     "rules": [
+        // 指定 BT 协议直连
         {
             "type": "field",
             "protocol": [
@@ -142,17 +191,19 @@ weight: 3
 }
 ```
 
-**5.4 还有很多判断依据！**
+</br>
 
-我们一直在强调 `Xray` 的路由功能何其强大灵活，就是因为，它除了我们已经讲过的内容之外，还支持很多判断条件！我在此简单罗列如下：
+**5.5 基于更多条件的分流**
 
-本文讲过的：
+到目前位置，我们仍然只讲了【路由功能】分流能力的冰山一角！因为它还支持很多其他的判断条件！我在此简单罗列如下：
+
+本文已经讲过的：
 - `inboundTag`
 - `domain`
 - `ip`
 - `protocol`
 
-本文还没有讲过的：
+本文尚未讲到的：
 - `port`
 - `sourcePort`
 - `network`
@@ -160,12 +211,12 @@ weight: 3
 - `user`
 - `attrs`
 
-内容实在是过多，而且全部展开就不是 `level-1` 的内容了，所以，需要这些复杂条件的朋友，请仔细阅读 [《基础配置模块 - 路由》文档](../../../config/base/routing/) 即可！
+但这些内容实在是过多，全部展开就远远不是 `level-1` 的内容了，所以，需要这些复杂条件的朋友，请仔细阅读 [《基础配置模块 - 路由》文档](../../../config/base/routing/) 自学哦！有问题就去 TG 群里面问问吧！
 
 
 </br>
 
-## 6. 大战略和小战术的整体回顾
+## 6. “霸业初定”：路由规则整体回顾
 
 到现在为止，我们已经累积出了一套战略雄伟、战术精准的路由规则，为了避免混乱，现在就对它进行一次完整的整理和回顾。
 
@@ -180,7 +231,8 @@ weight: 3
 "routing": {
     "domainStrategy": "AsIs",
     "rules": [
-        // [1-block]
+        // [1-block 广告流量屏蔽]
+        // 1.1  广告域名集屏蔽
         {
             "type": "field",
             "domain": [
@@ -188,7 +240,17 @@ weight: 3
             ],
             "outboundTag": "block"
         },
-        // [2-direct]
+        // [2-direct 国内流量直连]
+        // 2.1 国内域名集、指定子域名直连
+        {
+            "type": "field",
+            "domain": [
+                "geosite:cn",
+                "full:direct.yourdomain.com"
+            ],
+            "outboundTag": "direct-out"
+        },
+        // 2.2 本机内部地址+局域网、国内IP、指定IP直连
         {
             "type": "field",
             "ip": [
@@ -198,13 +260,7 @@ weight: 3
             ],
             "outboundTag": "direct-out"
         },
-        {
-            "type": "field",
-            "full": [
-                "direct.yourdomain.com"
-            ],
-            "outboundTag": "direct-out"
-        },
+        // 2.3 BT协议流量直连
         {
             "type": "field",
             "protocol": [
@@ -212,37 +268,27 @@ weight: 3
             ],
             "outboundTag": "direct-out"
         },
-        // [3-proxy]
+        // [3-proxy 国外流量转发VPS]
+        // 3.1 国外域名集、指定子域名、指定泛域名转发VPS
         {
             "type": "field",
             "domain": [
-                "geosite:geolocation-!cn"
+                "geosite:geolocation-!cn",
+                "full:proxy.yourdomain.com",
+                "yourdomain.com"
             ],
             "outboundTag": "proxy-out-vless"
         },
+        // 3.2 指定IP转发VPS
         {
             "type": "field",
             "ip": [
                 "1.1.1.1"
             ],
             "outboundTag": "proxy-out-vless"
-        },
-        {
-            "type": "field",
-            "full": [
-                "proxy.yourdomain.com"
-            ],
-            "outboundTag": "proxy-out-vless"
-        },
-        {
-            "type": "field",
-            "domain": [
-                "yourdomain.com"
-            ],
-            "outboundTag": "proxy-out-vless"
         }
-        // [4-first-outbound]
-        // 这里就不用写规则了，对于无法匹配的流量，`Xray`会自动调用第一条出站
+        // [4-default-routing 第一条出站]
+        // 没有匹配到任何规则的流量，默认使用第一条出站处理
     ]
 }
 ```
@@ -259,15 +305,16 @@ graph LR;
     I --> R[路由] -- "geosite:category-ads-all" --> O1[block]
 
     R[路由] -- "geosite:cn" --> O2[direct]
-    R[路由] -- "geoip:private" --> O2[direct]
-    R[路由] -- "ip:223.5.5.5" --> O2[direct]
     R[路由] -- "direct.yourdomain.com" --> O2[direct]
+    R[路由] -- "geoip:private" --> O2[direct]
+    R[路由] -- "geoip:cn" --> O2[direct]
+    R[路由] -- "ip:223.5.5.5" --> O2[direct]
     R[路由] -- "protocol:bittorrent" --> O2[direct]
 
     R[路由] -- "geosite:geolocation-!cn" --> O3[proxy]
-    R[路由] -- "ip:1.1.1.1" --> O3[proxy]
     R[路由] -- "proxy.yourdomain.com" --> O3[proxy]
     R[路由] -- "*.yourdomain.com" --> O3[proxy]
+    R[路由] -- "ip:1.1.1.1" --> O3[proxy]
 
     R[路由] -. "没有命中规则的流量" .-> O4[第一条出站]
 
@@ -314,8 +361,8 @@ graph LR;
             "ip": [
                 "223.5.5.5"
             ],
-            "full": [
-                "direct.yourdomain.com"
+            "domain": [
+                "full:direct.yourdomain.com"
             ],
             "outboundTag": "direct-out"
         }
@@ -352,8 +399,8 @@ graph LR;
         },
         {
             "type": "field",
-            "full": [
-                "direct.yourdomain.com"
+            "domain": [
+                "full:direct.yourdomain.com"
             ],
             "outboundTag": "direct-out"
         }
