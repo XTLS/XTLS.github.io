@@ -92,8 +92,8 @@ Some of the APIs that are available for modifications to inbound and outbound ag
 - Adding a new outbound agent.
 - Removing an existing inbound agent.
 - deleting an existing outbound agent.
-- adding a user to an inbound agent. (only VMess, VLESS, Trojan are supported)
-- deleting a user from an inbound agent. (only VMess, VLESS, Trojan are supported)
+- adding a user to an inbound agent. (only VMess, VLESS, Trojan, Shadowsocks (v1.3.0+) are supported)
+- deleting a user from an inbound agent. (only VMess, VLESS, Trojan, Shadowsocks (v1.3.0+) are supported)
 
 ### LoggerService
 
