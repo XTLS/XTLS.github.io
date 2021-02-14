@@ -276,9 +276,7 @@ weight: 7
                     "xtlsSettings": {
                         "allowInsecure": false,    // 正常使用应确保关闭
                         "minVersion": "1.2",       // TLS最低版本设置
-                        "alpn": [
-                            "http/1.1"
-                        ],
+                        "alpn": [],
                         "certificates": [
                             {
                                 "certificateFile": "/home/vpsadmin/xray_cert/xray.crt",
