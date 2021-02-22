@@ -41,13 +41,13 @@ SNI 的原理也很简单，它通过让客户端发送主机名作为 TLS 协�
 
 ## 思路
 
-![Xray 回落流程](fallbacks-with-sni-resources/xray-fallbacks.svg)
+![Xray 回落流程](../fallbacks-with-sni-resources/xray-fallbacks.svg)
 
 从 443 端口接收到流量后，Xray 会把 TLS 解密后首包长度 < 18、协议版本无效或身份认证失败的流量通过对 name、path、alpn 的匹配转发到 dest 指定的地址。
 
 ## 添加 DNS 记录
 
-![DNS 记录](fallbacks-with-sni-resources/xray-dns-records.webp)
+![DNS 记录](../fallbacks-with-sni-resources/xray-dns-records.webp)
 
 请按实际情况修改域名和 IP。
 
@@ -57,7 +57,7 @@ SNI 的原理也很简单，它通过让客户端发送主机名作为 TLS 协�
 
 首先需要到 [Cloudflare 面板](https://dash.cloudflare.com/profile/api-tokens)创建 API Token。参数如下：
 
-![API Token 的权限设置](fallbacks-with-sni-resources/cf-api-token-permissions-for-acme.webp)
+![API Token 的权限设置](../fallbacks-with-sni-resources/cf-api-token-permissions-for-acme.webp)
 
 权限部分至关重要，其他部分任意。
 
