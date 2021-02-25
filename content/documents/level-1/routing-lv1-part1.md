@@ -318,7 +318,7 @@ graph LR;
 
 1. APP试图访问国外域名 `"domain": "geolocation-!cn"` 的流量，通过 `[proxy-out-vless]` 出站，转发至VPS
 2. APP试图访问国外域名广告域名 `"domain": "geosite:category-ads-all"` 的流量，通过 `[block]` 出站，转发至黑洞进行屏蔽
-3. APP试图访问国外域名国内域名 `"domain": "geosite:cn"` 的流量，通过 `[direct-out]` 出站，自由离开完成直连
+3. APP试图访问国内域名 `"domain": "geosite:cn"` 的流量，通过 `[direct-out]` 出站，自由离开完成直连
 
 这时，才让【路由功能】的好处稍微得到了一些展现。
 
