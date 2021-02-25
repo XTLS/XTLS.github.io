@@ -92,8 +92,8 @@ API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供�
 - 添加一个新的出站代理；
 - 删除一个现有的入站代理；
 - 删除一个现有的出站代理；
-- 在一个入站代理中添加一个用户（仅支持 VMess、VLESS、Trojan）；
-- 在一个入站代理中删除一个用户（仅支持 VMess、VLESS、Trojan）；
+- 在一个入站代理中添加一个用户（仅支持 VMess、VLESS、Trojan、Shadowsocks（v1.3.0+））；
+- 在一个入站代理中删除一个用户（仅支持 VMess、VLESS、Trojan、Shadowsocks（v1.3.0+））；
 
 ### LoggerService
 
