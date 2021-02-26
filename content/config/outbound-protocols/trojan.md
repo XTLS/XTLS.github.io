@@ -91,7 +91,9 @@ Trojan 被设计工作在正确配置的加密 TLS 隧道
 {{% notice %}}
 **关于 `xtls-rprx-*-udp443` 流控模式**
 
-启用了 Xray-core 的 XTLS 时，通往 UDP 443 端口的流量默认会被拦截（拦截 QUIC），这样应用就不会使用 QUIC 而会使用 TLS，XTLS 才会真正生效。实际上，QUIC 本身也不适合被代理，因为 QUIC 自带了 TCP 的功能，UoT 就相当于两层 TCP 了。若不需要拦截，请在客户端填写 `xtls-rprx-*-udp443`，服务端不变。
+启用了 Xray-core 的 XTLS 时，通往 UDP 443 端口的流量默认会被拦截（拦截 QUIC），这样应用就不会使用 QUIC 而会使用 TLS，XTLS 才会真正生效。实际上，QUIC 本身也不适合被代理，因为 QUIC 自带了 TCP 的功能， 它作为 UDP 流量在通过 Trojan 协议传输时，底层协议为 TCP，就相当于两层 TCP 了。
+
+若不需要拦截，请在客户端填写 `xtls-rprx-*-udp443`，服务端不变。
 {{% /notice %}}
 
 {{% notice danger important %}}
