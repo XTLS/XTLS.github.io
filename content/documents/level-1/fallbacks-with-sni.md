@@ -262,10 +262,10 @@ server {
 
 安装 Caddy 请参阅 [Install — Caddy Documentation](https://caddyserver.com/docs/install)。
 
-为了使 Caddy 能获取到访问者的真实 IP，需要编译带有 Proxy Protocol 模块的 Caddy。经测试，目前通过 Caddy 官网在线编译的二进制文件不能使用 Caddyfile 启用 Proxy Protocol，所以我使用 xcaddy 本地编译了一份二进制文件，需者自取。
+为了使 Caddy 能获取到访问者的真实 IP，需要编译带有 Proxy Protocol 模块的 Caddy。建议直接在 Caddy 官网上在线编译。
 
 ```bash
-sudo curl -o /usr/bin/caddy https://cdn.moecm.com/caddy
+sudo curl -o /usr/bin/caddy "https://caddyserver.com/api/download?os=linux&arch=amd64&p=github.com%2Fmastercactapus%2Fcaddy2-proxyprotocol&idempotency=79074247675458"
 sudo chmod +x /usr/bin/caddy
 ```
 
@@ -277,34 +277,42 @@ sudo chmod +x /usr/bin/caddy
 
 ```Caddyfile
 {
-	servers {
-		listener_wrappers {
-			proxy_protocol
-		}
-		protocol {
-			allow_h2c
-		}
-	}
+    servers 127.0.0.1:5001 {
+        listener_wrappers {
+            proxy_protocol
+        }
+	protocol {
+            allow_h2c
+        }
+    }
+    servers 127.0.0.1:5002 {
+        listener_wrappers {
+            proxy_protocol
+        }
+	protocol {
+            allow_h2c
+        }
+    }
 }
 
 :5001 {
-	root * /srv/http/default
-	file_server
+    root * /srv/http/default
+    file_server
     log 
+    bind 127.0.0.1
 }
 
 http://blog.example.com:5002 {
     root * /srv/http/blog.example.com
     file_server
-    log 
+    log
+    bind 127.0.0.1
 }
 
 :80 {
     redir https://{host}{uri} permanent
 }
 ```
-
-由于使用 Caddyfile 启动 Caddy 时无法只监听 127.0.0.1，所以请注意设置防火墙。
 
 ## 参考
 
