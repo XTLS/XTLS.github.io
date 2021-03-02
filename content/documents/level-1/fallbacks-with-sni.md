@@ -37,8 +37,6 @@ proxy_set_header Host 主机名;
 
 SNI 的原理也很简单，它通过让客户端发送主机名作为 TLS 协商的一部分来解决此问题。所以在使用 Nginx 对 HTTPS 协议进行反向代理时，需要在配置中加入 `proxy_ssl_server_name on;`，此时 Nginx 会向被代理的服务器发送 SNI 信息，解决了 HTTPS 协议下虚拟主机失效的问题。另外，使用 SNI 时，即使不指定主机头，也可以正确访问网站。
 
-从 1.2.2 版本开始，Xray-core 支持 VLESS 入站协议回落功能的 SNI 分流，但 Trojan 入站协议尚不支持 SNI 分流，故本篇教程中的配置不完全适用于 Trojan 入站协议。[^1]
-
 ## 思路
 
 ![Xray 回落流程](../fallbacks-with-sni-resources/xray-fallbacks.svg)
@@ -53,7 +51,7 @@ SNI 的原理也很简单，它通过让客户端发送主机名作为 TLS 协�
 
 ## 申请 TLS 证书
 
-由于要对不同前缀的域名进行分流，但一个通配符证书的作用域仅限于两“.”之间（例如：申请 `*.example.com`，`example.com` 和 `*.*.example.com` 并不能使用该证书），故需申请 [SAN](https://zh.wikipedia.org/wiki/%E4%B8%BB%E9%A2%98%E5%A4%87%E7%94%A8%E5%90%8D%E7%A7%B0) 通配符证书。根据 Let's Encrypt 官网信息[^2]，申请通配符证书要求 DNS-01 验证方式，此处演示 NS 记录为 Cloudflare 的域名通过 [acme.sh](https://acme.sh) 申请 Let's Encrypt 的免费 TLS 证书。使用其他域名托管商的申请方法请阅读 [dnsapi · acmesh-official/acme.sh Wiki](https://github.com/acmesh-official/acme.sh/wiki/dnsapi)。
+由于要对不同前缀的域名进行分流，但一个通配符证书的作用域仅限于两“.”之间（例如：申请 `*.example.com`，`example.com` 和 `*.*.example.com` 并不能使用该证书），故需申请 [SAN](https://zh.wikipedia.org/wiki/%E4%B8%BB%E9%A2%98%E5%A4%87%E7%94%A8%E5%90%8D%E7%A7%B0) 通配符证书。根据 Let's Encrypt 官网信息[^1]，申请通配符证书要求 DNS-01 验证方式，此处演示 NS 记录为 Cloudflare 的域名通过 [acme.sh](https://acme.sh) 申请 Let's Encrypt 的免费 TLS 证书。使用其他域名托管商的申请方法请阅读 [dnsapi · acmesh-official/acme.sh Wiki](https://github.com/acmesh-official/acme.sh/wiki/dnsapi)。
 
 首先需要到 [Cloudflare 面板](https://dash.cloudflare.com/profile/api-tokens)创建 API Token。参数如下：
 
@@ -175,7 +173,7 @@ acme.sh --install-cert -d example.com --fullchain-file /etc/ssl/xray/cert.pem --
   凡事皆有利弊，Proxy Protocol 也是如此。
 
   - 有发送必须有接收，反之亦然
-  - 同一端口不能既兼容带 Proxy Protocol 数据的连接又兼容不带数据的连接（如：Nginx 同端口的不同虚拟主机（server），本质是上一条）[^3][^4]
+  - 同一端口不能既兼容带 Proxy Protocol 数据的连接又兼容不带数据的连接（如：Nginx 同端口的不同虚拟主机（server），本质是上一条）[^2][^3]
 
   在遇到异常时，请考虑配置是否符合上述条件。
 
@@ -187,7 +185,7 @@ acme.sh --install-cert -d example.com --fullchain-file /etc/ssl/xray/cert.pem --
 
   在上述配置中，每条回落到 Nginx 的配置都要分成两个。这是因为 h2 是强制 TLS 加密的 HTTP/2 连接，这有益于数据在互联网中传输的安全，但在服务器内部没有必要；而 h2c 是非加密的 HTTP/2 连接，适合该环境。然而，Nginx 不能在同一端口上同时监听 HTTP/1.1 和 h2c，为了解决这个问题，需要在回落中指定 `alpn` 项（是 `fallbacks` 而不是 `xtlsSettings` 里面的），以尝试匹配 TLS ALPN 协商结果。
 
-  建议 `alpn` 项只按需用两种填法：[^5]
+  建议 `alpn` 项只按需用两种填法：[^4]
 
   - 省略
   - `"h2"`
@@ -322,12 +320,10 @@ http://blog.example.com:5002 {
 
 ## 引用
 
-[^1]: [Release Xray-core v1.2.2 · XTLS/Xray-core](https://github.com/XTLS/Xray-core/releases/tag/v1.2.2)
+[^1]: [常见问题 -  Let's Encrypt - 免费的SSL/TLS证书](https://letsencrypt.org/zh-cn/docs/faq/)
 
-[^2]: [常见问题 -  Let's Encrypt - 免费的SSL/TLS证书](https://letsencrypt.org/zh-cn/docs/faq/)
+[^2]: [Proxy Protocol - HAProxy Technologies](https://www.haproxy.com/blog/haproxy/proxy-protocol/)
 
-[^3]: [Proxy Protocol - HAProxy Technologies](https://www.haproxy.com/blog/haproxy/proxy-protocol/)
+[^3]: [proxy protocol介绍及nginx配置 - 简书](https://www.jianshu.com/p/cc8d592582c9)
 
-[^4]: [proxy protocol介绍及nginx配置 - 简书](https://www.jianshu.com/p/cc8d592582c9)
-
-[^5]: [v2fly-github-io/vless.md at master · rprx/v2fly-github-io](https://github.com/rprx/v2fly-github-io/blob/master/docs/config/protocols/vless.md)
+[^4]: [v2fly-github-io/vless.md at master · rprx/v2fly-github-io](https://github.com/rprx/v2fly-github-io/blob/master/docs/config/protocols/vless.md)

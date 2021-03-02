@@ -19,7 +19,7 @@ weight: 2
 
 ## Xray 配置
 
-为了获得更好的使用体验，请下载 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat) 替换官方路由规则文件。
+为了更好的分流体验，请替换默认路由规则文件为 [Loyalsoldier/v2ray-rules-dat](https://github.com/Loyalsoldier/v2ray-rules-dat)，否则 Xray-core 将无法加载本配置。
 
 ```bash
 sudo curl -oL /usr/local/share/xray/geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat
@@ -199,8 +199,6 @@ sudo curl -oL /usr/local/share/xray/geosite.dat https://github.com/Loyalsoldier/
 **TIP**
 
 本配置会劫持所有发往 53 端口的流量以解决 DNS 污染问题，所以客户端和本机的 DNS 服务器的地址可以随意配置。
-
-此外，由于内置的 `geoip.dat` 文件无法完美实现路由分流，故在配置文件中格外添加了一些 IP。
 {{% /notice %}}
 
 ## 策略路由配置
