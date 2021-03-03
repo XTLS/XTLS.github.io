@@ -34,7 +34,7 @@ weight: 4
 
 {{% notice dark %}}`rules`: \[[RuleObject](#ruleobject)\]{{% /notice %}}
 
-对应一个数组，数组中每个元素是一个规则。
+对应一个数组，数组中每一项是一个规则。
 
 对于每一个连接，路由将根据这些规则依次进行判断，当一个规则生效时，即将这个连接转发至它所指定的 `outboundTag`或 `balancerTag`。
 
@@ -45,7 +45,7 @@ weight: 4
 
 {{% notice dark %}}`balancers`: \[ [BalancerObject](#balancerobject) \]{{% /notice %}}
  
-一个数组，数组中每个元素是一个负载均衡器的配置。
+一个数组，数组中每一项是一个负载均衡器的配置。
 
 当一个规则指向一个负载均衡器时，Xray 会通过此负载均衡器选出一个outbound, 然后由它转发流量。
 
@@ -117,7 +117,7 @@ weight: 4
 
 {{% notice dark %}}`ip`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素代表一个 IP 范围。当某一元素匹配目标 IP 时，此规则生效。有以下几种形式：
+一个数组，数组内每一项代表一个 IP 范围。当某一项匹配目标 IP 时，此规则生效。有以下几种形式：
 
 * IP：形如 `"127.0.0.1"`。
 * [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)：形如 `"10.0.0.0/8"`。
@@ -147,25 +147,19 @@ weight: 4
 
 {{% notice dark %}}`source`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素代表一个 IP 范围。当某一元素匹配目标 IP 时，此规则生效。有以下几种形式：
-
-* IP：形如 `"127.0.0.1"`。
-* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)：形如 `"10.0.0.0/8"`。
-* 预定义IP列表：此列表预置于每一个 Xray 的安装包中，文件名为 `geoip.dat`。使用方式形如 `"geoip:cn"`，必须以 `geoip:`（小写）开头，后面跟双字符国家代码，支持几乎所有可以上网的国家。
-  * 特殊值：`"geoip:private"`，包含所有私有地址，如 `127.0.0.1`。
-* 从文件中加载 IP：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](../../env#资源文件路径) 中，文件格式与 `geoip.dat` 相同标签必须在文件中存在。
+一个数组，数组内每一项代表一个 IP 范围，形式有 IP、CIDR、GeoIP 和从文件中加载 IP。当某一项匹配来源 IP 时，此规则生效。
 
 {{% notice dark %}}`user`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素是一个邮箱地址。当某一元素匹配来源用户时，此规则生效。
+一个数组，数组内每一项是一个邮箱地址。当某一项匹配来源用户时，此规则生效。
 
 {{% notice dark %}}`inboundTag`: \[string\]{{% /notice %}}
 
-一个数组，数组内每一个元素是一个标识。当某一元素匹配入站协议的标识时，此规则生效。
+一个数组，数组内每一项是一个标识。当某一项匹配入站协议的标识时，此规则生效。
 
 {{% notice dark %}}`protocol`: \[ "http" | "tls" | "bittorrent" \]{{% /notice %}}
 
-一个数组，数组内每一个元素表示一种协议。当某一个协议匹配当前连接的协议类型时，此规则生效。
+一个数组，数组内每一项表示一种协议。当某一个协议匹配当前连接的协议类型时，此规则生效。
  {{% notice info %}}
 **TIP**\
 必须开启入站代理中的 `sniffing` 选项, 才能嗅探出连接所使用的协议类型. 
