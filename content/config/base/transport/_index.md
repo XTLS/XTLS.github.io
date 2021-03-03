@@ -153,7 +153,7 @@ TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型�
     "preferServerCipherSuites": true,
     "cipherSuites": "此处填写你需要的加密套件名称,每个套件名称之间用:进行分隔",
     "certificates": [],
-    "disableSystemRoot": false
+    "disableSystemRoot": false,
     "enableSessionResumption": false
 }
 ```
