@@ -179,6 +179,8 @@ acme.sh --install-cert -d example.com --fullchain-file /etc/ssl/xray/cert.pem --
 
   此处，我们使用 Proxy Protocol 让被回落到的目标获取到客户端的真实 IP。
 
+  另外，当 Xray 的某个入站配置存在 `"acceptProxyProtocol": true` 时，ReadV 将失效。
+
 - 有关 HTTP/2
 
   首先，`inbounds.streamSettings.xtlsSettings.alpn` 有顺序，应将 `h2` 放前，`http/1.1` 放后，在优先使用 HTTP/2 的同时保证兼容性；反过来会导致 HTTP/2 在协商时变为 HTTP/1.1，成为无效配置。
