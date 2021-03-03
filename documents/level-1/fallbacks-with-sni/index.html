@@ -1,0 +1,220 @@
+<!doctype html><html><head><title>通过 SNI 回落功能实现伪装与按域名分流 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-03-03T15:12:16 UTC"><meta name=description content="Project X 的文档."><meta name=author content="Project X"><title>通过 SNI 回落功能实现伪装与按域名分流 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https://xtls.github.io"</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/documents/level-1/fallbacks-with-sni/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><div class=search><div class=searchbox><input data-search-input id=search-by type=text placeholder></div><script type=text/javascript src=/vendor/lunr/lunr.min.js></script><script type=text/javascript src=/vendor/auto-complete/auto-complete.js></script><link href=/vendor/auto-complete/auto-complete.css rel=stylesheet><script type=text/javascript>var baseurl="https://xtls.github.io"</script><script type=text/javascript src=/js/search.js></script></div><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
+<a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
+<script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/about/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/about/>Project X&nbsp;⚡</a><ul><li data-nav-id=https://xtls.github.io/about/new/ class="dd-item
+item_level_$level"><a href=/about/new/>大史记&nbsp;</a></li></ul></li><hr><li data-nav-id=https://xtls.github.io/guide/ class="dd-item alwaysopen
+item_level_$level"><a href=/guide/>快速入门&nbsp;</a></li><li data-nav-id=https://xtls.github.io/config/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/config/>配置文件&nbsp;📜</a><ul><li data-nav-id=https://xtls.github.io/config/base/ class="dd-item haschildren
+item_level_$level"><a href=/config/base/>基础配置模块&nbsp;</a>
+<i class="fas fa-chevron-right ddexp"></i><ul><li data-nav-id=https://xtls.github.io/config/base/log/ class="dd-item
+item_level_$level"><a href=/config/base/log/>日志配置</a></li><li data-nav-id=https://xtls.github.io/config/base/api/ class="dd-item
+item_level_$level"><a href=/config/base/api/>API接口</a></li><li data-nav-id=https://xtls.github.io/config/base/dns/ class="dd-item
+item_level_$level"><a href=/config/base/dns/>内置DNS服务器</a></li><li data-nav-id=https://xtls.github.io/config/base/routing/ class="dd-item
+item_level_$level"><a href=/config/base/routing/>路由</a></li><li data-nav-id=https://xtls.github.io/config/base/policy/ class="dd-item
+item_level_$level"><a href=/config/base/policy/>本地策略</a></li><li data-nav-id=https://xtls.github.io/config/base/inbounds/ class="dd-item
+item_level_$level"><a href=/config/base/inbounds/>Inbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/outbounds/ class="dd-item
+item_level_$level"><a href=/config/base/outbounds/>Outbounds</a></li><li data-nav-id=https://xtls.github.io/config/base/transport/ class="dd-item
+item_level_$level"><a href=/config/base/transport/>传输方式</a></li><li data-nav-id=https://xtls.github.io/config/base/stats/ class="dd-item
+item_level_$level"><a href=/config/base/stats/>统计信息</a></li><li data-nav-id=https://xtls.github.io/config/base/reverse/ class="dd-item
+item_level_$level"><a href=/config/base/reverse/>反向代理</a></li></ul></li><li data-nav-id=https://xtls.github.io/config/inbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/inbound-protocols/>Inbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/outbound-protocols/ class="dd-item
+item_level_$level"><a href=/config/outbound-protocols/>Outbounds 可用协议列表</a></li><li data-nav-id=https://xtls.github.io/config/transports/ class="dd-item
+item_level_$level"><a href=/config/transports/>传输方式列表</a></li><li data-nav-id=https://xtls.github.io/config/vless/ class="dd-item
+item_level_$level"><a href=/config/vless/>VLESS 协议详解</a></li><li data-nav-id=https://xtls.github.io/config/fallback/ class="dd-item
+item_level_$level"><a href=/config/fallback/>Fallbacks</a></li><li data-nav-id=https://xtls.github.io/config/xtls/ class="dd-item
+item_level_$level"><a href=/config/xtls/>XTLS 深度剖析</a></li><li data-nav-id=https://xtls.github.io/config/env/ class="dd-item
+item_level_$level"><a href=/config/env/>环境变量</a></li><li data-nav-id=https://xtls.github.io/config/multiple_config/ class="dd-item alwaysopen
+item_level_$level"><a href=/config/multiple_config/>多文件配置</a></li></ul></li><li data-nav-id=https://xtls.github.io/documents/ class="dd-item parent haschildren
+item_level_$level"><i class="fas fa-chevron-down ddexp"></i><a href=/documents/>使用心得&nbsp;📚</a><ul><li data-nav-id=https://xtls.github.io/documents/level-0/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-0/>小小白白话文&nbsp;📙</a></li><li data-nav-id=https://xtls.github.io/documents/level-1/ class="dd-item parent active alwaysopen
+item_level_$level"><a href=/documents/level-1/>入门技巧&nbsp;📚</a></li><li data-nav-id=https://xtls.github.io/documents/level-2/ class="dd-item alwaysopen
+item_level_$level"><a href=/documents/level-2/>进阶文档&nbsp;📘</a></li></ul></li><li data-nav-id=https://xtls.github.io/develop/ class="dd-item haschildren
+item_level_$level"><i class="fas fa-chevron-right ddexp"></i><a href=/develop/>开发指南&nbsp;🖥️</a><ul><li data-nav-id=https://xtls.github.io/develop/intro/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/intro/>开发手册</a></li><li data-nav-id=https://xtls.github.io/develop/protocols/ class="dd-item alwaysopen
+item_level_$level"><a href=/develop/protocols/>协议详解</a></li></ul></li><li data-nav-id=https://xtls.github.io/faq/ class="dd-item alwaysopen
+item_level_$level"><a href=/faq/>常见问答&nbsp;💬</a></li><li data-nav-id=https://xtls.github.io/caseslip/ class="dd-item alwaysopen
+item_level_$level"><a href=/caseslip/>大案牍术&nbsp;</a></li><hr><li data-nav-id=https://xtls.github.io/links/ class="dd-item alwaysopen
+item_level_$level"><a href=/links/>常用链接&nbsp;🤝</a></li></ul></aside><section class=page><nav id=ariane aria-label=breadcrumb><ol class=ariane><li><a class=text-link href=https://xtls.github.io></a></li><li><a class=text-link href=/documents/>使用心得</a></li><li><a class=text-link href=/documents/level-1/>入门技巧</a></li><li class=active>通过 SNI 回落功能实现伪装与按域名分流</li></ol></nav><h1>入门技巧<span>通过 SNI 回落功能实现伪装与按域名分流</span></h1><nav class=subpages><li><a title=$pagetitle href=/documents/level-1/fallbacks-lv1/>回落 (fallbacks) 功能简析&nbsp;📙</a></li><li class=active><a title=$pagetitle href=/documents/level-1/fallbacks-with-sni/>通过 SNI 回落功能实现伪装与按域名分流</a></li><li><a title=$pagetitle href=/documents/level-1/routing-lv1-part1/>路由 (routing) 功能简析（上）&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-1/routing-lv1-part2/>路由 (routing) 功能简析（下）&nbsp;📙</a></li><li><a title=$pagetitle href=/documents/level-1/work/>Xray的工作模式</a></li></nav><div class=jump-to-section><span onclick="$h=$(this),$h.next('nav').slideToggle(100,function(){$h.children('i').attr('class',function(){return $h.next('nav').is(':visible')?'fas fa-chevron-down':'fas fa-chevron-right'})})"><span class="fas fa-align-right"></span><i class="fas fa-chevron-right"></i></span><nav id=TableOfContents><ul><li><a href=#应用情景>应用情景</a></li><li><a href=#sni-简介>SNI 简介</a></li><li><a href=#思路>思路</a></li><li><a href=#添加-dns-记录>添加 DNS 记录</a></li><li><a href=#申请-tls-证书>申请 TLS 证书</a></li><li><a href=#xray-配置>Xray 配置</a></li><li><a href=#nginx-配置>Nginx 配置</a></li><li><a href=#caddy-配置>Caddy 配置</a></li><li><a href=#参考>参考</a></li><li><a href=#引用>引用</a></li></ul></nav></div><div class=content><p>VLESS 是一种很轻的协议，和 Trojan 一样，不对流量进行复杂的加密和混淆，而是大隐隐于市，通过 TLS 协议加密，混杂在其他 HTTPS 流量中，在墙内外穿进穿出。为了更好的伪装以应对主动探测，Fallbacks 回落功能随 VLESS 同时出现。这篇教程将演示如何使用 Xray 中 VLESS 入站协议的回落功能配合 Nginx 或 Caddy 在保证伪装完全的前提下实现按域名分流。</p><h2 ref=应用情景>应用情景</h2><a class=anchor id=应用情景></a><p>由于 XTLS，Xray 需要监听 443 端口，这导致如果之前有网站运行在服务器上，那么此时网站无法运行或需要运行在其他端口上，这显然是不合理的。有以下三种方案可以解决这个问题：</p><ul><li><p>Xray 监听其他常用端口（如 22、3389、8443）</p><p>这个方案是最简单的，但不够完美。</p></li><li><p>Nginx 或 HAProxy 监听 443 端口，通过 SNI 分流做 L4 反向代理，实现端口复用</p><p>这个方案比较复杂，需要对 Nginx 或 HAProxy 的使用有一定了解，此处不作过多解释。</p></li><li><p>Xray 监听 443 端口，通过 Fallbacks 功能 SNI 分流将网站流量回落到 Nginx 或 Caddy</p><p>这个方案难度适中，也是此教程接下来想要演示的方案。</p></li></ul><h2 ref=sni-简介>SNI 简介</h2><a class=anchor id=sni-简介></a><p>服务器名称指示（英语：<strong>S</strong>erver <strong>N</strong>ame <strong>I</strong>ndication，缩写：<strong>SNI</strong>）是 TLS 的一个扩展协议。熟悉反向代理的朋友都知道，如果想要通过域名将流量代理到正确的内容上，需要以下配置：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-nginx data-lang=nginx><span style=color:#66d9ef>proxy_set_header</span> <span style=color:#e6db74>Host</span> <span style=color:#e6db74>主机名</span>;
+</code></pre></div><p>这句的作用是将名为 “Host” 的 HTTP Header 设定为某个主机名。为什么要这样做？一般而言，一台服务器对应一个 IP，但却运行多个网站，访问者通过域名查询到 IP 以访问服务器，那么问题来了，如何确定访问者想要访问的是哪一个网站？这需要“基于名称的虚拟主机”。</p><p>当 Web 服务器收到访问请求后，它会查看请求的主机头，使访问者访问正确的网站。然而当 HTTP 协议被 TLS 协议加密后，这种简单的方法就无法实现了。因为 TLS 握手发生在服务器看到任何 HTTP 头之前，因此，服务器不可能使用 HTTP 主机头中的信息来决定呈现哪个证书，更无法决定访问者的访问目标。</p><p>SNI 的原理也很简单，它通过让客户端发送主机名作为 TLS 协商的一部分来解决此问题。所以在使用 Nginx 对 HTTPS 协议进行反向代理时，需要在配置中加入 <code>proxy_ssl_server_name on;</code>，此时 Nginx 会向被代理的服务器发送 SNI 信息，解决了 HTTPS 协议下虚拟主机失效的问题。另外，使用 SNI 时，即使不指定主机头，也可以正确访问网站。</p><h2 ref=思路>思路</h2><a class=anchor id=思路></a><p><img src=../fallbacks-with-sni-resources/xray-fallbacks.svg alt="Xray 回落流程"></p><p>从 443 端口接收到流量后，Xray 会把 TLS 解密后首包长度 &lt; 18、协议版本无效或身份认证失败的流量通过对 name、path、alpn 的匹配转发到 dest 指定的地址。</p><h2 ref=添加-dns-记录>添加 DNS 记录</h2><a class=anchor id=添加-dns-记录></a><p><img src=../fallbacks-with-sni-resources/xray-dns-records.webp alt="DNS 记录"></p><p>请按实际情况修改域名和 IP。</p><h2 ref=申请-tls-证书>申请 TLS 证书</h2><a class=anchor id=申请-tls-证书></a><p>由于要对不同前缀的域名进行分流，但一个通配符证书的作用域仅限于两“.”之间（例如：申请 <code>*.example.com</code>，<code>example.com</code> 和 <code>*.*.example.com</code> 并不能使用该证书），故需申请 <a href=https://zh.wikipedia.org/wiki/%E4%B8%BB%E9%A2%98%E5%A4%87%E7%94%A8%E5%90%8D%E7%A7%B0>SAN</a> 通配符证书。根据 Let&rsquo;s Encrypt 官网信息<sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup>，申请通配符证书要求 DNS-01 验证方式，此处演示 NS 记录为 Cloudflare 的域名通过 <a href=https://acme.sh>acme.sh</a> 申请 Let&rsquo;s Encrypt 的免费 TLS 证书。使用其他域名托管商的申请方法请阅读 <a href=https://github.com/acmesh-official/acme.sh/wiki/dnsapi>dnsapi · acmesh-official/acme.sh Wiki</a>。</p><p>首先需要到 <a href=https://dash.cloudflare.com/profile/api-tokens>Cloudflare 面板</a>创建 API Token。参数如下：</p><p><img src=../fallbacks-with-sni-resources/cf-api-token-permissions-for-acme.webp alt="API Token 的权限设置"></p><p>权限部分至关重要，其他部分任意。</p><p>创建完毕后，你会得到一串神秘字符，请将其妥善保管到安全且不会丢失的地方，因为它不再会显示。这串字符就是即将用到的 <code>CF_Token</code>。</p><blockquote><p>注意：以下操作需要在 root 用户下进行，使用 sudo 会出现错误。</p></blockquote><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-bash data-lang=bash>curl https://get.acme.sh | sh <span style=color:#75715e># 安装 acme.sh</span>
+export CF_Token<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;sdfsdfsdfljlbjkljlkjsdfoiwje&#34;</span> <span style=color:#75715e># 设定 API Token 变量</span>
+acme.sh --issue -d example.com -d *.example.com --dns dns_cf <span style=color:#75715e># 使用 DNS-01 验证方式申请证书</span>
+mkdir /etc/ssl/xray <span style=color:#75715e># 新建证书存放目录</span>
+acme.sh --install-cert -d example.com --fullchain-file /etc/ssl/xray/cert.pem --key-file /etc/ssl/xray/privkey.key --reloadcmd <span style=color:#e6db74>&#34;chown nobody:nogroup -R /etc/ssl/xray &amp;&amp; systemctl restart xray&#34;</span> <span style=color:#75715e># 安装证书到指定目录并设定自动续签生效指令</span>
+</code></pre></div><h2 ref=xray-配置>Xray 配置</h2><a class=anchor id=xray-配置></a><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json>{
+    <span style=color:#f92672>&#34;log&#34;</span>: {
+        <span style=color:#f92672>&#34;loglevel&#34;</span>: <span style=color:#e6db74>&#34;warning&#34;</span>
+    },
+    <span style=color:#f92672>&#34;inbounds&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>443</span>,
+            <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;vless&#34;</span>,
+            <span style=color:#f92672>&#34;settings&#34;</span>: {
+                <span style=color:#f92672>&#34;clients&#34;</span>: [
+                    {
+                        <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;UUID&#34;</span>,
+                        <span style=color:#f92672>&#34;flow&#34;</span>: <span style=color:#e6db74>&#34;xtls-rprx-direct&#34;</span>
+                    }
+                ],
+                <span style=color:#f92672>&#34;decryption&#34;</span>: <span style=color:#e6db74>&#34;none&#34;</span>,
+                <span style=color:#f92672>&#34;fallbacks&#34;</span>: [
+                    {
+                        <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;example.com&#34;</span>,
+                        <span style=color:#f92672>&#34;path&#34;</span>: <span style=color:#e6db74>&#34;/vmessws&#34;</span>,
+                        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5000</span>,
+                        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+                    },
+                    {
+                        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5001</span>,
+                        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+                    },
+                    {
+                        <span style=color:#f92672>&#34;alpn&#34;</span>: <span style=color:#e6db74>&#34;h2&#34;</span>,
+                        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5002</span>,
+                        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+                    },
+                    {
+                        <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;blog.example.com&#34;</span>,
+                        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5003</span>,
+                        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+                    },
+                    {
+                        <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;blog.example.com&#34;</span>,
+                        <span style=color:#f92672>&#34;alpn&#34;</span>: <span style=color:#e6db74>&#34;h2&#34;</span>,
+                        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5004</span>,
+                        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+                    }
+                ]
+            },
+            <span style=color:#f92672>&#34;streamSettings&#34;</span>: {
+                <span style=color:#f92672>&#34;network&#34;</span>: <span style=color:#e6db74>&#34;tcp&#34;</span>,
+                <span style=color:#f92672>&#34;security&#34;</span>: <span style=color:#e6db74>&#34;xtls&#34;</span>,
+                <span style=color:#f92672>&#34;xtlsSettings&#34;</span>: {
+                    <span style=color:#f92672>&#34;alpn&#34;</span>: [
+                        <span style=color:#e6db74>&#34;h2&#34;</span>,
+                        <span style=color:#e6db74>&#34;http/1.1&#34;</span>
+                    ],
+                    <span style=color:#f92672>&#34;certificates&#34;</span>: [
+                        {
+                            <span style=color:#f92672>&#34;certificateFile&#34;</span>: <span style=color:#e6db74>&#34;/etc/ssl/xray/cert.pem&#34;</span>,
+                            <span style=color:#f92672>&#34;keyFile&#34;</span>: <span style=color:#e6db74>&#34;/etc/ssl/xray/privkey.key&#34;</span>
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            <span style=color:#f92672>&#34;listen&#34;</span>: <span style=color:#e6db74>&#34;127.0.0.1&#34;</span>,
+            <span style=color:#f92672>&#34;port&#34;</span>: <span style=color:#ae81ff>5000</span>,
+            <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;vmess&#34;</span>,
+            <span style=color:#f92672>&#34;settings&#34;</span>: {
+                <span style=color:#f92672>&#34;clients&#34;</span>: [
+                    {
+                        <span style=color:#f92672>&#34;id&#34;</span>: <span style=color:#e6db74>&#34;UUID&#34;</span>
+                    }
+                ]
+            },
+            <span style=color:#f92672>&#34;streamSettings&#34;</span>: {
+                <span style=color:#f92672>&#34;network&#34;</span>: <span style=color:#e6db74>&#34;ws&#34;</span>,
+                <span style=color:#f92672>&#34;wsSettings&#34;</span>: {
+                    <span style=color:#f92672>&#34;acceptProxyProtocol&#34;</span>: <span style=color:#66d9ef>true</span>,
+                    <span style=color:#f92672>&#34;path&#34;</span>: <span style=color:#e6db74>&#34;/vmessws&#34;</span>
+                }
+            }
+        }
+    ],
+    <span style=color:#f92672>&#34;outbounds&#34;</span>: [
+        {
+            <span style=color:#f92672>&#34;protocol&#34;</span>: <span style=color:#e6db74>&#34;freedom&#34;</span>
+        }
+    ]
+}
+</code></pre></div><p>以上配置针对于 Nginx，以下是需要注意的一些细节。</p><ul><li><p>有关 Proxy Protocol</p><p>Proxy Protocol 是 HaProxy 开发的一种旨在解决代理时容易丢失客户端信息问题的协议，常用于链式代理和反向代理。传统的处理方法往往较为复杂且有诸多限制，而 Proxy Protocol 非常简单地在传输数据时附带上原始连接四元组信息的数据包，解决了这个问题。</p><p>凡事皆有利弊，Proxy Protocol 也是如此。</p><ul><li>有发送必须有接收，反之亦然</li><li>同一端口不能既兼容带 Proxy Protocol 数据的连接又兼容不带数据的连接（如：Nginx 同端口的不同虚拟主机（server），本质是上一条）<sup id=fnref:2><a href=#fn:2 class=footnote-ref role=doc-noteref>2</a></sup><sup id=fnref:3><a href=#fn:3 class=footnote-ref role=doc-noteref>3</a></sup></li></ul><p>在遇到异常时，请考虑配置是否符合上述条件。</p><p>此处，我们使用 Proxy Protocol 让被回落到的目标获取到客户端的真实 IP。</p><p>另外，当 Xray 的某个入站配置存在 <code>"acceptProxyProtocol": true</code> 时，ReadV 将失效。</p></li><li><p>有关 HTTP/2</p><p>首先，<code>inbounds.streamSettings.xtlsSettings.alpn</code> 有顺序，应将 <code>h2</code> 放前，<code>http/1.1</code> 放后，在优先使用 HTTP/2 的同时保证兼容性；反过来会导致 HTTP/2 在协商时变为 HTTP/1.1，成为无效配置。</p><p>在上述配置中，每条回落到 Nginx 的配置都要分成两个。这是因为 h2 是强制 TLS 加密的 HTTP/2 连接，这有益于数据在互联网中传输的安全，但在服务器内部没有必要；而 h2c 是非加密的 HTTP/2 连接，适合该环境。然而，Nginx 不能在同一端口上同时监听 HTTP/1.1 和 h2c，为了解决这个问题，需要在回落中指定 <code>alpn</code> 项（是 <code>fallbacks</code> 而不是 <code>xtlsSettings</code> 里面的），以尝试匹配 TLS ALPN 协商结果。</p><p>建议 <code>alpn</code> 项只按需用两种填法：<sup id=fnref:4><a href=#fn:4 class=footnote-ref role=doc-noteref>4</a></sup></p><ul><li>省略</li><li><code>"h2"</code></li></ul><p>如果使用 Caddy 就大可不必如此繁杂了，因为它<strong>可以</strong>在同一端口上同时监听 HTTP/1.1 和 h2c，配置改动如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-json data-lang=json><span style=color:#e6db74>&#34;fallbacks&#34;</span><span style=color:#960050;background-color:#1e0010>:</span> [
+    {
+        <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;example.com&#34;</span>,
+        <span style=color:#f92672>&#34;path&#34;</span>: <span style=color:#e6db74>&#34;/vmessws&#34;</span>,
+        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5000</span>,
+        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+    },
+    {
+        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5001</span>,
+        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+    },
+    {
+        <span style=color:#f92672>&#34;name&#34;</span>: <span style=color:#e6db74>&#34;blog.example.com&#34;</span>,
+        <span style=color:#f92672>&#34;dest&#34;</span>: <span style=color:#ae81ff>5002</span>,
+        <span style=color:#f92672>&#34;xver&#34;</span>: <span style=color:#ae81ff>1</span>
+    }
+]
+</code></pre></div></li></ul><h2 ref=nginx-配置>Nginx 配置</h2><a class=anchor id=nginx-配置></a><p>Nginx 将通过官方源进行安装。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-bash data-lang=bash>sudo apt install curl gnupg2 ca-certificates lsb-release
+echo <span style=color:#e6db74>&#34;deb [arch=amd64] http://nginx.org/packages/ubuntu `lsb_release -cs` nginx&#34;</span> <span style=color:#ae81ff>\
+</span><span style=color:#ae81ff></span>    | sudo tee /etc/apt/sources.list.d/nginx.list
+curl -fsSL https://nginx.org/keys/nginx_signing.key | sudo apt-key add -
+sudo apt update
+sudo apt install nginx
+</code></pre></div><p>删除 <code>/etc/nginx/conf.d/default.conf</code> 并创建 <code>/etc/nginx/conf.d/fallbacks.conf</code>，内容如下：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-nginx data-lang=nginx><span style=color:#66d9ef>set_real_ip_from</span> <span style=color:#ae81ff>127</span><span style=color:#e6db74>.0.0.1</span>;
+<span style=color:#66d9ef>real_ip_header</span> <span style=color:#e6db74>proxy_protocol</span>;
+
+<span style=color:#66d9ef>server</span> {
+    <span style=color:#f92672>listen</span> 127.0.0.1:<span style=color:#ae81ff>5001</span> <span style=color:#e6db74>proxy_protocol</span> <span style=color:#e6db74>default_server</span>;
+    <span style=color:#f92672>listen</span> 127.0.0.1:<span style=color:#ae81ff>5002</span> <span style=color:#e6db74>proxy_protocol</span> <span style=color:#e6db74>default_server</span> <span style=color:#e6db74>http2</span>;
+
+    <span style=color:#f92672>location</span> <span style=color:#e6db74>/</span> {
+        <span style=color:#f92672>root</span> <span style=color:#e6db74>/srv/http/default</span>;
+    }
+}
+
+<span style=color:#66d9ef>server</span> {
+    <span style=color:#f92672>listen</span> 127.0.0.1:<span style=color:#ae81ff>5003</span> <span style=color:#e6db74>proxy_protocol</span>;
+    <span style=color:#f92672>listen</span> 127.0.0.1:<span style=color:#ae81ff>5004</span> <span style=color:#e6db74>proxy_protocol</span> <span style=color:#e6db74>http2</span>;
+
+    <span style=color:#f92672>server_name</span> <span style=color:#e6db74>blog.example.com</span>;
+
+    <span style=color:#f92672>location</span> <span style=color:#e6db74>/</span> {
+        <span style=color:#f92672>root</span> <span style=color:#e6db74>/srv/http/blog.example.com</span>;
+    }
+}
+
+<span style=color:#66d9ef>server</span> {
+    <span style=color:#f92672>listen</span> <span style=color:#ae81ff>80</span>;
+    <span style=color:#f92672>return</span> <span style=color:#ae81ff>301</span> <span style=color:#e6db74>https://</span>$host$request_uri;
+}
+</code></pre></div><h2 ref=caddy-配置>Caddy 配置</h2><a class=anchor id=caddy-配置></a><p>安装 Caddy 请参阅 <a href=https://caddyserver.com/docs/install>Install — Caddy Documentation</a>。</p><p>为了使 Caddy 能获取到访问者的真实 IP，需要编译带有 Proxy Protocol 模块的 Caddy。建议直接在 Caddy 官网上在线编译。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-bash data-lang=bash>sudo curl -o /usr/bin/caddy <span style=color:#e6db74>&#34;https://caddyserver.com/api/download?os=linux&amp;arch=amd64&amp;p=github.com%2Fmastercactapus%2Fcaddy2-proxyprotocol&amp;idempotency=79074247675458&#34;</span>
+sudo chmod +x /usr/bin/caddy
+</code></pre></div><p>直接替换即可。</p><blockquote><p>建议先通过官网文档安装 Caddy，再替换二进制文件。这样做无需手动设定进程守护。</p></blockquote><p>编辑 <code>/etc/caddy/Caddyfile</code>：</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-Caddyfile data-lang=Caddyfile>{
+    <span style=color:#66d9ef>servers</span> 127.0.0.1:<span style=color:#ae81ff>5001</span> {
+        <span style=color:#66d9ef>listener_wrappers</span> {
+            <span style=color:#66d9ef>proxy_protocol</span>
+        }
+	<span style=color:#66d9ef>protocol</span> {
+            <span style=color:#66d9ef>allow_h2c</span>
+        }
+    }
+    <span style=color:#66d9ef>servers</span> 127.0.0.1:<span style=color:#ae81ff>5002</span> {
+        <span style=color:#66d9ef>listener_wrappers</span> {
+            <span style=color:#66d9ef>proxy_protocol</span>
+        }
+	<span style=color:#66d9ef>protocol</span> {
+            <span style=color:#66d9ef>allow_h2c</span>
+        }
+    }
+}
+
+:5001 {
+    <span style=color:#66d9ef>root</span> <span style=color:#a6e22e>*</span> <span style=color:#e6db74>/srv/http/default</span>
+    <span style=color:#66d9ef>file_server</span>
+    <span style=color:#66d9ef>log</span> 
+    <span style=color:#e6db74>bind</span> <span style=color:#ae81ff>127</span><span style=color:#e6db74>.0.0.1</span>
+}
+
+http://blog.example.com:5002 {
+    <span style=color:#66d9ef>root</span> <span style=color:#a6e22e>*</span> <span style=color:#e6db74>/srv/http/blog.example.com</span>
+    <span style=color:#66d9ef>file_server</span>
+    <span style=color:#66d9ef>log</span>
+    <span style=color:#66d9ef>bind</span> <span style=color:#ae81ff>127</span><span style=color:#e6db74>.0.0.1</span>
+}
+
+:80 {
+    <span style=color:#66d9ef>redir</span> <span style=color:#e6db74>https://</span><span style=color:#ae81ff>{host}{uri}</span> <span style=color:#e6db74>permanent</span>
+}
+</code></pre></div><h2 ref=参考>参考</h2><a class=anchor id=参考></a><ol><li><a href=https://zh.wikipedia.org/wiki/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8D%E7%A7%B0%E6%8C%87%E7%A4%BA>服务器名称指示 - 维基百科，自由的百科全书</a></li><li><a href=https://github.com/acmesh-official/acme.sh/wiki>Home · acmesh-official/acme.sh Wiki</a></li><li><a href=https://zh.wikipedia.org/wiki/HTTP/2>HTTP/2 - 维基百科，自由的百科全书</a></li></ol><h2 ref=引用>引用</h2><a class=anchor id=引用></a><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p><a href=https://letsencrypt.org/zh-cn/docs/faq/>常见问题 - Let&rsquo;s Encrypt - 免费的SSL/TLS证书</a> <a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:2 role=doc-endnote><p><a href=https://www.haproxy.com/blog/haproxy/proxy-protocol/>Proxy Protocol - HAProxy Technologies</a> <a href=#fnref:2 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:3 role=doc-endnote><p><a href=https://www.jianshu.com/p/cc8d592582c9>proxy protocol介绍及nginx配置 - 简书</a> <a href=#fnref:3 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li><li id=fn:4 role=doc-endnote><p><a href=https://github.com/rprx/v2fly-github-io/blob/master/docs/config/protocols/vless.md>v2fly-github-io/vless.md at master · rprx/v2fly-github-io</a> <a href=#fnref:4 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></div><div class=chevrons></div></section><section class=right-menu><div class=TableOfContents><label><i class="fas fa-align-right"></i>&nbsp;&nbsp;</label><nav><ul><li><a href=/documents/level-1/fallbacks-with-sni/>通过 SNI 回落功能实现伪装与按域名分流</a></li></ul></nav><nav id=TableOfContents><ul><li><a href=#应用情景>应用情景</a></li><li><a href=#sni-简介>SNI 简介</a></li><li><a href=#思路>思路</a></li><li><a href=#添加-dns-记录>添加 DNS 记录</a></li><li><a href=#申请-tls-证书>申请 TLS 证书</a></li><li><a href=#xray-配置>Xray 配置</a></li><li><a href=#nginx-配置>Nginx 配置</a></li><li><a href=#caddy-配置>Caddy 配置</a></li><li><a href=#参考>参考</a></li><li><a href=#引用>引用</a></li></ul></nav></div><div class=Actions><nav><ul><li><a href=https://github.com/XTLS/XTLS.github.io/tree/main/content/documents/level-1/fallbacks-with-sni.md target=blank><i class="fab fa-github"></i></a></li><li><i class="fas fa-calendar"></i>22 February 2021</li></ul></nav></div></section></article><footer><footer><div class=row><div class="col-6 col-sm-4 text-xs-center order-sm-2"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="User mailing list" aria-label="User mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Twitter aria-label=Twitter><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/twitter><i class="fab fa-twitter"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Stack Overflow" aria-label="Stack Overflow"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/stack><i class="fab fa-stack-overflow"></i></a></li></ul></div><div class="col-6 col-sm-4 text-right text-xs-center order-sm-3"><ul class="list-inline mb-0"><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=GitHub aria-label=GitHub><a class=text-white target=_blank rel="noopener noreferrer" href=https://github.com/XTLS><i class="fab fa-github"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title=Slack aria-label=Slack><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/slack><i class="fab fa-slack"></i></a></li><li class="list-inline-item mx-2 h3" data-toggle=tooltip data-placement=top title="Developer mailing list" aria-label="Developer mailing list"><a class=text-white target=_blank rel="noopener noreferrer" href=https://example.org/mail><i class="fa fa-envelope"></i></a></li></ul></div><div class="col-12 col-sm-4 text-center py-2 order-sm-2"><small class=text-white>&copy; 2020-2021 ProjectX Community All Rights Reserved</small></div></div></div></footer></footer></body></html>
