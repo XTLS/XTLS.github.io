@@ -27,3 +27,7 @@ weight: 2
 {{% notice dark %}}
 <font size=3>[Xray的工作模式简析](./work)</font>
 {{% /notice %}}
+
+{{% notice dark %}}
+<font size=3>[通过 SNI 回落功能实现伪装与按域名分流](./fallbacks-with-sni/)</font>
+{{% /notice %}}
