@@ -81,6 +81,13 @@ Mux 相关的具体配置。
 这种转发方式**不经过**底层传输方式。如果需要使用支持底层传输方式的转发，请使用 [sockopt.dialerProxy](../transport/#sockoptobject)。
 {{% /notice %}}
 
+{{% notice dander %}}
+此选项与 PorxySettingsObject.Tag 不兼容
+{{% /notice %}}
+
+{{% notice info %}}
+兼容 v2fly 的配置 transportLayer
+{{% /notice %}}
 <br />
 ### MuxObject
 ---
