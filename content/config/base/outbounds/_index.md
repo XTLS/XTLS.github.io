@@ -77,6 +77,10 @@ Mux 相关的具体配置。
 
 当指定另一个outbound的标识时，此outbound发出的数据，将被转发至所指定的outbound发出。
 
+{{% notice danger %}}
+这种转发方式**不经过**底层传输方式。如果需要使用支持底层传输方式的转发，请使用 [sockopt.dialerProxy](../transport/#sockoptobject)。
+{{% /notice %}}
+
 <br />
 ### MuxObject
 ---
