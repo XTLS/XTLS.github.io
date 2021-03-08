@@ -82,7 +82,7 @@ Mux 相关的具体配置。
 {{% /notice %}}
 
 {{% notice dander %}}
-此选项与 PorxySettingsObject.Tag 不兼容
+此选项与 Sockopt.dialerProxy 不兼容
 {{% /notice %}}
 
 {{% notice info %}}
