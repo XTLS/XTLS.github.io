@@ -409,6 +409,6 @@ ocspStapling 检查更新时间间隔。 单位：秒
 此选项可用于支持底层传输方式的链式转发。
 
 {{% notice dander %}}
-Tip 1: 此选项与 PorxySettingsObject.Tag 不兼容
+此选项与 PorxySettingsObject.Tag 不兼容
 {{% /notice %}}
 
