@@ -142,9 +142,8 @@ iptables -t mangle -A XRAY -d 网关所在ipv4网段1 -j RETURN
 iptables -t mangle -A XRAY -d 网关所在ipv4网段2 -j RETURN
 ...
 
-# 组播地址直连
-iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
+# 组播地址/E类地址/广播地址直连
+iptables -t mangle -A XRAY -d 224.0.0.0/3 -j RETURN
 
 #如果网关作为主路由，则加上这一句，见：https://xtls.github.io/documents/level-2/transparent_proxy/transparent_proxy.md#iptables透明代理的其它注意事项
 #网关LAN_IPv4地址段，运行命令"ip address | grep -w "inet" | awk '{print $2}'"获得，是其中的一个
@@ -163,8 +162,7 @@ iptables -t mangle -A XRAY_MASK -m owner --gid-owner 23333 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段1 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段2 -j RETURN
 ...
-iptables -t mangle -A XRAY_MASK -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A XRAY_MASK -d 255.255.255.255/32 -j RETURN
+iptables -t mangle -A XRAY_MASK -d 224.0.0.0/3 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
 iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
 iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
