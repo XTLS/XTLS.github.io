@@ -391,7 +391,7 @@ ocspStapling 检查更新时间间隔。 单位：秒
 
 {{% notice dark %}}  `domainStrategy`: "redirect" | "tproxy" | "off"{{% /notice %}}
 
-在之前的版本中，当 Xray 尝试使用域名建立系统连接时，这个域名的解析有系统完成，并不受 Xray 控制。这导致了在 [非标准Linux环境中无法解析)[https://github.com/v2ray/v2ray-core/issues/1909] 等问题。为此，Xray 1.3.1 为Sockopt 引入了 Freedom 中的 domainStrategy，解决了此问题。
+在之前的版本中，当 Xray 尝试使用域名建立系统连接时，这个域名的解析有系统完成，并不受 Xray 控制。这导致了在 [非标准Linux环境中无法解析](https://github.com/v2ray/v2ray-core/issues/1909) 等问题。为此，Xray 1.3.1 为Sockopt 引入了 Freedom 中的 domainStrategy，解决了此问题。
 
 在目标地址为域名时, 配置相应的值, SysteDailer 的行为模式如下:
 - `"AsIs"`: 通过系统DNS服务器解析获取IP, 向此域名发出连接。
