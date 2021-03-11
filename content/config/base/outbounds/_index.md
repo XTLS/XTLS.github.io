@@ -86,7 +86,7 @@ Mux 相关的具体配置。
 {{% /notice %}}
 
 {{% notice info %}}
-兼容 v2fly 的配置 transportLayer
+兼容 v2fly/v2ray-core 的配置 [transportLayer](https://www.v2fly.org/config/outbounds.html#proxysettingsobject)
 {{% /notice %}}
 <br />
 ### MuxObject
