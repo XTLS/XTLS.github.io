@@ -18,7 +18,8 @@ LogObject 对应配置文件的 `log` 项。
   "log": {
     "access": "文件地址",
     "error": "文件地址",
-    "loglevel": "warning"
+    "loglevel": "warning",
+    "dnsLog": false
   }
 }
 ```
@@ -45,3 +46,8 @@ error 日志的级别, 指示 error 日志需要记录的信息.
 - `"warning"`：发生了一些并不影响正常运行的问题时输出的信息，但有可能影响用户的体验。同时包含所有 `"error"` 内容。
 - `"error"`：Xray 遇到了无法正常运行的问题，需要立即解决。
 - `"none"`：不记录任何内容。
+
+{{% notice dark %}} `dnsLog`: bool {{% /notice %}}
+
+是否启用 DNS 查询日志，例如：
+` DOH//doh.server got answer: domain.com -> [ip1, ip2] 2.333ms `
