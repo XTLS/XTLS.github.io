@@ -389,7 +389,7 @@ ocspStapling 检查更新时间间隔。 单位：秒
 当 [Dokodemo-door](../../inbound-protocols/dokodemo) 中指定了 `followRedirect`为`true`，且 Sockopt设置中的`tproxy` 为空时，Sockopt设置中的`tproxy` 的值会被设为 `"redirect"`。
 {{% /notice %}}
 
-{{% notice dark %}}  `domainStrategy`: "redirect" | "tproxy" | "off"{{% /notice %}}
+{{% notice dark %}}  `domainStrategy`: "AsIs" | "UseIP" | "UseIPv4" | "UseIPv6"{{% /notice %}}
 
 在之前的版本中，当 Xray 尝试使用域名建立系统连接时，域名的解析由系统完成，不受 Xray 控制。这导致了在 [非标准Linux环境中无法解析域名](https://github.com/v2ray/v2ray-core/issues/1909) 等问题。为此，Xray 1.3.1 为 Sockopt 引入了 Freedom 中的 domainStrategy，解决了此问题。
 
