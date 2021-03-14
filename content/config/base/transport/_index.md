@@ -30,7 +30,8 @@ weight: 8
     "wsSettings": {},
     "httpSettings": {},
     "quicSettings": {},
-    "dsSettings": {}
+    "dsSettings": {},
+    "grpcSettings": {}
   }
 }
 ```
@@ -55,6 +56,10 @@ weight: 8
 
 针对 QUIC 连接的配置。
 
+{{% notice dark %}} `grpcSettings`: [GRPCObject](../../transports/grpc){{% /notice %}}
+
+针对 gRPC 连接的配置。
+
 {{% notice dark %}} `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
 针对 Domain Socket 连接的配置。
@@ -76,6 +81,7 @@ weight: 8
     "httpSettings": {},
     "quicSettings": {},
     "dsSettings": {},
+    "grpcSettings": {},
     "sockopt": {
         "mark": 0,
         "tcpFastOpen": false,
@@ -130,6 +136,10 @@ TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型�
 {{% notice dark %}}  `quicSettings`: [QUICObject](../../transports/quic){{% /notice %}}
 
 当前连接的 QUIC 配置，仅当此连接使用 QUIC 时有效。配置内容与上面的全局配置相同。
+
+{{% notice dark %}}  `grpcSettings`: [GRPCObject](../../transports/grpc){{% /notice %}}
+
+当前连接的 gRPC 配置，仅当此连接使用 gRPC 时有效。配置内容与上面的全局配置相同。
 
 {{% notice dark %}}  `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
