@@ -102,16 +102,22 @@ weight: 6
 ```json
 {
   "enabled": true,
-  "destOverride": ["http", "tls"]
+  "destOverride": ["http", "tls", "fakedns"],
+  "metadataOnly": false
 }
 ```
 
 {{% notice dark %}}`enabled`: true | false{{% /notice %}}
 
 是否开启流量探测。
-{{% notice dark %}}`destOverride`: \["http" | "tls"\]{{% /notice %}}
+
+{{% notice dark %}}`destOverride`: \["http" | "tls" | "fakedns" \]{{% /notice %}}
 
 当流量为指定类型时，按其中包括的目标地址重置当前连接的目标。
+
+{{% notice dark %}}`metadataOnly`: true | false{{% /notice %}}
+
+当启用时，将仅使用连接的元数据嗅探目标地址。此时，`http` 与 `tls` 将不能使用。
 
 <br />
 ### AllocateObject

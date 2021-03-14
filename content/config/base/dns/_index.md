@@ -97,6 +97,8 @@ DNS 服务器的处理流程示意图如下：
 
 当值是 `"https+local://host:port/dns-query"` 的形式，如 `"https+local://dns.google/dns-query"`，Xray 会使用 `DOH本地模式` 进行查询，即 DOH 请求不会经过 Routing/Outbound 等组件，直接对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
 
+当值是 `fakedns` 时，将使用 FakeDNS 功能进行查询。
+
 {{% notice info %}}
 **TIP 1**\
 当使用 `localhost` 时，本机的 DNS 请求不受 Xray 控制，需要额外的配置才可以使 DNS 请求由 Xray 转发。
@@ -142,7 +144,8 @@ DNS 服务器的处理流程示意图如下：
 
 当值是 "https+local://host:port/dns-query" 的形式，如 "https+local://dns.google/dns-query"，Xray 会使用 DOH本地模式 进行查询，即 DOH 请求不会经过 Routing/Outbound 等组件，直接对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
 
-> 
+当值是 `fakedns` 时，将使用 FakeDNS 功能进行查询。
+
 {{% notice dark %}}`port`: number{{% /notice %}}
 
 DNS 服务器端口，如 `53`。此项缺省时默认为 `53`。当使用 DOH 模式该项无效，非标端口应在 URL 中指定。

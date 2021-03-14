@@ -34,3 +34,5 @@ weight: 3
 用于配置流量数据的统计。
 {{% notice dark %}}reverse: [ReverseObject](./reverse){{% /notice %}}
 反向代理。可以把服务器端的流量向客户端转发，即逆向流量转发
+{{% notice dark %}}fakedns: [FakeDnsObject](./fakedns){{% /notice %}}
+FakeDNS. 可配合透明代理使用，以获取实际域名。
