@@ -38,4 +38,8 @@ weight: 7
 
 针对 QUIC 连接的配置。
 
+{{% notice dark %}} `grpcSettings`: [GRPCObject](./grpc){{% /notice %}}
+
+针对 gRPC 连接的配置。
+
 
