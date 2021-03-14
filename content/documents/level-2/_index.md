@@ -29,3 +29,15 @@ weight: 4
 <font size=3>[[透明代理]通过gid规避Xray流量](./iptables_gid) by <img src="https://avatars2.githubusercontent.com/u/57820613?s=32" width="32px" height="32px" alt="a"/> [@kirin](https://github.com/kirin10000)</font>
 {{% /notice %}}
 在iptables/nftables实现的透明代理中，一种新的规避Xray流量的方式。
+
+
+{{% notice dark %}}
+<font size=3>[[fwmark]通过Xray/V2ray实现WARP“分流”](./fwmark) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
+{{% /notice %}}
+将Xray-core玩出花:基于fwmark方式实现WARP“分流”。
+
+
+{{% notice dark %}}
+<font size=3>[[sendThrough]通过Xray/V2ray实现WARP“分流”](./sendthrough) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
+{{% /notice %}}
+将Xray-core玩出花:基于sendThrough方式实现WARP“分流”。
