@@ -9,14 +9,18 @@ weight: 2
 ## 前言
 
 之前在网络上看到WARP的IPV4和IPV6可以解锁Netflix，观看原生剧集，参考了网上很多方法，大部分都是为IPv4 Only服务器添加IPv6网络 or 为IPv6 Only服务器添加IPv4网络。即使是双栈替换，也都是全局接管，所有的流量都会走WARP出去。这种情况下并不优雅，如果我想可以任意替换，实现按需分流，那有没有更好的办法呢？有！
+
 通过Xray/V2ray的fwmark，再简单配合WGCF的路由表功能即可实现：
+
 ① Xray/V2ray可设置指定的Tag、域名、奈飞等走WARP的IPV4或者IPV6
 ② 其余用户则走原IPV4或者IPV6
+
 具体设置如下（以Debian10为例）：
 
 ## 1、安装WGCF
 
-wgcf?是 Cloudflare WARP 的非官方 CLI 工具，它可以模拟 WARP 客户端注册账号，并生成通用的 WireGuard 配置文件。
+wgcf 是 Cloudflare WARP 的非官方 CLI 工具，它可以模拟 WARP 客户端注册账号，并生成通用的 WireGuard 配置文件。
+
 //安装必备工具
 ```bash
 apt update
@@ -68,12 +72,16 @@ PostDown = ip -6 rule delete fwmark <mark> lookup 51820
 PostDown = ip -6 rule delete not fwmark 51820 table 51820
 PostDown = ip -6 rule delete table main suppress_prefixlength 0
 ```
+
+{{% /notice %}}
 **TIPS**
+
 (此命令表示IPV4中fwmark为<mark>，IPV6中fwmark为<mark>，::/0全局v6走WARP)
 （可根据自己需求增删命令，mark值要与Xray-core中设置为相同，table值自定）
 {{% /notice %}}
 
 保存
+
 可顺手安装
 ```bash
 apt install openresolv
@@ -91,7 +99,7 @@ modprobe wireguard
 ```
 //检查WG模块加载是否正常
 ```bash
-lsmod?|?grep?wireguard
+lsmod | grep wireguard
 ```
 
 ## 4、Xray-core/V2ray-core配置文件修改
@@ -178,13 +186,16 @@ lsmod?|?grep?wireguard
 
 {{% notice %}}
 **TIPS**
+
 可以通过修改 "domainStrategy": "UseIPv6"来控制对应用户的访问方式
 实测优先级要高于系统本身的gai.config
 {{% /notice %}}
 
 ## 5、系统设置配置
 
+{{% /notice %}}
 **TIPS**
+
 需要打开系统的ip_forward
 {{% /notice %}}
 
@@ -200,6 +211,7 @@ systemctl enable wg-quick@wgcf
 systemctl start wg-quick@wgcf
 ```
 //验证IPv4/IPv6
+
 自行验证Google搜索myip
 
 ## 后记
