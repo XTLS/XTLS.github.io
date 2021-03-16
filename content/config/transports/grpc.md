@@ -9,11 +9,17 @@ weight: 7
 
 它基于 HTTP/2 协议，理论上可以通过其它支持 HTTP/2 的服务器（如 Nginx）进行中转。
 
+gRPC（HTTP/2）内置多路复用，不建议使用 gRPC 与 HTTP/2 时启用 mux.cool。
+
 {{% notice info %}}
 **TIP**\
 如果您使用 Caddy 或 Nginx 等反向代理，请务必使用 HTTP/2 或 h2c 连接到 Xray。
+{{% /notice %}}
 
-gRPC 无法通过回落的 Path 分流，建议使用 SNI 分流。并且请确认 (x)tlsSettings.alpn 中包含 h2。
+{{% notice warning %}}
+⚠️ 如果你正在使用回落，请注意下列事项：
+- gRPC 无法通过进行 Path 分流，建议使用 SNI 分流。
+- 请确认 (x)tlsSettings.alpn 中包含 h2，否则 gRPC（HTTP/2）无法完成 TLS 握手。
 {{% /notice %}}
 
 ## GRPCObject
