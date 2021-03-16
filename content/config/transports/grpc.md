@@ -9,8 +9,12 @@ weight: 7
 
 它基于 HTTP/2 协议，理论上可以通过其它支持 HTTP/2 的服务器（如 Nginx）进行中转。
 
-> 如果您使用 Caddy 或 Nginx 等反向代理，请务必使用 HTTP/2 或 h2c 连接到 Xray。
-> 如果您使用回落，请留意 (x)tlsSettings.alpn 的值
+{{% notice info %}}
+**TIP**\
+如果您使用 Caddy 或 Nginx 等反向代理，请务必使用 HTTP/2 或 h2c 连接到 Xray。
+gRPC 无法通过回落的 Path 分流，建议使用 SNI 分流。并且请确认 (x)tlsSettings.alpn 中包含 h2。
+{{% /notice %}}
+
 ## GRPCObject
 
 ---
