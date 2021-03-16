@@ -7,8 +7,10 @@ weight: 7
 
 基于 gRPC 的传输方式。
 
-它基于 HTTP/2 协议，可以通过其它的 HTTP 服务器（如 Nginx）进行中转。
+它基于 HTTP/2 协议，理论上可以通过其它支持 HTTP/2 的服务器（如 Nginx）进行中转。
 
+> 如果您使用 Caddy 或 Nginx 等反向代理，请务必使用 HTTP/2 或 h2c 连接到 Xray。
+> 如果您使用回落，请留意 (x)tlsSettings.alpn 的值
 ## GRPCObject
 
 ---
@@ -17,7 +19,8 @@ weight: 7
 
 ```json
 {
-  "serviceName": "name"
+  "serviceName": "name",
+  "multiMode": false
 }
 ```
 
@@ -27,3 +30,7 @@ weight: 7
 
 客户端会使用此名称进行通信，服务器会验证服务名称是否匹配。
 
+ `multiMode`: bool {{% /notice %}}
+
+一个布尔值。表示是否启用 `multiMode`。
+这是一个 **实验性** 选项，可能不会被长期保留，也不保证跨版本兼容。此模式在 **测试环境中** 能够带来约 20% 的性能提升，实际效果因传输速率不同而不同。
