@@ -154,7 +154,7 @@ lsmod | grep wireguard
 }
 ```
 
-{{% notice warning %}}
+{{% notice %}}
 **TIPS**
 
 可以通过修改 "domainStrategy": "UseIPv6"来控制对应用户的访问方式
@@ -163,7 +163,7 @@ lsmod | grep wireguard
 
 ## 5、系统设置配置
 
-{{% notice warning %}}
+{{% notice %}}
 **TIPS**
 
 需要打开系统的ip_forward
