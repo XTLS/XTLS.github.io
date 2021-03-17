@@ -56,7 +56,7 @@ PostDown = ip -6 rule delete not fwmark <table> table <table>
 PostDown = ip -6 rule delete table main suppress_prefixlength 0
 ```
 
-{{% /notice %}}
+{{% notice warning %}}
 **TIPS**
 
 （此命令表示IPV4中fwmark为<mark>，IPV6中fwmark为<mark>，::/0全局v6走WireGuard）
@@ -164,7 +164,7 @@ lsmod | grep wireguard
 }
 ```
 
-{{% notice %}}
+{{% notice warning %}}
 **TIPS**
 
 可以通过修改 "domainStrategy": "UseIPv6"来控制对应用户的访问方式
@@ -173,7 +173,7 @@ lsmod | grep wireguard
 
 ## 5、系统设置配置
 
-{{% /notice %}}
+{{% notice warning %}}
 **TIPS**
 
 需要打开系统的ip_forward
