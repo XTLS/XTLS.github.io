@@ -84,14 +84,6 @@ Linux 发行版 Xray 包（可通过发行版相应的包管理器安装）：
 - Debian：{{% badge warning %}}In progress{{% /badge %}}
 - Arch Linux：{{% badge warning %}}In progress{{% /badge %}}
 
-### Linuxbrew 包管理器
-
----
-
-{{% badge warning %}}In progress{{% /badge %}}
-
-<br />
-
 ## Docker 安装方式
 
 ---
