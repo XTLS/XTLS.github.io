@@ -44,7 +44,7 @@ PostUP = ip -4 rule add from "your wg0 v4 address" lookup <table>
 PostUP = ip -4 route add default dev wg0 table <table>
 PostUP = ip -4 rule add table main suppress_prefixlength 0
 PostUP = ip -6 rule add not fwmark <table> table <table>
-PostUP = ip -6 route add ::/0 dev wgcf table <table>
+PostUP = ip -6 route add ::/0 dev wg0 table <table>
 PostUP = ip -6 rule add table main suppress_prefixlength 0
 PostDown = ip -4 rule delete from "your wg0 v4 address" lookup <table>
 PostDown = ip -4 rule delete table main suppress_prefixlength 0
@@ -109,7 +109,7 @@ lsmod | grep wireguard
     {
       "tag": "wg0",
       "protocol": "freedom",
-      "sendThrough": "your wgcf v4 address",//修改此处，可v4或者v6
+      "sendThrough": "your wg0 v4 address",//修改此处，可v4或者v6
       "settings": {"domainStrategy": "UseIPv4"}//修改此处，可v4或者v6
     },
     {
