@@ -1,83 +1,67 @@
 ---
 date: "2021-03-14T00:00:00.000Z"
 description: Project X 的文档.
-title: 通过Xray/V2ray实现WARP“分流”-fwmark法
+title: 通过Xray将特定的流量指向特定出口，实现全局路由“分流”-fwmark法
 weight: 2
 ---
 
 
 ## 前言
 
-之前在网络上看到WARP的IPV4和IPV6可以解锁Netflix，观看原生剧集，参考了网上很多方法，大部分都是为IPv4 Only服务器添加IPv6网络 or 为IPv6 Only服务器添加IPv4网络。即使是双栈替换，也都是全局接管，所有的流量都会走WARP出去。这种情况下并不优雅，如果我想可以任意替换，实现按需分流，那有没有更好的办法呢？有！
+之前在网络上看到许多代理或者VPN会接管全局路由，如果与Xray同时安装，会导致Xray失效。参考了网络上许多教程，及时分流，也是通过维护一张或者多张CIDR路由表来实现的。这种情况下并不优雅，如果我想可以任意替换，实现按需分流，那有没有更好的办法呢？有！
 
-通过Xray/V2ray的fwmark，再简单配合WGCF的路由表功能即可实现：
+通过Xray的fwmark，再简单配合路由表功能即可实现：
 
-① Xray/V2ray可设置指定的Tag、域名、奈飞等走WARP的IPV4或者IPV6
+① Xray可设置指定的Tag、域名等走指定接口。如果您的接口是双栈的，可以指定IPV4或者IPV6
 ② 其余用户则走原IPV4或者IPV6
 
 具体设置如下（以Debian10为例）：
 
-## 1、安装WGCF
+## 1、安装代理或者VPN软件（例如Wireguard、IPsec等）
 
-wgcf 是 Cloudflare WARP 的非官方 CLI 工具，它可以模拟 WARP 客户端注册账号，并生成通用的 WireGuard 配置文件。
+根据不同系统和不同软件，请参考官方安装方法
 
-//安装必备工具
-```bash
-apt update
-apt install curl sudo lsb-release -y
-```
-//安装wgcf
-```bash
-curl -fsSL git.io/wgcf.sh | sudo bash
-```
-//注册warp账号，生成配置文件wgcf-account.toml
-```bash
-wgcf register
-```
-//生成WireGuard配置文件wgcf-profile.conf
-```bash
-wgcf generate
-```
 
-## 2、编辑WireGuard 配置文件wgcf-profile.conf
+## 2、编辑VPN配置文件（以WireGuard为例）
 
 //原始文件
 ```
 [Interface]
 PrivateKey = xxxxxxxxxxxxxxxxxxxx
 Address = 172.16.0.2/32
-Address = xxxxxxxxxxxxxxxxxx/128
-DNS = 1.1.1.1
+Address = xxxxxxxxxxxxxxxxxx/xxx
+DNS = 8.8.8.8
 MTU = 1280
 
 [Peer]
 PublicKey = xxxxxxxxxxxxxxxxxxxxx
 AllowedIPs = ::/0
 AllowedIPs = 0.0.0.0/0
-Endpoint = engage.cloudflareclient.com:2408
+Endpoint = ip:port
 ```
 //在[Interface]下添加如下命令：
 ```
 Table = off
 PostUP = ip -4 rule add fwmark <mark> lookup <table>
-PostUP = ip -4 route add default dev wgcf table <table>
+PostUP = ip -4 route add default dev <接口名称> table <table>
 PostUP = ip -4 rule add table main suppress_prefixlength 0
-PostUP = ip -6 rule add fwmark <mark> lookup 51820
-PostUP = ip -6 rule add not fwmark 51820 table 51820
-PostUP = ip -6 route add ::/0 dev wgcf table 51820
+PostUP = ip -6 rule add fwmark <mark> lookup <table>
+PostUP = ip -6 rule add not fwmark <table> table <table>
+PostUP = ip -6 route add ::/0 dev <接口名称> table <table>
 PostUP = ip -6 rule add table main suppress_prefixlength 0
 PostDown = ip -4 rule delete fwmark <mark> lookup <table>
 PostDown = ip -4 rule delete table main suppress_prefixlength 0
-PostDown = ip -6 rule delete fwmark <mark> lookup 51820
-PostDown = ip -6 rule delete not fwmark 51820 table 51820
+PostDown = ip -6 rule delete fwmark <mark> lookup <table>
+PostDown = ip -6 rule delete not fwmark <table> table <table>
 PostDown = ip -6 rule delete table main suppress_prefixlength 0
 ```
 
 {{% /notice %}}
 **TIPS**
 
-(此命令表示IPV4中fwmark为<mark>，IPV6中fwmark为<mark>，::/0全局v6走WARP)
+（此命令表示IPV4中fwmark为<mark>，IPV6中fwmark为<mark>，::/0全局v6走WireGuard）
 （可根据自己需求增删命令，mark值要与Xray-core中设置为相同，table值自定）
+（如果不支持配置文件，可以在系统中修改路由表）
 {{% /notice %}}
 
 保存
@@ -89,10 +73,6 @@ apt install openresolv
 
 ## 3、启用 WireGuard 网络接口
 
-//WireGuard配置文件复制到/etc/wireguard/并命名为wgcf.conf 
-```bash
-cp wgcf-profile.conf /etc/wireguard/wgcf.conf
-```
 //加载内核模块
 ```bash
 modprobe wireguard
@@ -102,7 +82,7 @@ modprobe wireguard
 lsmod | grep wireguard
 ```
 
-## 4、Xray-core/V2ray-core配置文件修改
+## 4、Xray-core配置文件修改
 
 ```json
 {
@@ -134,7 +114,7 @@ lsmod | grep wireguard
     },
 {
       "protocol": "freedom",
-      "tag": "wgcf",
+      "tag": "wg0",
       "streamSettings": {
         "sockopt": {
           "mark": <mark>
@@ -166,7 +146,7 @@ lsmod | grep wireguard
       },
 {
                 "type": "field",
-                "outboundTag": "wgcf",
+                "outboundTag": "wg0",
                 "inboundTag": [
                    "<inboundTag>"//需要之前在inbound中指定好Tag，我这里是api生成的,还可以添加域名等等
                    ]
@@ -203,12 +183,12 @@ lsmod | grep wireguard
 
 //开启隧道
 ```bash
-wg-quick up wgcf 
+wg-quick up wg0
 ```
 //开机自启
 ```bash
-systemctl enable wg-quick@wgcf
-systemctl start wg-quick@wgcf
+systemctl enable wg-quick@wg0
+systemctl start wg-quick@wg0
 ```
 //验证IPv4/IPv6
 
@@ -216,11 +196,11 @@ systemctl start wg-quick@wgcf
 
 ## 后记
 
-CF提供了优秀的WARP，通过WARP的IP又多了许多可玩性。本文本意是可以避免的多余的流量浪费，顺便技术提升UP。大家对免费的WARP且用且珍惜，不要滥用
+本文本意是可以避免的多余的流量浪费，将路由和分流的功能交给Xray处理。避免了维护路由表的繁琐工作。顺便技术提升UP。
 
 ## 感谢
 
-@Xray-core@V2ray-core@p3terx@w@Hiram@Luminous@Ln@JackChou
+@Xray-core@V2ray-core@WireGuard@p3terx@w@Hiram@Luminous@Ln@JackChou
 
 
 
