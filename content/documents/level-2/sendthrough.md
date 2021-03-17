@@ -52,7 +52,7 @@ PostDown = ip -6 rule delete not fwmark <table> table <table>
 PostDown = ip -6 rule delete table main suppress_prefixlength 0
 ```
 
-{{% notice warning %}}
+{{% notice %}}
 **TIPS**
 
 （此命令表示IPV4中from "your wg0 v4 address"地址的走WireGuard，IPV6中::/0全局v6走WireGuard）
