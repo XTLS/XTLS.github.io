@@ -37,7 +37,7 @@ MTU = 1280
 PublicKey = xxxxxxxxxxxxxxxxxxxxx
 AllowedIPs = ::/0
 AllowedIPs = 0.0.0.0/0
-Endpoint = ip:port
+Endpoint = "ip:port"
 ```
 //在[Interface]下添加如下命令：
 ```
