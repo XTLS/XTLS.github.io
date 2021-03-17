@@ -28,8 +28,8 @@ weight: 2
 ```
 [Interface]
 PrivateKey = xxxxxxxxxxxxxxxxxxxx
-Address = 172.16.0.2/32
-Address = xxxxxxxxxxxxxxxxxx/xxx
+Address = "your wg0 v4 address"
+Address = "your wg0 v6 address"
 DNS = 8.8.8.8
 MTU = 1280
 
