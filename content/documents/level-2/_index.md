@@ -32,12 +32,12 @@ weight: 4
 
 
 {{% notice dark %}}
-<font size=3>[[fwmark]通过Xray实现WARP“分流”](./fwmark) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
+<font size=3>[[fwmark]通过Xray将特定的流量指向特定出口，实现全局路由“分流”上篇](./fwmark) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
 {{% /notice %}}
-将Xray-core玩出花:基于fwmark方式实现WARP“分流”。
+将Xray-core玩出花:基于fwmark方式实现“分流”。
 
 
 {{% notice dark %}}
-<font size=3>[[sendThrough]通过Xray实现WARP“分流”](./sendthrough) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
+<font size=3>[[sendThrough]通过Xray将特定的流量指向特定出口，实现全局路由“分流”下篇](./sendthrough) by <img src="https://avatars.githubusercontent.com/u/28607089?s=460" width="32px" height="32px" alt="a"/> [@Zzz3m](https://github.com/Zzz3m)</font>
 {{% /notice %}}
-将Xray-core玩出花:基于sendThrough方式实现WARP“分流”。
+将Xray-core玩出花:基于sendThrough方式实现“分流”。
