@@ -53,7 +53,7 @@ Xray provides two types of validation.
 ## Installation methods for macOS
 
 - Download the ZIP archive for Windows from [Github Releases](https://github.com/xtls/Xray-core/releases), unzip it to get the executable `xray.exe`, and then [run it with parameters via the command line](../command).
-- Install via [Homebrew](https://brew.sh) package manager: {{% badge warning %}}In progress{{% /badge %}}
+- Install via [Homebrew](https://brew.sh) package manager: `brew install xray`
 
 <br />
 
