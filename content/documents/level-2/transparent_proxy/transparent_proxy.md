@@ -166,9 +166,8 @@ iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
 ...
 
-# 目标地址为组播IP的请求直连
-iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
+# 目标地址为组播IP/E类地址/广播IP的请求直连
+iptables -t mangle -A XRAY -d 224.0.0.0/3 -j RETURN
 
 iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
@@ -202,8 +201,7 @@ iptables -t mangle -N XRAY
 iptables -t mangle -A XRAY -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY -d 网关所在网段2 -j RETURN
 ...
-iptables -t mangle -A XRAY -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A XRAY -d 255.255.255.255/32 -j RETURN
+iptables -t mangle -A XRAY -d 224.0.0.0/3 -j RETURN
 iptables -t mangle -A XRAY -p tcp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A XRAY -p udp -j TPROXY --on-port 12345 --tproxy-mark 1
 iptables -t mangle -A PREROUTING -j XRAY
@@ -213,8 +211,7 @@ iptables -t mangle -N XRAY_MASK
 iptables -t mangle -A XRAY_MASK -d 网关所在网段1 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在网段2 -j RETURN
 ...
-iptables -t mangle -A XRAY_MASK -d 224.0.0.0/4 -j RETURN
-iptables -t mangle -A XRAY_MASK -d 255.255.255.255/32 -j RETURN
+iptables -t mangle -A XRAY_MASK -d 224.0.0.0/3 -j RETURN
 iptables -t mangle -A XRAY_MASK -d VPS公网ip/32 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
 iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
