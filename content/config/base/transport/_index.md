@@ -30,7 +30,8 @@ weight: 8
     "wsSettings": {},
     "httpSettings": {},
     "quicSettings": {},
-    "dsSettings": {}
+    "dsSettings": {},
+    "grpcSettings": {}
   }
 }
 ```
@@ -55,6 +56,10 @@ weight: 8
 
 针对 QUIC 连接的配置。
 
+{{% notice dark %}} `grpcSettings`: [GRPCObject](../../transports/grpc){{% /notice %}}
+
+针对 gRPC 连接的配置。
+
 {{% notice dark %}} `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
 针对 Domain Socket 连接的配置。
@@ -76,10 +81,13 @@ weight: 8
     "httpSettings": {},
     "quicSettings": {},
     "dsSettings": {},
+    "grpcSettings": {},
     "sockopt": {
         "mark": 0,
         "tcpFastOpen": false,
-        "tproxy": "off"
+        "tproxy": "off",
+        "domainStrategy": "AsIs",
+        "dialerProxy": ""
     }
 }
 ```
@@ -128,6 +136,10 @@ TLS / XTLS 是目前最安全的传输加密方案, 且外部看来流量类型�
 {{% notice dark %}}  `quicSettings`: [QUICObject](../../transports/quic){{% /notice %}}
 
 当前连接的 QUIC 配置，仅当此连接使用 QUIC 时有效。配置内容与上面的全局配置相同。
+
+{{% notice dark %}}  `grpcSettings`: [GRPCObject](../../transports/grpc){{% /notice %}}
+
+当前连接的 gRPC 配置，仅当此连接使用 gRPC 时有效。配置内容与上面的全局配置相同。
 
 {{% notice dark %}}  `dsSettings`: [DomainSocketObject](../../transports/domainsocket){{% /notice %}}
 
@@ -348,7 +360,9 @@ ocspStapling 检查更新时间间隔。 单位：秒
 {
     "mark": 0,
     "tcpFastOpen": false,
-    "tproxy": "off"
+    "tproxy": "off",
+    "domainStrategy": "AsIs",
+    "dialerProxy": ""
 }
 ```
 
@@ -395,3 +409,27 @@ ocspStapling 检查更新时间间隔。 单位：秒
 {{% notice danger important %}}
 当 [Dokodemo-door](../../inbound-protocols/dokodemo) 中指定了 `followRedirect`为`true`，且 Sockopt设置中的`tproxy` 为空时，Sockopt设置中的`tproxy` 的值会被设为 `"redirect"`。
 {{% /notice %}}
+
+{{% notice dark %}}  `domainStrategy`: "AsIs" | "UseIP" | "UseIPv4" | "UseIPv6"{{% /notice %}}
+
+在之前的版本中，当 Xray 尝试使用域名建立系统连接时，域名的解析由系统完成，不受 Xray 控制。这导致了在 [非标准Linux环境中无法解析域名](https://github.com/v2ray/v2ray-core/issues/1909) 等问题。为此，Xray 1.3.1 为 Sockopt 引入了 Freedom 中的 domainStrategy，解决了此问题。
+
+在目标地址为域名时, 配置相应的值, SysteDailer 的行为模式如下:
+- `"AsIs"`: 通过系统DNS服务器解析获取IP, 向此域名发出连接。
+- `"UseIP"`、`"UseIPv4"` 和 `"UseIPv6"`: Xray 使用[内置 DNS 服务器](../dns)解析获取IP, 向此域名发出连接。
+
+默认值为 `"AsIs"`。
+
+{{% notice danger important %}}
+如果启用了此功能，将有可能导致通过 `代理服务器` 代理 `解析代理服务器IP的查询` 的死循环。因此，**不建议** 经验不足的用户擅自使用此功能。
+{{% /notice %}}
+
+{{% notice dark %}}  `dialerProxy`: ""{{% /notice %}}
+
+一个出站代理的标识。当值不为空时，将使用指定的outbound发出连接。
+此选项可用于支持底层传输方式的链式转发。
+
+{{% notice dander %}}
+此选项与 PorxySettingsObject.Tag 不兼容
+{{% /notice %}}
+

@@ -17,7 +17,7 @@ weight: 4
 {{% notice dark %}}
 <font size=3>[透明代理入门](transparent_proxy/transparent_proxy) by <img src="https://avatars2.githubusercontent.com/u/57820613?s=32" width="32px" height="32px" alt="a"/> [@kirin](https://github.com/kirin10000)</font>
 {{% /notice %}}
-透明代理（TProxy）的入门篇章。
+透明代理的入门篇章。
 
 {{% notice dark %}}
 <font size=3>[透明代理（TProxy）配置教程 ](./tproxy) by <img src="https://avatars2.githubusercontent.com/u/41363844?s=32" width="32px" height="32px" alt="a"/> [@BioniCosmos](https://github.com/BioniCosmos)</font>
