@@ -394,7 +394,7 @@ ocspStapling 检查更新时间间隔。 单位：秒
   * Mac OS：此处为 `true` 或`正整数`时，仅代表启用 TFO，上限需要通过内核参数 `net.inet.tcp.fastopen_backlog` 单独设定
   * Windows：此处为 `true` 或`正整数`时，仅代表启用 TFO
 
-* 对于 Outbound，设定为 `true` 或`正整数`在任何操作系统都仅表示启用TFO
+* 对于 Outbound，设定为 `true` 或`正整数`在任何操作系统都仅表示启用 TFO
 
 {{% notice dark %}}  `tproxy`: "redirect" | "tproxy" | "off"{{% /notice %}}
 
