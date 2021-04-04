@@ -381,7 +381,7 @@ ocspStapling 检查更新时间间隔。 单位：秒
 {{% /notice %}}
 
 当其值为 `true` 或`正整数`时，启用 TFO；当其值为 `false` 或`负数`时，强制关闭 TFO；当此项不存在或为 `0` 时，使用系统默认设置。
-可用于 inbound/ountbound。
+可用于 inbound/outbound。
 
 * 仅在以下版本（或更新版本）的操作系统中可用:
   * Windows 10 (1607)
