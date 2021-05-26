@@ -127,9 +127,9 @@ Run the Xray client as a user with uid 0 and gid not 0, followed by & for runnin
 
 **Check that the maximum number of open files is set successfully**
 ```bash
-cat /proc/Xray的pid/limits
+cat /proc/"Xray's pid"/limits
 ```
-Find max open files, which should be the value you set. pid can be obtained by running `ps` or `ps -aux` or `ps -a`
+Find max open files, which should be the value you set. Xray's pid can be obtained by running `ps` or `ps -aux` or `ps -a`
 
 Both the server and client side should be checked.
 
