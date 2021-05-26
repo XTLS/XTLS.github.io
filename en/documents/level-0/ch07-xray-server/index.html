@@ -1,4 +1,4 @@
-<!doctype html><html><head><title>【第7章】Xray服务器篇 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-04-04T11:51:16 UTC"><meta name=description content="小小白白话文"><meta name=author content="Project X"><title>【第7章】Xray服务器篇 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https://xtls.github.io"</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/en/documents/level-0/ch07-xray-server/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><div class=search><div class=searchbox><input data-search-input id=search-by type=text placeholder="Type to search..."></div><script type=text/javascript src=/vendor/lunr/lunr.min.js></script><script type=text/javascript src=/vendor/auto-complete/auto-complete.js></script><link href=/vendor/auto-complete/auto-complete.css rel=stylesheet><script type=text/javascript>var baseurl="https://xtls.github.io/en"</script><script type=text/javascript src=/js/search.js></script></div><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
+<!doctype html><html><head><title>【第7章】Xray服务器篇 :: Project X</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name=revised content="2021-05-26T11:09:47 UTC"><meta name=description content="小小白白话文"><meta name=author content="Project X"><title>【第7章】Xray服务器篇 :: Project X</title><link rel="shortcut icon" href=/images/favicon.png type=image/x-icon><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css integrity=sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.css><script src=https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js></script><link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel=stylesheet><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/layout.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.main.css><link rel=stylesheet type=text/css href=https://xtls.github.io/css/style.menu.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/notice.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/tabs.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/panel.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/columns.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/children.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/attachments.css><link rel=stylesheet type=text/css href=https://xtls.github.io/sass/shortcodes/alert.css><link rel=stylesheet type=text/css href=/css/docport.css><script src=/js/docport.js></script><script type=text/javascript>var baseurl="https://xtls.github.io"</script><link rel=stylesheet href=/css/custom.css></head><body data-url=/en/documents/level-0/ch07-xray-server/><style type=text/css>#debug{display:-webkit-box;display:-ms-flexbox;display:flex;line-height:3.5rem;margin-bottom:.35rem;padding:0 2rem;position:fixed;left:0;right:0;top:0;top:0;min-height:150px;background-color:#fff;border:3px solid red;z-index:10000;word-wrap:all;overflow:auto}</style><header><div><div class=burger><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')">&#9776;</a></div><div><a class=baselink href=https://xtls.github.io>Project X</a></div><nav class=shortcuts><li role><a href=/about/new rel=noopener>What's New</a></li><li role><a href=https://github.com/XTLS rel=noopener>GitHub</a></li><li role><a href=https://github.com/XTLS/Xray-core/releases rel=noopener>Download</a></li><li role><a href=https://xtls.github.io/ rel=noopener>Documentation</a></li></nav></div></header><article><aside><div class=search><div class=searchbox><input data-search-input id=search-by type=text placeholder="Type to search..."></div><script type=text/javascript src=/vendor/lunr/lunr.min.js></script><script type=text/javascript src=/vendor/auto-complete/auto-complete.js></script><link href=/vendor/auto-complete/auto-complete.css rel=stylesheet><script type=text/javascript>var baseurl="https://xtls.github.io/en"</script><script type=text/javascript src=/js/search.js></script></div><center><a class=github-button href=https://github.com/XTLS/Xray-core/releases data-icon=octicon-cloud-download aria-label="Download vjeantet/hugo-theme-docport on GitHub">Download</a>
 <a class=github-button href=https://github.com/XTLS/Xray-core data-icon=octicon-star data-show-count=false aria-label="Star vjeantet/hugo-theme-docport on GitHub">Star</a>
 <a class=github-button href=https://github.com/XTLS/Xray-core/fork data-icon=octicon-repo-forked data-show-count=true aria-label="Fork vjeantet/hugo-theme-docport on GitHub">Fork</a></center>
 <script async defer src=https://buttons.github.io/buttons.js></script><div id=close_menu><a href=javascript:void(0); style=font-size:15px onclick="$('article > aside').toggleClass('responsive')"><i class="fa fa-lg fa-times"></i></a></div><ul class=menu><hr><li data-nav-id=https://xtls.github.io/en/about/ class="dd-item haschildren
@@ -49,10 +49,10 @@ item_level_$level"><a href=/en/links/>常用链接&nbsp;🤝</a></li></ul></asid
 </code></pre></div></li><li><p><code>xray.key</code>文件默认对其他用户不可读，所以需要赋予其可读性权限</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ chmod +r ~/xray_cert/xray.key
 </code></pre></div></li><li><p>过程比较简单就不放动图了：</p><img src=../ch07-img02-xray-cert-install.png alt=Xray证书安装></li><li><p><code>acme.sh</code> 会每60天检查一次证书并自动更新临期证书。但据我所知是它并不会自动将新证书安装给 <code>xray-core</code>，所以我们需要新增一个系统的自动周期任务来完成这一步。</p><ol><li><p>小小白白Linux基础命令：</p><table><thead><tr><th style=text-align:center>编号</th><th style=text-align:center>命令名称</th><th style=text-align:center>命令说明</th></tr></thead><tbody><tr><td style=text-align:center><code>cmd-15</code></td><td style=text-align:center><code>crontab -e</code></td><td style=text-align:center>编辑当前用户的定时任务</td></tr></tbody></table></li><li><p>建立一个脚本文件（<code>xray-cert-renew.sh</code>）</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>$ nano ~/xray_cert/xray-cert-renew.sh
 </code></pre></div></li><li><p>把下面的内容复制进去，记得替换你的真实域名，然后保存退出</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-bash data-lang=bash><span style=color:#75715e>#!/bin/bash
-</span><span style=color:#75715e></span>       
+</span><span style=color:#75715e></span>
 /home/vpsadmin/.acme.sh/acme.sh --install-cert -d a-name.yourdomain.com --ecc --fullchain-file /home/vpsadmin/xray_cert/xray.crt --key-file /home/vpsadmin/xray_cert/xray.key
 echo <span style=color:#e6db74>&#34;Xray Certificates Renewed&#34;</span>
-       
+
 chmod +r /home/vpsadmin/xray_cert/xray.key
 echo <span style=color:#e6db74>&#34;Read Permission Granted for Private Key&#34;</span>
 
@@ -70,15 +70,15 @@ echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
 </code></pre></div></li><li><p>将下面的文件全部复制进去，并将之前生成的<code>UUID</code>填入第61行 <code>"id": "",</code> 之中。（填好之后的样子是 <code>"id": "uuiduuid-uuid-uuid-uuid-uuiduuiduuid"</code>），本文的这个配置文件中增加了我的各种啰嗦注解，以方便你理解每一个配置模块的功能是什么。</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:2;-o-tab-size:2;tab-size:2><code class=language-fallback data-lang=fallback>// REFERENCE:
 // https://github.com/XTLS/Xray-examples
 // https://xtls.github.io/config/
-       
+
 // 常用的config文件，不论服务器端还是客户端，都有5个部分。外加小小白解读：
 // ┌─ 1_log          日志设置 - 日志写什么，写哪里（出错时有据可查）
 // ├─ 2_dns          DNS-设置 - DNS怎么查（防DNS污染、防偷窥、避免国内外站匹配到国外服务器等）
 // ├─ 3_routing      分流设置 - 流量怎么分类处理（是否过滤广告、是否国内外分流）
 // ├─ 4_inbounds     入站设置 - 什么流量可以流入Xray
 // └─ 5_outbounds    出站设置 - 流出Xray的流量往哪里去
-       
-       
+
+
 {
     // 1_日志设置
     &#34;log&#34;: {
@@ -86,7 +86,7 @@ echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
         &#34;access&#34;: &#34;/home/vpsadmin/xray_log/access.log&#34;,    // 访问记录
         &#34;error&#34;: &#34;/home/vpsadmin/xray_log/error.log&#34;    // 错误记录
     },
-       
+
     // 2_DNS设置
     &#34;dns&#34;: {
         &#34;servers&#34;: [
@@ -94,7 +94,7 @@ echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
             &#34;localhost&#34;
         ]
     },
-       
+
     // 3_分流设置
     &#34;routing&#34;: {
         &#34;domainStrategy&#34;: &#34;AsIs&#34;,
@@ -117,7 +117,7 @@ echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
             }
         ]
     },
-   
+
     // 4_入站设置
     // 4.1 这里只写了一个最简单的vless+xtls的入站，因为这是Xray最强大的模式。如有其他需要，请根据模版自行添加。
     &#34;inbounds&#34;: [
@@ -159,7 +159,7 @@ echo <span style=color:#e6db74>&#34;Xray Restarted&#34;</span>
             }
         }
     ],
-       
+
     // 5_出站设置
     &#34;outbounds&#34;: [
         // 5.1 第一个出站是默认规则，freedom就是对外直连（vps已经是外网，所以直连）
