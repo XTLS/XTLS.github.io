@@ -1,21 +1,4 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Advanced Documentation on Project X</title><link>https://xtls.github.io/en/documents/level-2/</link><description>Recent content in Advanced Documentation on Project X</description><generator>Hugo -- gohugo.io</generator><language>cn</language><lastBuildDate>Wed, 23 Dec 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://xtls.github.io/en/documents/level-2/index.xml" rel="self" type="application/rss+xml"/><item><title>Getting Started with Transparent Proxy</title><link>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/transparent_proxy/transparent_proxy/</guid><description>What is Transparent Proxy(TProxy)? General speaking the Transparent Proxy is not let the device which has been proxied feeling itself to be proxied, further speaking is the proxied device do not need to run any proxy software(such as Xray, V2rayNG and so on). When you connected to the network, your device has been proxied.
 And it means that, the proxy software is running in other places, such as running in the router, all the devices connected to the Internet via the router can automatically be proxied.</description></item><item><title>TProxy Configuration</title><link>https://xtls.github.io/en/documents/level-2/tproxy/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/tproxy/</guid><description>This configuration is based on New V2Ray vernacular tutorial on TProxy (transparent proxy) , adding the new features of Xray, using the VLESS + XTLS Splice solution, and change the default outbound proxy distribution method to the default outbound direct connection in the old tutorial, the user should modify it according to the actual situation.
-All the configurations in this article have been successfully tested in Raspberry Pi 2B and Ubuntu 20.</description></item><item><title>透明代理通过gid规避Xray流量</title><link>https://xtls.github.io/en/documents/level-2/iptables_gid/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/iptables_gid/</guid><description>在现有的iptables透明代理白话文(新 V2Ray 白话文指南-透明代理 、 新 V2Ray 白话文指南-透明代理(TPROXY) 、 透明代理（TProxy）配置教程)教程中，对Xray流量的规避处理是打mark实现的。即对Xray出站流量打mark，通过设置iptables规则对对应mark的流量直连，来规避Xray流量，防止回环。
-这么做有以下几个问题：
-莫名流量进入PREROUTING链
-安卓系统有自己的mark机制，该方案在安卓上不可用
-本教程的方案不需要设置mark，理论性能更高，同时也不存在上述问题。
-思路 tproxy流量只能被root权限用户(uid==0)或其他有CAP_NET_ADMIN权限的用户接收。
-iptables规则可以通过uid(用户id)和gid(用户组id)分流。
-让Xray运行在一个uid==0但gid!=0的用户上，设置iptables规则不代理该gid的流量来规避Xray流量。
-配置过程 1. 前期准备 安卓系统
-系统已root
-安装 busybox
-有一个可以执行命令的终端，可以使用adb shell，termux等。
-其它Linux系统
-需要依赖sudo，iptables的tproxy模块和extra模块。
-一般系统都有自带，openwrt运行：
-opkg install sudo iptables-mod-tproxy iptables-mod-extra 另附上一些openwrt常用的依赖，缺少可能导致Xray无法运行
-opkg install libopenssl ca-certificates 2. 添加用户(安卓用户请忽略) 安卓系统不支持/etc/passwd文件来管理用户，请忽略，直接下一步。
-grep -qw xray_tproxy /etc/passwd || echo &amp;#34;xray_tproxy:x:0:23333:::&amp;#34; &amp;gt;&amp;gt; /etc/passwd 其中xray_tproxy是用户名，0是uid，23333是gid，用户名和gid可以自己定，uid必须为0。 检查用户是否添加成功，运行
-sudo -u xray_tproxy id 显示的结果应该是uid为0，gid为23333</description></item></channel></rss>
+All the configurations in this article have been successfully tested in Raspberry Pi 2B and Ubuntu 20.</description></item><item><title>Transparent proxy to circumvent Xray traffic via gid</title><link>https://xtls.github.io/en/documents/level-2/iptables_gid/</link><pubDate>Wed, 23 Dec 2020 00:00:00 +0000</pubDate><guid>https://xtls.github.io/en/documents/level-2/iptables_gid/</guid><description>In the existing transparent proxy configuration(New V2Ray vernacular tutorial on transparent proxy 、 New V2Ray vernacular tutorial on transparent proxy (TProxy) 、 Transparent proxy（TProxy）configuration tutorial)tutorials, the circumvention of Xray traffic is achieved by using mark. That is, mark the Xray outbound traffic and circumvent the Xray traffic by setting up iptables rules for direct connection of the traffic corresponding to the mark to prevent loopback.
+There are several problems with this method:</description></item></channel></rss>
