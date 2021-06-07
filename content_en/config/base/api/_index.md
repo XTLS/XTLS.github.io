@@ -13,6 +13,8 @@ The interface can be opened via the api configuration module. When api configura
 
 Please refer to the [related configurations](#Related configurations) in this section.
 
+If you are developer, please refer to the [API document](https://github.com/crossfw/Xray-API-documents)
+
 {{% notice warning %}}
 Most users will not use this API and newcomers can simply ignore it.
 {{% /notice %}}

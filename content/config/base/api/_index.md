@@ -13,6 +13,8 @@ API接口配置提供了一些基于 [gRPC](https://grpc.io/)的 API 接口供�
 
 请参考本节中的[相关配置](#相关配置)
 
+使用API开发相关软件，请参考 [API 开发文档](https://github.com/crossfw/Xray-API-documents)
+
 {{% notice warning %}}
 大多数用户并不会用到此 API，新手可以直接忽略这一项。
 {{% /notice %}}
