@@ -114,6 +114,7 @@ opkg install libopenssl ca-certificates
 比如你家有一台某品牌的路由器，家里所有设备都用这个路由器上网，这些设备当中就包含一台树莓派，它运行着Linux系统。将其它设备的默认网关都设置为树莓派的IP(树莓派的默认网关依然是路由器LAN_IP)，可能导致这些设备无法正常上网，但是没有关系，跟着教程走完就能上网了
 
 3. 其它，如单臂路由，多级路由，因为是入门教程，较为复杂就不多展开讲了，感兴趣可自行谷歌
+
 **2. 在运行Linux系统的网关上准备好Xray可执行文件以及配置文件**
 
 配置文件监听12345端口，开启tproxy：
@@ -262,12 +263,10 @@ iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ### 5.8 iptables透明代理的其它注意事项
 1. 如果作为代理的网关作为主路由，要在`PREROUTING链`规则中加一条`iptables -t mangle -A XRAY ! -s 网关LAN_IP地址段 -j RETURN`，即在第一阶段使用、第二阶段被删除的指令。如果不写，WAN口中同网段的其它人可以将网关填写成你的WAN_IP，从而蹭你的透明代理用，还可能带来一定的危险性。
 
-2. **[新 V2Ray 白话文指南-透明代理(TPROXY)#设置网关](https://guide.v2fly.org/app/tproxy.html#设置网关)** 中的第三条说：`手动配置 PC 的网络，将默认网关指向树莓派的地址即 192.168.1.22。此时 PC 应当能正常上网（由于还没设置代理，“正常”是指可以上国内的网站）`。实际上，Ubuntu、CentOS、debian等系统就算开启了IP转发，PC也不能正常上网，这是正常的。事实上只有OpenWRT能做到文中所描述的那样，据 **[@BioniCosmos](https://github.com/BioniCosmos)** 点拨，这是由于一般的Linux系统没有Masquery规则。
+2. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
 
-3. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
+3. **[新 V2Ray 白话文指南-透明代理(TPROXY)#设置网关](https://guide.v2fly.org/app/tproxy.html#设置网关)** 中的第三条说：`手动配置 PC 的网络，将默认网关指向树莓派的地址即 192.168.1.22。此时 PC 应当能正常上网（由于还没设置代理，“正常”是指可以上国内的网站）`。实际上，Ubuntu、CentOS、debian等系统就算开启了IP转发，PC也不能正常上网，这是正常的。事实上只有OpenWRT能做到文中所描述的那样，据 **[@BioniCosmos](https://github.com/BioniCosmos)** 点拨，这是由于一般的Linux系统没有Masquery规则。
 
 4. 关于开启ip_forward，待补充...
 
 5. 避免已有连接的包二次通过 TPROXY ,待补充...
-
-6. 主路由、单臂路由与旁路由，待补充...
