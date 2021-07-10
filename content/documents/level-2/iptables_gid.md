@@ -1,5 +1,5 @@
 ---
-date: "2020-12-23T00:00:00.000Z"
+date: "2021-07-11T00:00:00.000Z"
 description: Project X 的文档.
 title: 透明代理通过gid规避Xray流量
 weight: 3
@@ -35,12 +35,13 @@ iptables规则可以通过uid(用户id)和gid(用户组id)分流。
 
 需要依赖sudo，iptables的tproxy模块和extra模块。
 
-一般系统都有自带，openwrt运行：
+一般的系统都有自带，对于openwrt用户，可以使用以下命令安装：
 ```bash
+# 安装sudo，iptables的tproxy模块和extra模块：
 opkg install sudo iptables-mod-tproxy iptables-mod-extra
-```
-另附上一些openwrt常用的依赖，缺少可能导致Xray无法运行
-```bash
+# 安装ca证书和ssl库：用于进行TLS连接
+# 使用 "wget -O- https://www.baidu.com" 命令检查OpenWRT是否已经预装了ca证书和ssl库，如果已经预装了，就不需要再安装了
+# 如果没有预装，执行 "wget -O- https://www.baidu.com" 命令时会提示错误。使用下面这条命令安装ca证书和openssl库：
 opkg install libopenssl ca-certificates
 ```
 ### 2. 添加用户(安卓用户请忽略)
