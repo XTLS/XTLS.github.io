@@ -76,7 +76,7 @@ Linux使用`Netfilter`模型来管理网络，`Netfilter`模型如下：
 
 4. 在3的基础上直连指向中国大陆IP的连接请求，并对国内外域名选择国内外DNS服务器解析。
 
-上面说的三篇教程，都是在第四阶段。所以新手直接阅读可能显得有点难懂。
+上面说的三篇白话文透明代理教程，都是在第四阶段。所以新手直接阅读可能显得有点难懂。
 
 ## 5. 从零开始一步步实现基于iptables-tproxy的透明代理
 ### 5.1 在开始之前，你需要有一定的基础知识：
@@ -90,11 +90,13 @@ Linux使用`Netfilter`模型来管理网络，`Netfilter`模型如下：
 ### 5.2 前期准备工作
 **1. 准备一个运行Linux系统的网关**
 
-如果网关使用OpenWRT，可能需要安装一些依赖，因为OpenWRT作为嵌入式系统，精简了许多Linux发行版应该带有的东西
+如果网关使用OpenWRT，可能需要安装一些依赖，因为OpenWRT作为嵌入式系统，精简了许多Linux发行版应该带有的东西：
 ```bash
-# iptables的tproxy模块
+# iptables的tproxy模块，使用下面这条命令安装：
 opkg install iptables-mod-tproxy
-# ca证书和ssl库：用于进行TLS连接。使用 "wget -O- https://www.baidu.com" 命令查看查看OpenWRT有没有预装ca证书和ssl库，如果没有预装，则会提示错误
+# ca证书和ssl库：用于进行TLS连接
+# 使用 "wget -O- https://www.baidu.com" 命令检查OpenWRT是否已经预装了ca证书和ssl库，如果已经预装了，就不需要再安装了
+# 如果没有预装，执行 "wget -O- https://www.baidu.com" 命令时会提示错误。使用下面这条命令安装ca证书和openssl库：
 opkg install libopenssl ca-certificates
 ```
 
