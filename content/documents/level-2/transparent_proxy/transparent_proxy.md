@@ -6,15 +6,15 @@ weight: 1
 ---
 
 ## 1. 什么是透明代理
-透明代理简单地说就是不让被代理的设备感觉到自己被代理了。简单地说就是，被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备已经被代理了。
+透明代理简单地说就是不让被代理的设备感觉到自己被代理了，即被代理的设备上不需要运行任何代理软件(比如Xray、V2RayNG等)，当你连接上网络时，你的设备就已经被代理了。
 
-这也意味着，代理的软件运行在别的地方，比如运行在路由器中，通过路由器上网的设备就自动被代理了。
+这也意味着，代理的软件运行在别的地方。比如让代理软件运行在路由器中，通过路由器上网的设备就自动被代理了。
 ## 2. 透明代理的实现
 透明代理的实现目前主要有两种方式：
 
 ### 2.1 tun2socks
 
-可用Windows/Linux(包括安卓)实现。因为实现过程比较简单，很少有教程，我这里简单描述一下。
+可用于Windows/Linux(包括安卓)系统。实现过程比较简单，这里简单描述一下：
 
 **Windows**
 
@@ -32,18 +32,18 @@ weight: 1
 
 2. 开启热点
 
-3. 热点设置 -> 允许热点使用VPN(部分安卓系统可能没有这个选项)
+3. 热点设置 -> 允许热点使用VPN(部分安卓系统可能没有这个选项，就开不了)
 
 ### 2.2 iptables/nftables
 
-iptables与nftables实现透明代理的原理相同，下文统一使用iptables。
+iptables与nftables实现透明代理的原理相同，下文统称iptables。
 
-基于iptables的透明代理实现只能用于Linux系统(包括openwrt/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
+基于iptables的透明代理实现只能用于Linux系统(如OpenWRT/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
 
 现存的三篇白话文透明代理教程其实讲的都是基于这种方案的透明代理实现，它们是： **[新 V2Ray 白话文指南-透明代理](https://guide.v2fly.org/app/transparent_proxy.html)** 、 **[新 V2Ray 白话文指南-透明代理(TPROXY)](https://guide.v2fly.org/app/tproxy.html)** 、 **[透明代理（TProxy）配置教程](../../tproxy)** 。其中第一篇是基于iptables-redirect模式，已经过时了，不建议使用，仅供参考。第二篇和第三篇讲的都是基于iptables-tproxy模式的透明代理实现。
 
 ## 3. iptables实现透明代理原理
-Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
+Linux使用`Netfilter`模型来管理网络，`Netfilter`模型如下：
 
 ![Netfilter](../netfilter.png)
 
@@ -80,13 +80,13 @@ Linux使用`Netfilter`来管理网络，`Netfilter`模型如下：
 
 ## 5. 从零开始一步步实现基于iptables-tproxy的透明代理
 ### 5.1 在开始之前，你需要有一定的基础知识：
-1. 大概知道什么是TCP/IP协议、域名和DNS服务器
+1. 大致了解TCP/IP协议簇(如IP/子网掩码/网段/子网规划/TCP协议/UDP协议/端口)、域名和DNS服务器
 
 2. 知道什么是WAN口，LAN口，LAN_IP，WAN_IP以及DHCP服务器。对于旁路由，只有一个网口，这里称其为LAN口
 
 3. 对Linux系统有最基础的了解(知道怎么运行命令)
 
-4. 能够手写客户端json文件配置，至少要能看懂
+4. 能够手写客户端json配置文件，至少要能看懂
 ### 5.2 前期准备工作
 **1. 准备一个运行Linux系统的网关**
 
