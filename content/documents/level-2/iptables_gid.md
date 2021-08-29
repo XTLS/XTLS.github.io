@@ -47,7 +47,7 @@ opkg install libopenssl ca-certificates
 ### 2. 添加用户(安卓用户请忽略)
 安卓系统不支持/etc/passwd文件来管理用户，请忽略，直接下一步。
 ```bash
-grep -qw xray_tproxy /etc/passwd || echo "xray_tproxy:x:0:23333:::" >> /etc/passwd
+grep -qw xray_tproxy /etc/passwd || echo "xray_tproxy:x:0:23333:::/bin/false" >> /etc/passwd
 ```
 其中xray_tproxy是用户名，0是uid，23333是gid，用户名和gid可以自己定，uid必须为0。
 检查用户是否添加成功，运行
