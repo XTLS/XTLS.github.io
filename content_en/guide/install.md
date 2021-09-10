@@ -104,8 +104,8 @@ Xray packages for Linux releases (can be installed via the release's correspondi
 
 - `/etc/xray/config.json`：Configuration files
 - `/usr/bin/xray`：Xray host program
-- `/usr/local/share/xray/geoip.dat`：IP data file
-- `/usr/local/share/xray/geosite.dat`：Domain name data file
+- `/usr/share/xray/geoip.dat`：IP data file
+- `/usr/share/xray/geosite.dat`：Domain name data file
 
 <br />
 
