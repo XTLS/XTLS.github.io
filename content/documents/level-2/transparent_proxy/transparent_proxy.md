@@ -67,7 +67,7 @@ Linux使用`Netfilter`模型来管理网络，`Netfilter`模型如下：
 >
 >下载：`WAN口->PREROUTING链->INPUT链->网关上运行的进程`
 
-* 路由器访问它自己：
+* 路由器访问它自己(`127.0.0.1`/`::/1`)：
 
 >上传：`网关上运行的进程1->OUTPUT链->POSTROUTING链->PREROUTING链->INPUT链->网关上运行的进程2`
 >
