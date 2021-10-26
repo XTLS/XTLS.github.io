@@ -35,18 +35,19 @@ iptables规则可以通过uid(用户id)和gid(用户组id)分流。
 
 需要依赖sudo，iptables的tproxy模块和extra模块。
 
-一般系统都有自带，openwrt运行：
+一般的系统都有自带，对于openwrt用户，可以使用以下命令安装：
 ```bash
+# 安装sudo，iptables的tproxy模块和extra模块：
 opkg install sudo iptables-mod-tproxy iptables-mod-extra
-```
-另附上一些openwrt常用的依赖，缺少可能导致Xray无法运行
-```bash
+# 安装ca证书和ssl库：用于进行TLS连接
+# 使用 "wget -O- https://www.baidu.com" 命令检查OpenWRT是否已经预装了ca证书和ssl库，如果已经预装了，就不需要再安装了
+# 如果没有预装，执行 "wget -O- https://www.baidu.com" 命令时会提示错误。使用下面这条命令安装ca证书和openssl库：
 opkg install libopenssl ca-certificates
 ```
 ### 2. 添加用户(安卓用户请忽略)
 安卓系统不支持/etc/passwd文件来管理用户，请忽略，直接下一步。
 ```bash
-grep -qw xray_tproxy /etc/passwd || echo "xray_tproxy:x:0:23333:::" >> /etc/passwd
+grep -qw xray_tproxy /etc/passwd || echo "xray_tproxy:x:0:23333:::/bin/false" >> /etc/passwd
 ```
 其中xray_tproxy是用户名，0是uid，23333是gid，用户名和gid可以自己定，uid必须为0。
 检查用户是否添加成功，运行
@@ -163,14 +164,13 @@ iptables -t mangle -A PREROUTING -j XRAY
 
 # 代理网关本机
 iptables -t mangle -N XRAY_MASK
-iptables -t mangle -A XRAY_MASK -m owner --gid-owner 23333 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段1 -j RETURN
 iptables -t mangle -A XRAY_MASK -d 网关所在ipv4网段2 -j RETURN
 ...
 iptables -t mangle -A XRAY_MASK -d 224.0.0.0/3 -j RETURN
 iptables -t mangle -A XRAY_MASK -j MARK --set-mark 1
-iptables -t mangle -A OUTPUT -p tcp -j XRAY_MASK
-iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p tcp -m owner ! --gid-owner 23333 -j XRAY_MASK
+iptables -t mangle -A OUTPUT -p udp -m owner ! --gid-owner 23333 -j XRAY_MASK
 ```
 
 **代理ipv6(可选)**
@@ -195,11 +195,10 @@ ip6tables -t mangle -A PREROUTING -j XRAY6
 
 # 代理网关本机
 ip6tables -t mangle -N XRAY6_MASK
-ip6tables -t mangle -A XRAY6_MASK -m owner --gid-owner 23333 -j RETURN
 ip6tables -t mangle -A XRAY6_MASK -d 网关所在ipv6网段1 -j RETURN
 ip6tables -t mangle -A XRAY6_MASK -d 网关所在ipv6网段2 -j RETURN
 ...
 ip6tables -t mangle -A XRAY6_MASK -j MARK --set-mark 1
-ip6tables -t mangle -A OUTPUT -p tcp -j XRAY6_MASK
-ip6tables -t mangle -A OUTPUT -p udp -j XRAY6_MASK
+ip6tables -t mangle -A OUTPUT -p tcp -m owner ! --gid-owner 23333 -j XRAY6_MASK
+ip6tables -t mangle -A OUTPUT -p udp -m owner ! --gid-owner 23333 -j XRAY6_MASK
 ```
