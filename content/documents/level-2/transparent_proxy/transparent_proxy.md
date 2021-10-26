@@ -51,21 +51,27 @@ Linux使用`Netfilter`模型来管理网络，`Netfilter`模型如下：
 
 * 局域网设备通过路由器访问互联网：
 
->上传：`LAN口->PREROUTING链->FORWARD链->POSTINGROUTING链->WAN口`
+>上传：`LAN口->PREROUTING链->FORWARD链->POSTROUTING链->WAN口`
 >
->下载：`WAN口->PREROUTING链->FORWARD链->POSTINGROUTING链->LAN口`
+>下载：`WAN口->PREROUTING链->FORWARD链->POSTROUTING链->LAN口`
 
 * 局域网设备访问路由器(如登陆路由器web管理界面/ssh连接路由器/使用路由器的dns服务等)：
 
 >上传：`LAN口->PREROUTING链->INPUT链->网关上运行的进程`
 >
->下载：`网关上运行的进程->OUTPUT链->POSTINGROUTING链->LAN口`
+>下载：`网关上运行的进程->OUTPUT链->POSTROUTING链->LAN口`
 
 * 路由器访问互联网(如路由器检查更新)：
 
->上传：`网关上运行的进程->OUTPUT链->POSTINGROUTING链->WAN口`
+>上传：`网关上运行的进程->OUTPUT链->POSTROUTING链->WAN口`
 >
 >下载：`WAN口->PREROUTING链->INPUT链->网关上运行的进程`
+
+* 路由器访问它自己：
+
+>上传：`网关上运行的进程1->OUTPUT链->POSTROUTING链->PREROUTING链->INPUT链->网关上运行的进程2`
+>
+>下载：`网关上运行的进程2->OUTPUT链->POSTROUTING链->PREROUTING链->INPUT链->网关上运行的进程1`
 
 **通过使用iptables操控`PREROUTING链`和`OUTPUT链`的流量走向，转发到Xray，就可以代理局域网设备和网关本机。**
 ## 4. 透明代理难在哪里
