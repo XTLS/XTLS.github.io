@@ -36,7 +36,7 @@ weight: 1
 
 ### 2.2 iptables/nftables
 
-iptables与nftables实现透明代理的原理相同，下文统称iptables。
+iptables与nftables实现透明代理的原理相同，本文使用iptables。
 
 基于iptables的透明代理实现只能用于Linux系统(如OpenWRT/安卓)。由于其比tun2socks更高效率以及适合在路由器中配置而广泛使用。
 
