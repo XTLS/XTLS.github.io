@@ -261,7 +261,7 @@ iptables -t mangle -A OUTPUT -p udp -j XRAY_MASK
 ### 5.7 代理ipv6
 上面的规则只对ipv4生效，如果还想要代理ipv6请求，则使用ip6tables命令，用法与iptables基本相同。参考 **[[透明代理]通过gid规避Xray流量#4-设置iptables规则](../../iptables_gid#4-设置iptables规则)**
 ### 5.8 iptables透明代理的其它注意事项
-1. 如果作为代理的网关作为主路由，要在`PREROUTING链`规则中加一条`iptables -t mangle -A XRAY ! -s 网关LAN_IP地址段 -j RETURN`，即在第一阶段使用、第二阶段被删除的指令。如果不写，WAN口中同网段的其它人可以将网关填写成你的WAN_IP，从而蹭你的透明代理用，还可能带来一定的危险性。
+1. 如果作为代理的网关是主路由，请设置好WAN口的防火墙`(比如openwrt将默认的WAN防火墙规则绑定WAN口，将默认拒绝外部访问)`，或者在`PREROUTING链`规则中加一条`iptables -t mangle -A XRAY ! -s 网关LAN_IP地址段 -j RETURN`，即在第一阶段使用、第二阶段被删除的规则。如果不设置防火墙又不设置规则，WAN口同网段的其它人`(比如你的邻居，办公室的同事)`如果将网关填写成你的WAN_IP，就可以直接使用你的透明代理，还可能带来一定的危险性。
 
 2. **[too many open files 问题](https://guide.v2fly.org/app/tproxy.html#解决-too-many-open-files-问题)** ，解决方法见 **[[透明代理]通过gid规避Xray流量-配置最大文件大开数&运行Xray客户端](../../iptables_gid#3-配置最大文件大开数运行xray客户端)**
 
