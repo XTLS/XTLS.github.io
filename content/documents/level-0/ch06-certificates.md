@@ -16,7 +16,7 @@ weight: 6
 
 接下来我们要做的，是为我们的域名申请一个真实的TLS证书，使网站具备标准TLS加密的能力及HTTPS访问的能力。这就是Xray等现阶段安全代理工具确保流量充分加密最重要的工具。
 
-{{% notice warning  %}} 
+{{% notice warning  %}}
 **注意：** 请不要轻易使用自签证书。它并没有让操作简单太多，但增加了无谓的风险（如中间人攻击）。
 {{% /notice %}}
 
@@ -31,10 +31,10 @@ weight: 6
 ---
 
 1. 小小白白Linux基础命令：
-    | 编号 | 命令名称 | 命令说明 |
-    |:--:|:--:|:--:|
-    | `cmd-12` | `wget` | 访问（或下载）某个网页文件 |
-    | `cmd-13` | `acme.sh` | acme.sh证书管理相关的命令 |
+   | 编号 | 命令名称 | 命令说明 |
+   |:--:|:--:|:--:|
+   | `cmd-12` | `wget` | 访问（或下载）某个网页文件 |
+   | `cmd-13` | `acme.sh` | acme.sh证书管理相关的命令 |
 
 2. 运行安装脚本
     ```
@@ -67,8 +67,8 @@ weight: 6
     $ acme.sh --issue --test -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256
     ```
 
-    {{% notice warning  %}} 
-**说明：** `ECC`证书的主要优势在于它的Keysize更小，意味着同等大小下安全性的提升和加密解密速度的加快。如 ECC-256bit 的强度大约相当于 RSA-3072bit，何乐而不为呢？当然，有人说ECC证书握手会明显更快，这我觉得就有些夸张了，因为RSA握手也没有太慢，就算有差别应该也是毫秒级，很难直接感知。
+   {{% notice warning  %}}
+   **说明：** `ECC`证书的主要优势在于它的Keysize更小，意味着同等大小下安全性的提升和加密解密速度的加快。如 ECC-256bit 的强度大约相当于 RSA-3072bit，何乐而不为呢？当然，有人说ECC证书握手会明显更快，这我觉得就有些夸张了，因为RSA握手也没有太慢，就算有差别应该也是毫秒级，很难直接感知。
 
 另外，如果有些网站确实需要兼容某些古老设备的，那也还是请按需选择`RSA`证书。
 {{% /notice %}}
@@ -126,7 +126,15 @@ weight: 6
     [Wed 30 Dec 2022 15:21:52 AM EST] The intermediate CA cert is in  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/ca.cer
     [Wed 30 Dec 2022 15:21:52 AM EST] And the full chain certs is there:  /home/vpsadmin/.acme.sh/二级域名.你的域名.com_ecc/fullchain.cer
     ```
+{{% notice warning  %}}
+**说明：** 如果发生红色报错信息，且错误码是404或403，说明上面的命令中的-w参数后面的/home/vpsadmin/www/webpage路径，并不适合你。
+请查看/etc/nginx/nginx.conf文件中对root参数的配置，例如
+```
+root         /usr/share/nginx/html;
+```
+所以你应该把-w后面跟的/home/vpsadmin/www/webpage参数，改成跟root参数保持一致，例如：/usr/share/nginx/html
 
+{{% /notice %}}
 3. 注意：这里申请的是测试证书，没办法直接用的，只是用来证明你的域名、配置全都正确。仔细观察，你会发现给你发证书的域名是 `https://acme-staging-v02.api.letsencrypt.org`，这个 `staging` 你就理解成【测试服】吧！
 
 4. 如果这一步出错的话，你可以运行下面的命令，来查看详细的申请过程和具体的错误。（看不懂就隐藏掉敏感信息后，去Xray群里问吧）
@@ -134,7 +142,7 @@ weight: 6
     $ acme.sh --issue --test -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256 --debug
     ```
 
-    嗯没错，就是在命令的最后加了一个 `--debug` 参数
+   嗯没错，就是在命令的最后加了一个 `--debug` 参数
 
 5. 这一步确定成功之后，就可以申请正式的证书了。（测试证书不需要删除，它会自动被正式证书覆盖）
 
@@ -149,9 +157,9 @@ weight: 6
     $ acme.sh --issue -d 二级域名.你的域名.com -w /home/vpsadmin/www/webpage --keylength ec-256 --force
     ```
 
-    {{% notice warning  %}} 
-**说明：** `--force` 参数的意思就是，在现有证书到期前，手动（强行）更新证书。上一步我们从“测试服”申请的证书虽然不能直接用，但是它本身是尚未过期的，所以需要用到这个参数。
-{{% /notice %}}
+   {{% notice warning  %}}
+   **说明：** `--force` 参数的意思就是，在现有证书到期前，手动（强行）更新证书。上一步我们从“测试服”申请的证书虽然不能直接用，但是它本身是尚未过期的，所以需要用到这个参数。
+   {{% /notice %}}
 
 2. 你最终应该看到跟上面很像的提示：
     ```
