@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="generator" content="VuePress 2.0.0-beta.25">
     <link rel="icon" href="/logo.png"><title>出站流量重定向 | Project X</title><meta name="description" content="Xray 官方文档">
-    <link rel="preload" href="/assets/js/runtime~app.1675a269.js" as="script"><link rel="preload" href="/assets/css/styles.f4ef6178.css" as="style"><link rel="preload" href="/assets/js/3469.574b203c.js" as="script"><link rel="preload" href="/assets/js/app.90cb8417.js" as="script">
+    <link rel="preload" href="/assets/js/runtime~app.09f9e13f.js" as="script"><link rel="preload" href="/assets/css/styles.f4ef6178.css" as="style"><link rel="preload" href="/assets/js/3469.574b203c.js" as="script"><link rel="preload" href="/assets/js/app.66119327.js" as="script">
     <link rel="stylesheet" href="/assets/css/styles.f4ef6178.css">
   </head>
   <body>
@@ -39,116 +39,116 @@
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br></div></div><div class="custom-container tip"><p class="custom-container-title">提示</p><ul><li>此配置文件融合了 <code>fwmark</code> / <code>sendThrough</code> / <code>sockopt.interface</code>，表示</li><li>送入此设备 <code>%i</code> 的连接 / 送入此 <code>&lt;IPv4/6&gt;</code> 的连接 / <code>fwmark</code> 被标记为 <code>&lt;mark&gt;</code> 的连接</li><li>将会使用 wireguard 进行转发</li><li><code>%i</code> 是 wireguard 配置文件中的占位符，表示在启动时替换为这个设备的名称</li></ul></div><p>保存</p><p>可顺手安装</p><div class="custom-container warning"><p class="custom-container-title">注意</p><p>如果使用了 <code>[Interface]</code> 中的 <code>DNS</code> 字段，这个程序将会是必须的</p></div><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code><span class="token function">apt</span> <span class="token function">install</span> openresolv
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h2 id="_3、启用-wireguard-网络接口" tabindex="-1"><a class="header-anchor" href="#_3、启用-wireguard-网络接口" aria-hidden="true">#</a> 3、启用 WireGuard 网络接口</h2><p>加载内核模块</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>modprobe wireguard
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>检查 WG 模块加载是否正常</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>lsmod <span class="token operator">|</span> <span class="token function">grep</span> wireguard
-</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h2 id="_4、xray-core-配置文件修改" tabindex="-1"><a class="header-anchor" href="#_4、xray-core-配置文件修改" aria-hidden="true">#</a> 4、Xray-core 配置文件修改</h2><div class="language-jsonc ext-jsonc line-numbers-mode"><pre class="language-jsonc"><code>{
-  &quot;api&quot;: {
-    &quot;services&quot;: [
-      &quot;HandlerService&quot;,
-      &quot;LoggerService&quot;,
-      &quot;StatsService&quot;
-    ],
-    &quot;tag&quot;: &quot;api&quot;
-  },
-  &quot;inbounds&quot;: [
-    {
-      &quot;listen&quot;: &quot;127.0.0.1&quot;,
-      &quot;port&quot;: &lt;port&gt;,
-      &quot;protocol&quot;: &quot;dokodemo-door&quot;,
-      &quot;settings&quot;: {
-        &quot;address&quot;: &quot;127.0.0.1&quot;
-      },
-      &quot;tag&quot;: &quot;api&quot;
-    }
-  ],
-  &quot;outbounds&quot;: [
-    {
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;settings&quot;: {
-        &quot;domainStrategy&quot;: &quot;UseIPv4&quot;
-      }
-      //修改此处，可v4或者v6
-    },
-    //            &lt;--请在不同的方案中选择--&gt;   方案1：fwmark
-    {
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;tag&quot;: &quot;wg0&quot;,
-      &quot;streamSettings&quot;: {
-        &quot;sockopt&quot;: {
-          &quot;mark&quot;: // &lt;mark&gt;
-        }
-      },
-      &quot;settings&quot;: {
-        &quot;domainStrategy&quot;: &quot;UseIPv6&quot;
-      }
-    }  //设置fwmark为&lt;mark&gt;的用户走指定方式”UseIPv6””UseIPv4”
-    //            &lt;--请在不同的方案中选择--&gt;   方案2：sendThrough
-    {
-      &quot;tag&quot;: &quot;wg0&quot;,
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;sendThrough&quot;: &quot;your wg0 v4 address&quot;,
-      //修改此处，可v4或者v6
-      &quot;settings&quot;: {
-        &quot;domainStrategy&quot;: &quot;UseIPv4&quot;
-      }
-      //修改此处，可v4或者v6
-    },
-    //            &lt;--请在不同的方案中选择--&gt;   方案3：sockopt.interface
-    {
-      &quot;tag&quot;: &quot;wg0&quot;,
-      &quot;protocol&quot;: &quot;freedom&quot;,
-      &quot;settings&quot;: {
-        &quot;domainStrategy&quot;: &quot;UseIPv4&quot;
-      },
-      &quot;streamSettings&quot;: {
-        &quot;sockopt&quot;: {
-          &quot;interface&quot;: &quot;wg0&quot;
-        }
-      }
-    },
-    //            &lt;--请在不同的方案中选择--&gt;   结束
-    {
-      &quot;protocol&quot;: &quot;blackhole&quot;,
-      &quot;settings&quot;: {},
-      &quot;tag&quot;: &quot;blocked&quot;
-    }
-  ],
-  &quot;policy&quot;: {
-    &quot;system&quot;: {
-      &quot;statsInboundDownlink&quot;: true,
-      &quot;statsInboundUplink&quot;: true
-    }
-  },
-  &quot;routing&quot;: {
-    &quot;rules&quot;: [
-      {
-        &quot;inboundTag&quot;: [
-          &quot;api&quot;
-        ],
-        &quot;outboundTag&quot;: &quot;api&quot;,
-        &quot;type&quot;: &quot;field&quot;
-      },
-      {
-        &quot;type&quot;: &quot;field&quot;,
-        &quot;outboundTag&quot;: &quot;wg0&quot;,
-        &quot;inboundTag&quot;: [
-          &quot;&lt;inboundTag&gt;&quot;
-          //需要之前在 inbound 中指定好 Tag，这里是 api 生成的,还可以添加域名等等
-        ]
-      },
-      {
-        &quot;outboundTag&quot;: &quot;blocked&quot;,
-        &quot;protocol&quot;: [
-          &quot;bittorrent&quot;
-        ],
-        &quot;type&quot;: &quot;field&quot;
-      }
-    ]
-  },
-  &quot;stats&quot;: {}
-}
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><h2 id="_4、xray-core-配置文件修改" tabindex="-1"><a class="header-anchor" href="#_4、xray-core-配置文件修改" aria-hidden="true">#</a> 4、Xray-core 配置文件修改</h2><div class="language-json ext-json line-numbers-mode"><pre class="language-json"><code><span class="token punctuation">{</span>
+  <span class="token property">&quot;api&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;services&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token string">&quot;HandlerService&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;LoggerService&quot;</span><span class="token punctuation">,</span>
+      <span class="token string">&quot;StatsService&quot;</span>
+    <span class="token punctuation">]</span><span class="token punctuation">,</span>
+    <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;api&quot;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;inbounds&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;listen&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;port&quot;</span><span class="token operator">:</span> &lt;port&gt;<span class="token punctuation">,</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;dokodemo-door&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;address&quot;</span><span class="token operator">:</span> <span class="token string">&quot;127.0.0.1&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;api&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;outbounds&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;freedom&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;domainStrategy&quot;</span><span class="token operator">:</span> <span class="token string">&quot;UseIPv4&quot;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//修改此处，可v4或者v6</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">//            &lt;--请在不同的方案中选择--&gt;   方案1：fwmark</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;freedom&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;wg0&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;streamSettings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;sockopt&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token property">&quot;mark&quot;</span><span class="token operator">:</span> <span class="token comment">// &lt;mark&gt;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;domainStrategy&quot;</span><span class="token operator">:</span> <span class="token string">&quot;UseIPv6&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>  <span class="token comment">//设置fwmark为&lt;mark&gt;的用户走指定方式”UseIPv6””UseIPv4”</span>
+    <span class="token comment">//            &lt;--请在不同的方案中选择--&gt;   方案2：sendThrough</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;wg0&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;freedom&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;sendThrough&quot;</span><span class="token operator">:</span> <span class="token string">&quot;your wg0 v4 address&quot;</span><span class="token punctuation">,</span>
+      <span class="token comment">//修改此处，可v4或者v6</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;domainStrategy&quot;</span><span class="token operator">:</span> <span class="token string">&quot;UseIPv4&quot;</span>
+      <span class="token punctuation">}</span>
+      <span class="token comment">//修改此处，可v4或者v6</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">//            &lt;--请在不同的方案中选择--&gt;   方案3：sockopt.interface</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;wg0&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;freedom&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;domainStrategy&quot;</span><span class="token operator">:</span> <span class="token string">&quot;UseIPv4&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;streamSettings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+        <span class="token property">&quot;sockopt&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+          <span class="token property">&quot;interface&quot;</span><span class="token operator">:</span> <span class="token string">&quot;wg0&quot;</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">,</span>
+    <span class="token comment">//            &lt;--请在不同的方案中选择--&gt;   结束</span>
+    <span class="token punctuation">{</span>
+      <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token string">&quot;blackhole&quot;</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;settings&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;tag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;blocked&quot;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">]</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;policy&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;system&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+      <span class="token property">&quot;statsInboundDownlink&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+      <span class="token property">&quot;statsInboundUplink&quot;</span><span class="token operator">:</span> <span class="token boolean">true</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;routing&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span>
+    <span class="token property">&quot;rules&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;inboundTag&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;api&quot;</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;outboundTag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;api&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;field&quot;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;field&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;outboundTag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;wg0&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;inboundTag&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;&lt;inboundTag&gt;&quot;</span>
+          <span class="token comment">//需要之前在 inbound 中指定好 Tag，这里是 api 生成的,还可以添加域名等等</span>
+        <span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span>
+      <span class="token punctuation">{</span>
+        <span class="token property">&quot;outboundTag&quot;</span><span class="token operator">:</span> <span class="token string">&quot;blocked&quot;</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;protocol&quot;</span><span class="token operator">:</span> <span class="token punctuation">[</span>
+          <span class="token string">&quot;bittorrent&quot;</span>
+        <span class="token punctuation">]</span><span class="token punctuation">,</span>
+        <span class="token property">&quot;type&quot;</span><span class="token operator">:</span> <span class="token string">&quot;field&quot;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">]</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+  <span class="token property">&quot;stats&quot;</span><span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br><span class="line-number">3</span><br><span class="line-number">4</span><br><span class="line-number">5</span><br><span class="line-number">6</span><br><span class="line-number">7</span><br><span class="line-number">8</span><br><span class="line-number">9</span><br><span class="line-number">10</span><br><span class="line-number">11</span><br><span class="line-number">12</span><br><span class="line-number">13</span><br><span class="line-number">14</span><br><span class="line-number">15</span><br><span class="line-number">16</span><br><span class="line-number">17</span><br><span class="line-number">18</span><br><span class="line-number">19</span><br><span class="line-number">20</span><br><span class="line-number">21</span><br><span class="line-number">22</span><br><span class="line-number">23</span><br><span class="line-number">24</span><br><span class="line-number">25</span><br><span class="line-number">26</span><br><span class="line-number">27</span><br><span class="line-number">28</span><br><span class="line-number">29</span><br><span class="line-number">30</span><br><span class="line-number">31</span><br><span class="line-number">32</span><br><span class="line-number">33</span><br><span class="line-number">34</span><br><span class="line-number">35</span><br><span class="line-number">36</span><br><span class="line-number">37</span><br><span class="line-number">38</span><br><span class="line-number">39</span><br><span class="line-number">40</span><br><span class="line-number">41</span><br><span class="line-number">42</span><br><span class="line-number">43</span><br><span class="line-number">44</span><br><span class="line-number">45</span><br><span class="line-number">46</span><br><span class="line-number">47</span><br><span class="line-number">48</span><br><span class="line-number">49</span><br><span class="line-number">50</span><br><span class="line-number">51</span><br><span class="line-number">52</span><br><span class="line-number">53</span><br><span class="line-number">54</span><br><span class="line-number">55</span><br><span class="line-number">56</span><br><span class="line-number">57</span><br><span class="line-number">58</span><br><span class="line-number">59</span><br><span class="line-number">60</span><br><span class="line-number">61</span><br><span class="line-number">62</span><br><span class="line-number">63</span><br><span class="line-number">64</span><br><span class="line-number">65</span><br><span class="line-number">66</span><br><span class="line-number">67</span><br><span class="line-number">68</span><br><span class="line-number">69</span><br><span class="line-number">70</span><br><span class="line-number">71</span><br><span class="line-number">72</span><br><span class="line-number">73</span><br><span class="line-number">74</span><br><span class="line-number">75</span><br><span class="line-number">76</span><br><span class="line-number">77</span><br><span class="line-number">78</span><br><span class="line-number">79</span><br><span class="line-number">80</span><br><span class="line-number">81</span><br><span class="line-number">82</span><br><span class="line-number">83</span><br><span class="line-number">84</span><br><span class="line-number">85</span><br><span class="line-number">86</span><br><span class="line-number">87</span><br><span class="line-number">88</span><br><span class="line-number">89</span><br><span class="line-number">90</span><br><span class="line-number">91</span><br><span class="line-number">92</span><br><span class="line-number">93</span><br><span class="line-number">94</span><br><span class="line-number">95</span><br><span class="line-number">96</span><br><span class="line-number">97</span><br><span class="line-number">98</span><br><span class="line-number">99</span><br><span class="line-number">100</span><br><span class="line-number">101</span><br><span class="line-number">102</span><br><span class="line-number">103</span><br><span class="line-number">104</span><br><span class="line-number">105</span><br><span class="line-number">106</span><br></div></div><div class="custom-container tip"><p class="custom-container-title">提示</p><p>可以通过修改 &quot;domainStrategy&quot;: &quot;UseIPv6&quot;来控制对应用户的访问方式 实测优先级要高于系统本身的 gai.config</p></div><h2 id="_5、系统设置配置" tabindex="-1"><a class="header-anchor" href="#_5、系统设置配置" aria-hidden="true">#</a> 5、系统设置配置</h2><div class="custom-container tip"><p class="custom-container-title">提示</p><p>需要打开系统的 ip_forward <code>sysctl -w net.ipv4.ip_forward=1</code><code>sysctl -w net.ipv6.conf.all.forwarding=1</code></p></div><h2 id="_6、完成-wireguard-相关设置" tabindex="-1"><a class="header-anchor" href="#_6、完成-wireguard-相关设置" aria-hidden="true">#</a> 6、完成 WireGuard 相关设置</h2><p>开启隧道</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>wg-quick up wg0
 </code></pre><div class="line-numbers"><span class="line-number">1</span><br></div></div><p>开机自启</p><div class="language-bash ext-sh line-numbers-mode"><pre class="language-bash"><code>systemctl <span class="token builtin class-name">enable</span> wg-quick@wg0
 systemctl start wg-quick@wg0
-</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>验证 IPv4/IPv6</p><blockquote><p>在代理上 运行 <code>curl ip-api.com -4/-6</code> / 浏览器访问ip-api.com</p></blockquote><h2 id="后记" tabindex="-1"><a class="header-anchor" href="#后记" aria-hidden="true">#</a> 后记</h2><p>本文本意是可以避免的多余的流量浪费，将路由和分流的功能交给 Xray 处理。避免了维护路由表的繁琐工作。顺便技术提升 UP。</p><h2 id="感谢" tabindex="-1"><a class="header-anchor" href="#感谢" aria-hidden="true">#</a> 感谢</h2><p><a href="https://github.com/XTLS/Xray-core" target="_blank" rel="noopener noreferrer">XTLS/Xray-core<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://github.com/v2fly/v2ray-core" target="_blank" rel="noopener noreferrer">v2fly/v2ray-core<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://www.wireguard.com/" target="_blank" rel="noopener noreferrer">WireGuard<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://p3terx.com/" target="_blank" rel="noopener noreferrer">@p3terx<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; @w; @Hiram; @Luminous; @Ln; @JackChou;</p><!--]--></div><footer class="page-meta"><div class="meta-item edit-link"><a class="nav-link external meta-item-label" href="https://github.com/xtls/Xray-docs-next/edit/main/docs/document/level-2/redirect.md" rel="noopener noreferrer" target="_blank" aria-label="帮助我们改善此页面！"><!--[--><!--]--> 帮助我们改善此页面！ <span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span><!--[--><!--]--></a></div><div class="meta-item last-updated"><span class="meta-item-label">最近更改: </span><span class="meta-item-info">2023/12/20 10:10:35</span></div><div class="meta-item contributors"><span class="meta-item-label">Contributors: </span><span class="meta-item-info"><!--[--><!--[--><span class="contributor" title="email: 50871214+JimhHan@users.noreply.github.com">JimhHan</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 50871214+JimhHan@users.noreply.github.com">Jim Han</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 82594500+hmol233@users.noreply.github.com">hmol233</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 123655015+chise0713@users.noreply.github.com">チセ</span><!----><!--]--><!--]--></span></div></footer><nav class="page-nav"><p class="inner"><span class="prev"> ← <a href="/document/level-2/iptables_gid.html" class="nav-link" aria-label="GID 透明代理"><!--[--><!--]--> GID 透明代理 <!--[--><!--]--></a></span><span class="next"><a href="/document/level-2/warp.html" class="nav-link" aria-label="通过 Cloudflare Warp 增强代理安全性"><!--[--><!--]--> 通过 Cloudflare Warp 增强代理安全性 <!--[--><!--]--></a> → </span></p></nav><!--[--><!--]--></main><!--]--></div><!----><!--]--></div>
-    <script src="/assets/js/runtime~app.1675a269.js" defer></script><script src="/assets/js/3469.574b203c.js" defer></script><script src="/assets/js/app.90cb8417.js" defer></script>
+</code></pre><div class="line-numbers"><span class="line-number">1</span><br><span class="line-number">2</span><br></div></div><p>验证 IPv4/IPv6</p><blockquote><p>在代理上 运行 <code>curl ip-api.com -4/-6</code> / 浏览器访问ip-api.com</p></blockquote><h2 id="后记" tabindex="-1"><a class="header-anchor" href="#后记" aria-hidden="true">#</a> 后记</h2><p>本文本意是可以避免的多余的流量浪费，将路由和分流的功能交给 Xray 处理。避免了维护路由表的繁琐工作。顺便技术提升 UP。</p><h2 id="感谢" tabindex="-1"><a class="header-anchor" href="#感谢" aria-hidden="true">#</a> 感谢</h2><p><a href="https://github.com/XTLS/Xray-core" target="_blank" rel="noopener noreferrer">XTLS/Xray-core<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://github.com/v2fly/v2ray-core" target="_blank" rel="noopener noreferrer">v2fly/v2ray-core<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://www.wireguard.com/" target="_blank" rel="noopener noreferrer">WireGuard<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; <a href="https://p3terx.com/" target="_blank" rel="noopener noreferrer">@p3terx<span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span></a>; @w; @Hiram; @Luminous; @Ln; @JackChou;</p><!--]--></div><footer class="page-meta"><div class="meta-item edit-link"><a class="nav-link external meta-item-label" href="https://github.com/xtls/Xray-docs-next/edit/main/docs/document/level-2/redirect.md" rel="noopener noreferrer" target="_blank" aria-label="帮助我们改善此页面！"><!--[--><!--]--> 帮助我们改善此页面！ <span><svg class="icon outbound" xmlns="http://www.w3.org/2000/svg" ariahidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><!--[--><span class="sr-only">open in new window</span><!--]--></span><!--[--><!--]--></a></div><div class="meta-item last-updated"><span class="meta-item-label">最近更改: </span><span class="meta-item-info">2023/12/24 19:45:01</span></div><div class="meta-item contributors"><span class="meta-item-label">Contributors: </span><span class="meta-item-info"><!--[--><!--[--><span class="contributor" title="email: 50871214+JimhHan@users.noreply.github.com">JimhHan</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 123655015+chise0713@users.noreply.github.com">チセ</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 50871214+JimhHan@users.noreply.github.com">Jim Han</span><!--[-->, <!--]--><!--]--><!--[--><span class="contributor" title="email: 82594500+hmol233@users.noreply.github.com">hmol233</span><!----><!--]--><!--]--></span></div></footer><nav class="page-nav"><p class="inner"><span class="prev"> ← <a href="/document/level-2/iptables_gid.html" class="nav-link" aria-label="GID 透明代理"><!--[--><!--]--> GID 透明代理 <!--[--><!--]--></a></span><span class="next"><a href="/document/level-2/warp.html" class="nav-link" aria-label="通过 Cloudflare Warp 增强代理安全性"><!--[--><!--]--> 通过 Cloudflare Warp 增强代理安全性 <!--[--><!--]--></a> → </span></p></nav><!--[--><!--]--></main><!--]--></div><!----><!--]--></div>
+    <script src="/assets/js/runtime~app.09f9e13f.js" defer></script><script src="/assets/js/3469.574b203c.js" defer></script><script src="/assets/js/app.66119327.js" defer></script>
   </body>
 </html>
