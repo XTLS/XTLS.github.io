@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-eeea2fb0","path":"/config/transports/splithttp.html","title":"SplitHTTP","lang":"zh-CN","frontmatter":{},"headers":[],"git":{"updatedTime":1718693282000,"contributors":[{"name":"mmmray","email":"142015632+mmmray@users.noreply.github.com","commits":2}]},"filePathRelative":"config/transports/splithttp.md"}');export{t as data};
