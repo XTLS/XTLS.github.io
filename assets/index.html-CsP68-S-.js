@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-3f09dcbc","path":"/document/level-1/","title":"入门技巧","lang":"zh-CN","frontmatter":{},"headers":[],"git":{"updatedTime":1616738467000,"contributors":[{"name":"JimhHan","email":"50871214+JimhHan@users.noreply.github.com","commits":2}]},"filePathRelative":"document/level-1/README.md"}');export{e as data};

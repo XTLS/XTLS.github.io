@@ -1,1 +1,0 @@
-const e=JSON.parse('{"key":"v-3f09dcfa","path":"/document/level-0/","title":"小小白白话文","lang":"zh-CN","frontmatter":{},"headers":[],"git":{"updatedTime":1616738467000,"contributors":[{"name":"JimhHan","email":"50871214+JimhHan@users.noreply.github.com","commits":2}]},"filePathRelative":"document/level-0/README.md"}');export{e as data};
