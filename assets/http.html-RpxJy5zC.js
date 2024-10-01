@@ -1,0 +1,1 @@
+const t=JSON.parse('{"key":"v-379e896c","path":"/en/config/transports/http.html","title":"HTTP","lang":"zh-CN","frontmatter":{},"headers":[{"level":2,"title":"HttpObject","slug":"httpobject","link":"#httpobject","children":[]}],"git":{},"filePathRelative":null,"i18n":{"pathLocale":"/en/","sourceLink":"/config/transports/http.html","untranslated":true}}');export{t as data};
