@@ -1,0 +1,148 @@
+# Project X
+
+> Xray-core
+
+不畏浮云遮望眼 · 金睛如炬耀苍穹
+
+## Table of Contents
+
+### 特性详解
+
+- [XTLS 深度剖析](/config/features/xtls.md)
+- [Fallback 回落](/config/features/fallback.md)
+- [Browser Dialer](/config/features/browser_dialer.md)
+- [多文件配置](/config/features/multiple.md)
+- [VLESS 反向代理示例](/document/level-2/vless_reverse.md)
+
+### 基础配置
+
+- [环境变量](/config/env.md)
+- [日志配置](/config/log.md)
+- [API 接口](/config/api.md)
+- [内置 DNS 服务器](/config/dns.md)
+- [FakeDNS](/config/fakedns.md)
+- [入站代理](/config/inbound.md)
+- [出站代理（Mux、XUDP）](/config/outbound.md)
+- [传输配置](/config/transport.md)
+- [本地策略](/config/policy.md)
+- [路由](/config/routing.md)
+- [统计信息](/config/stats.md)
+- [Metrics](/config/metrics.md)
+- [连接观测](/config/observatory.md)
+- [地理数据文件](/config/geodata.md)
+
+### 入站协议
+
+- [Tunnel（dokodemo-door）](/config/inbounds/tunnel.md)
+- [HTTP](/config/inbounds/http.md)
+- [Shadowsocks](/config/inbounds/shadowsocks.md)
+- [Socks](/config/inbounds/socks.md)
+- [Trojan](/config/inbounds/trojan.md)
+- [VLESS（XTLS Vision Seed）](/config/inbounds/vless.md)
+- [VMess](/config/inbounds/vmess.md)
+- [Wireguard](/config/inbounds/wireguard.md)
+- [Hysteria](/config/inbounds/hysteria.md)
+- [TUN](/config/inbounds/tun.md)
+
+### 出站协议
+
+- [Blackhole](/config/outbounds/blackhole.md)
+- [DNS](/config/outbounds/dns.md)
+- [Freedom（fragment、noises）](/config/outbounds/freedom.md)
+- [HTTP](/config/outbounds/http.md)
+- [Loopback](/config/outbounds/loopback.md)
+- [Shadowsocks](/config/outbounds/shadowsocks.md)
+- [Socks](/config/outbounds/socks.md)
+- [Trojan](/config/outbounds/trojan.md)
+- [VLESS（XTLS Vision Seed）](/config/outbounds/vless.md)
+- [VMess](/config/outbounds/vmess.md)
+- [Wireguard](/config/outbounds/wireguard.md)
+- [Hysteria](/config/outbounds/hysteria.md)
+
+### 传输配置
+
+#### 传输方式
+
+- [RAW](/config/transports/raw.md)
+- [XHTTP: Beyond REALITY](/config/transports/xhttp.md)
+- [mKCP](/config/transports/mkcp.md)
+- [gRPC](/config/transports/grpc.md)
+- [WebSocket](/config/transports/websocket.md)
+- [HTTPUpgrade](/config/transports/httpupgrade.md)
+- [Hysteria](/config/transports/hysteria.md)
+
+#### 传输安全
+
+- [REALITY](/config/transports/reality.md)
+- [TLS](/config/transports/tls.md)
+
+#### 附加配置
+
+- [FinalMask](/config/transports/finalmask.md)
+- [Sockopt](/config/transports/sockopt.md)
+
+### 快速入门文档
+
+- [下载安装](/document/install.md)
+- [配置运行](/document/config.md)
+- [命令参数](/document/command.md)
+- [为 Project X 的文档贡献](/document/document.md)
+
+### 小小白白话文
+
+- [【第 1 章】 小小白白话文](/document/level-0/ch01-preface.md)
+- [【第 2 章】原料准备篇](/document/level-0/ch02-preparation.md)
+- [【第 3 章】远程登录篇](/document/level-0/ch03-ssh.md)
+- [【第 4 章】安全防护篇](/document/level-0/ch04-security.md)
+- [【第 5 章】网站建设篇](/document/level-0/ch05-webpage.md)
+- [【第 6 章】证书管理篇](/document/level-0/ch06-certificates.md)
+- [【第 7 章】Xray 服务器篇](/document/level-0/ch07-xray-server.md)
+- [【第 8 章】Xray 客户端篇](/document/level-0/ch08-xray-clients.md)
+- [【第 9 章】附录](/document/level-0/ch09-appendix.md)
+
+### 入门技巧
+
+- [回落 (fallbacks) 功能简析](/document/level-1/fallbacks-lv1.md)
+- [路由 (routing) 功能简析（上）](/document/level-1/routing-lv1-part1.md)
+- [路由 (routing) 功能简析（下）](/document/level-1/routing-lv1-part2.md)
+- [Xray 的工作模式](/document/level-1/work.md)
+- [通过 SNI 回落功能实现伪装与按域名分流](/document/level-1/fallbacks-with-sni.md)
+- [用 DNS 实现精准境内外分流](/document/level-1/routing-with-dns.md)
+
+### 进阶技巧
+
+- [透明代理入门](/document/level-2/transparent_proxy/transparent_proxy.md)
+- [透明代理（TProxy）配置教程](/document/level-2/tproxy.md)
+- [TProxy 透明代理（ipv4 and ipv6）配置教程](/document/level-2/tproxy_ipv4_and_ipv6.md)
+- [透明代理通过 gid 规避 Xray 流量](/document/level-2/iptables_gid.md)
+- [Nginx 或 Haproxy 搭建 TLS 隧道隐藏指纹](/document/level-2/nginx_or_haproxy_tls_tunnel.md)
+- [基于 fwmark 或 sendThrough 的流量重定向](/document/level-2/redirect.md)
+- [通过 Cloudflare Warp 增强代理安全性](/document/level-2/warp.md)
+- [流量统计配置教程](/document/level-2/traffic_stats.md)
+- [VLESS 反向代理示例](/document/level-2/vless_reverse.md)
+
+### 开发指南
+
+- [编译文档](/development/intro/compile.md)
+- [设计目标](/development/intro/design.md)
+- [开发规范](/development/intro/guide.md)
+
+### 协议详解
+
+- [VLESS 协议](/development/protocols/vless.md)
+- [VMess 协议](/development/protocols/vmess.md)
+- [Mux.Cool 协议](/development/protocols/muxcool.md)
+- [mKCP 协议](/development/protocols/mkcp.md)
+
+### Other
+
+- [Dokodemo-Door](/config/inbounds/dokodemo.md)
+- [HTTP](/config/transports/http.md)
+- [HTTP/2](/config/transports/h2.md)
+- [QUIC](/config/transports/quic.md)
+- [SplitHTTP](/config/transports/splithttp.md)
+- [TCP](/config/transports/tcp.md)
+- [大史记](/about/news.md)
+- [旧版反向代理](/config/reverse.md)
+- [环境变量](/config/features/env.md)
+- [赞助 & 捐款 & NFTs](/about/sponsor.md)

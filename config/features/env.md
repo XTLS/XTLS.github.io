@@ -1,0 +1,6 @@
+---
+url: /config/features/env.md
+---
+# 环境变量
+
+该页面已移动至 [环境变量](../env.md)。

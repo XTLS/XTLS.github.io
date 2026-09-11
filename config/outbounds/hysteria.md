@@ -1,0 +1,45 @@
+---
+url: /config/outbounds/hysteria.md
+---
+# Hysteria
+
+Hysteria 协议的客户端实现。
+
+这个页面非常简单，因为 hysteria 协议实际上分为一个简单的代理控制协议和经过调优的 QUIC 传输实现，在 Xray 中代理协议和传输配置被拆分，更多内容（如 brutal）详见传输配置中的 [hysteriaSettings](../transports/hysteria.md) [FinalMask.quicParams](../transports/finalmask.md#quicparams)
+
+::: tip
+`hysteria protocol` 本身无认证，搭配非 `hysteria` 传输层将无法代理 `udp`，也不推荐搭配其他传输层
+:::
+
+## OutboundConfigurationObject
+
+`OutboundConfigurationObject` 对应 [`OutboundObject`](../outbound.md) 中的 `settings` 项。
+
+```json
+{
+  "outbounds": [
+    {
+      // ...
+      "protocol": "hysteria",
+      // [!code focus:5]
+      "settings": {
+        "version": 2,
+        "address": "192.168.108.1",
+        "port": 3128
+      }
+    }
+  ]
+}
+```
+
+> `version`: number
+
+Hysteria 版本，必须为 2。
+
+> `address`: string
+
+Hysteria 代理服务器地址，必填。
+
+> `port`: int
+
+Hysteria 代理服务器端口，必填。

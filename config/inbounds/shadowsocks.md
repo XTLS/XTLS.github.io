@@ -1,0 +1,129 @@
+---
+url: /config/inbounds/shadowsocks.md
+---
+# Shadowsocks
+
+[Shadowsocks](https://zh.wikipedia.org/wiki/Shadowsocks) 协议，兼容大部分其它版本的实现。
+
+目前兼容性如下：
+
+* 支持 TCP 和 UDP 数据包转发，其中 UDP 可选择性关闭；
+* 推荐的加密方式：
+  * 2022-blake3-aes-128-gcm
+  * 2022-blake3-aes-256-gcm
+  * 2022-blake3-chacha20-poly1305
+* 其他加密方式
+  * aes-256-gcm
+  * aes-128-gcm
+  * chacha20-poly1305 或称 chacha20-ietf-poly1305
+  * xchacha20-poly1305 或称 xchacha20-ietf-poly1305
+
+Shadowsocks 2022 新协议格式提升了性能并带有完整的重放保护，解决了旧协议的以下安全问题：
+
+* [Shadowsocks AEAD 加密方式设计存在严重漏洞，无法保证通信内容的可靠性](https://github.com/shadowsocks/shadowsocks-org/issues/183)
+* 原有 TCP 重放过滤器误报率随时间增加
+* 没有 UDP 重放保护
+* 可用于主动探测的 TCP 行为
+
+## InboundConfigurationObject
+
+`InboundConfigurationObject` 对应 [`InboundObject`](../inbound.md) 中的 `settings` 项。
+
+```json
+{
+  "inbounds": [
+    {
+      // ...
+      "protocol": "shadowsocks",
+      // [!code focus:13]
+      "settings": {
+        "network": "tcp,udp",
+        "method": "aes-256-gcm",
+        "password": "114514",
+        "level": 0,
+        "email": "love@xray.com",
+        "users": [
+          {
+            "password": "1919810",
+            "method": "aes-128-gcm"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+> `network`: "tcp" | "udp" | "tcp,udp"
+
+服务端端口**监听**的网络类型。默认值为 `"tcp"`。
+
+注意，这只是监听，主要影响并控制 Shadowsocks 的原生 UDP 传输，设置为 `"tcp"` 不代表入站会拒绝代理 UDP 的请求。因为 UDP 代理请求仍可以被 Mux.Cool 的 XUDP 包装到 TCP 报文中发送到服务端。
+
+> `method`: string
+
+加密方式，可选项见上。
+
+> `password`: string
+
+必填。
+
+* Shadowsocks 2022
+
+  使用与 WireGuard 类似的预共享密钥作为密码。
+
+  使用 `openssl rand -base64 <长度>` 以生成与 shadowsocks-rust 兼容的密钥，长度取决于所使用的加密方法。
+
+  | 加密方法                      | 密钥长度 |
+  | ----------------------------- | -------: |
+  | 2022-blake3-aes-128-gcm       |       16 |
+  | 2022-blake3-aes-256-gcm       |       32 |
+  | 2022-blake3-chacha20-poly1305 |       32 |
+
+  在 Go 实现中，32 位密钥始终工作。
+
+* 其他加密方法
+
+  任意字符串。不限制密码长度，但短密码会更可能被破解，建议使用 16 字符或更长的密码。
+
+> `level`: number
+
+用户等级，连接会使用这个用户等级对应的 [本地策略](../policy.md#levelpolicyobject)。
+`level` 的值, 对应 [policy](../policy.md#levelpolicyobject) 中 `level` 的值。 如不指定, 默认为 0。
+
+> `email`: string
+
+用户邮箱，用于区分不同用户的流量（日志、统计）。
+
+> `users`: \[ [UserObject](#userobject) ]
+
+一个数组，代表一组服务端认可的用户。
+
+其中每一项是一个用户 [UserObject](#userobject)。
+
+当存在此选项时，代表启用多用户模式。
+
+### UserObject
+
+```json
+{
+  "password": "1919810",
+  "method": "aes-256-gcm",
+  "level": 0,
+  "email": "love@xray.com"
+}
+```
+
+> `method`: string
+
+* 当 InboundConfigurationObject 中的 `method` 不为 SS2022 选项时，可以在此为每个用户指定 `"method"`。(`"method"`中也仅支持非 SS2022 选项) 与`"password"`(与此同时 InboundConfigurationObject 中的设置的 `"password"` 将会被忽略)。
+
+* 当 InboundConfigurationObject 中的 `method` 为 SS2022 选项时，出于安全考量，不再支持为单个用户设置 `"method"`，统一为 InboundConfigurationObject 所指定的`"method"`。
+
+> `password`: string
+
+注意 SS2022 并不会像旧 SS 一样忽略上层 `"password"`, 客户端的正确密码写法应为, `ServerPassword:UserPassword`。如:`"password": "114514:1919810"`
+
+> 其余选项
+
+与 InboundConfigurationObject 中的含义一致。

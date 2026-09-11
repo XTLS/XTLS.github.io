@@ -1,0 +1,372 @@
+---
+url: /config/dns.md
+---
+# 内置 DNS 服务器
+
+## DNS 服务器
+
+Xray 内置的 DNS 模块，主要有三大用途：
+
+* 在路由阶段，解析域名为 IP, 并且根据域名解析得到的 IP 进行规则匹配以分流。
+  ::: details 详细说明
+  是否解析域名用以 IP 分流，取决于 `routing.domainStrategy` 的值，只有在设置以下两种值时，才有可能使用内置 DNS 服务器进行 DNS 查询：
+
+  * `"IPIfNonMatch"`：第一轮路由匹配未命中任何规则时，只要存在包含 `ip` 条件的规则且目标包含域名，就会使用内置 DNS 解析域名。
+  * `"IPOnDemand"`：只要目标包含域名，并遇到包含 `ip` 条件的规则，就会使用内置 DNS 解析域名。
+
+  :::
+
+* 在出站阶段，解析目标域名，用于连接或发送给远端代理服务器。
+  ::: details 详细说明
+
+  * 如在 VLESS 出站中，将 `targetStrategy` 设置为 `UseIP`，会先通过本地的内置 DNS 模块解析被代理请求的目标域名，再将解析得到的 IP 发给远端代理服务器。
+  * 如在 VLESS 出站中，将 `sockopt.domainStrategy` 设置为 `UseIP`，会通过内置 DNS 模块解析 VLESS 服务器的域名，再连接解析得到的 IP。
+  * 如在 Freedom 出站中，将 `sockopt.domainStrategy` 设置为 `UseIP`，会通过内置 DNS 模块解析请求的目标域名，再连接解析得到的 IP。
+  * 如在 Wireguard 出站中，协议不允许传递域名作为目标，可选用内置 DNS 模块解析为 IP。
+
+  :::
+
+* TUN/透明代理时通过路由和 DNS 出站组合，以劫持 DNS 流量到此模块；或利用 [Tunnel](./inbounds/tunnel.md) 直接对外暴露 53 端口充当递归 DNS 服务器。
+  ::: details 详细说明
+
+  * 只支持最基本的 IP 查询（A 和 AAAA 记录），CNAME 记录将会重复查询直至返回 A/AAAA 记录为止。其它查询不会进入内置 DNS 服务器，而是根据你在出站中的配置可以丢弃或透传给其它服务器。
+
+  :::
+
+## DNS 处理流程
+
+域名将先执行 Hosts 映射检查（详见 `hosts` 字段），若没有查出需要的 IP，则继续使用 DNS 服务器进行查询。
+
+而后核心将开始构建一个列表，核心会根据请求的域名，将服务器进行排序，遵循以下规则。
+
+* 构建列表 1：包含 `domains` 字段成功命中了请求域名的服务器，顺序与配置文件中相同。
+* 检查 `disableFallback` 若为真则跳过构建列表 2。
+* 检查 `disableFallbackIfMatch` 若为真且列表 1 不为空则跳过构建列表 2。
+* 构建列表 2：包含不在列表 1 且 `skipFallback` 不为真的服务器，顺序与配置文件中相同。
+* 最终服务器列表 = 列表 1 + 列表 2。
+
+注：任何 FinalQuery 为真的DNS服务器都将直接截断后面的部分。
+
+执行 DNS 查询时，核心将依次使用最终服务器列表中的服务器进行查询，并使用 `expectedIPs` 和 `unexpectedIPs` 过滤结果，为空则尝试列表中的下一个。（`enableParallelQuery` 为真时行为略有不同，详见其字段描述）
+
+## DnsObject
+
+`DnsObject` 对应配置文件的 `dns` 项。
+
+```json
+{
+  "dns": {
+    "hosts": {
+      "baidu.com": "127.0.0.1",
+      "dns.google": ["8.8.8.8", "8.8.4.4"]
+    },
+    "servers": [
+      "8.8.8.8",
+      "8.8.4.4",
+      {
+        "address": "1.2.3.4",
+        "port": 5353,
+        "domains": ["domain:xray.com"],
+        "expectedIPs": ["geoip:cn"],
+        "skipFallback": false,
+        "clientIP": "1.2.3.4"
+      },
+      {
+        "address": "https://8.8.8.8/dns-query",
+        "domains": ["geosite:netflix"],
+        "skipFallback": true,
+        "queryStrategy": "UseIPv4"
+      },
+      {
+        "address": "https://1.1.1.1/dns-query",
+        "domains": ["geosite:openai"],
+        "skipFallback": true,
+        "queryStrategy": "UseIPv6"
+      },
+      "localhost"
+    ],
+    "clientIp": "1.2.3.4",
+    "queryStrategy": "UseIP",
+    "disableCache": false,
+    "serveStale": false,
+    "serveExpiredTTL": 0,
+    "disableFallback": false,
+    "disableFallbackIfMatch": false,
+    "enableParallelQuery": false,
+    "useSystemHosts": false,
+    "tag": "dns_inbound"
+  }
+}
+```
+
+> `hosts`: map{string: address} | map{string: \[address]}
+
+静态 IP 列表，其值为一系列的 "域名": "地址" 或 "域名": \["地址 1","地址 2"]。其中地址可以是 IP 或者域名。在解析域名时，核心将检查全部映射条目并返回全部匹配成功的 IP 地址。如果未命中，则进入 DNS 查询阶段。
+
+映射的目标可以是域名，当核心完成匹配，并且其中包含域名时行为会略有不同：
+
+* 其中同时包含 IP 和域名时，删去其中的域名，只返回 IP 地址。
+* 其中包含数个域名，存在歧义，视为查询失败。
+* 其中有且仅有一个域名时，这个域名将重新进入 Hosts 模块递归解析，重复上面的步骤，最大递归深度为 5。
+* 上一条递归查询未查询到 IP，并且最终查询结果有且仅有一个域名，该域名替代原始请求域名，进入 DNS 查询阶段。
+* 特别地，如果“域名”是井号后加数字的形式（如 `#3`），任何被该条目匹配到的请求，请求会立即失败。如果请求来自 DNS 出站，核心会返回空的响应以及该数字编号对应的 rcode 以拒绝请求。
+
+其匹配格式（`domain:` `full:` 等等）同常用的 [路由系统](./routing.md#ruleobject) 中的 domain. 不同的是无前缀时此处默认使用 `full:` 前缀（类似常见的 hosts 文件写法）
+
+> `servers`: \[string | [DnsServerObject](#dnsserverobject) ]
+
+一个 DNS 服务器列表，支持的类型有两种：DNS 地址（字符串形式）和 [DnsServerObject](#dnsserverobject) 。
+
+当值为 `"localhost"` 时，表示使用本机预设的 DNS 配置。
+
+当它的值是一个 DNS `"IP:Port"` 地址时，如 `"8.8.8.8:53"`，Xray 会使用此地址的指定 UDP 端口进行 DNS 查询。该查询遵循路由规则。不指定端口时，默认使用 53 端口。
+
+当值是 `"tcp://host:port"` 的形式，如 `"tcp://8.8.8.8:53"`，Xray 会使用 `DNS over TCP` 进行查询。该查询遵循路由规则。不指定端口时，默认使用 53 端口。
+
+当值是 `"tcp+local://host:port"` 的形式，如 `"tcp+local://8.8.8.8:53"`，Xray 会使用 `TCP 本地模式 (TCPL)` 进行查询。即 DNS 请求不会经过路由组件，直接通过 Freedom outbound 对外请求，以降低耗时。不指定端口时，默认使用 53 端口。
+
+当值是 `"https://host:port/dns-query"` 的形式，如 `"https://dns.google/dns-query"`，Xray 会使用 `DNS over HTTPS` (RFC8484, 简称 DOH) 进行查询。有些服务商拥有 IP 别名的证书，可以直接写 IP 形式，比如 `https://1.1.1.1/dns-query`。也可使用非标准端口和路径，如 `"https://a.b.c.d:8443/my-dns-query"`
+
+当值是 `"h2c://host:port/dns-query"` 的形式，如 `"h2c://dns.google/dns-query"`，Xray 会使用 `DNS over HTTPS` 的请求格式但是将会以明文 h2c 发出请求，不能直接使用，在这种情况下需要自行配置 Freedom 出站 + streamSettings 设置 TLS 为其配置 TLS 以包装成正常的 DOH 请求。用于特殊目的，比如想要自定义 DOH 请求的 SNI 或者使用 utls 的指纹时使用。
+
+当值是 `"https+local://host:port/dns-query"` 的形式，如 `"https+local://dns.google/dns-query"`，Xray 会使用 `DOH 本地模式 (DOHL)` 进行查询，即 DOH 请求不会经过路由组件，直接通过 Freedom outbound 对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
+
+当值是 `"quic+local://host"` 的形式，如 `"quic+local://dns.adguard.com"`，Xray 会使用 `DNS over QUIC 本地模式 (DOQL)` 进行查询，即 DNS 请求不会经过路由组件，直接通过 Freedom outbound 对外请求。该方式需要 DNS 服务器支持 DNS over QUIC。默认使用 853 端口进行查询，可以使用非标端口。
+
+当值是 `fakedns` 时，将使用 FakeDNS 功能进行查询。
+
+::: tip TIP 1
+当使用 `localhost` 时，本机的 DNS 请求不受 Xray 控制，需要额外的配置才可以使 DNS 请求由 Xray 转发。
+:::
+
+::: tip TIP 2
+不同规则初始化得到的 DNS 客户端会在 Xray 启动日志中以 `info` 级别体现，比如 `local DOH`、`remote DOH` 和 `udp` 等模式。
+:::
+
+::: tip TIP 3
+(v1.4.0+) 可以在 [日志](./log.md) 中打开 DNS 查询日志。
+:::
+
+::: tip TIP 4
+DNS 服务器默认进入路由系统进行匹配，除非其包含 `+local` 在其中使用域名时，注意可能的回环问题，`hosts` 可能有帮助。
+:::
+
+> `clientIp`: string
+
+EDNS Client Subnet 扩展中使用的 IP 地址。
+
+需要是一个有效的 IPv4 或者 IPv6. 实际发送时会自动抹掉最后几位，IPv4 和 IPv6 分别以 /24 和 /96 的子网发送。
+
+> `queryStrategy`: "UseIP" | "UseIPv4" | "UseIPv6" | "UseSystem"
+
+限制 DNS 模块中所有服务器的能力，以及由 Xray 自身发起的 IP 查询类型的默认值。
+
+默认值 `UseIP` 允许查询 A + AAAA。由 Xray 自身发起的查询未指定 IP 类型时，同时向上游 DNS 服务器查询 A 和 AAAA 记录。`UseIPv4` 只查询且只允许查询 A 记录；`UseIPv6` 只查询且只允许查询 AAAA 记录。
+
+`UseSystem` 自适应操作系统网络环境。查询前分别检查是否有 IPv4 和 IPv6 的默认网关，以此限制所有服务器的能力并设置查询类型的默认值。在图形环境操作系统上实时检查，在命令行环境只检查一次。
+
+```json
+{
+  "dns": {
+    "servers": [
+      "https://1.1.1.1/dns-query",
+      {
+        "address": "https://8.8.8.8/dns-query",
+        "domains": ["geosite:netflix"],
+        "skipFallback": true,
+        "queryStrategy": "UseIPv4" // netflix 的域名查询 A 记录
+      },
+      {
+        "address": "https://1.1.1.1/dns-query",
+        "domains": ["geosite:openai"],
+        "skipFallback": true,
+        "queryStrategy": "UseIPv6" // openai 的域名查询 AAAA 记录
+      }
+    ],
+    "queryStrategy": "UseIP" // 全局同时查询 A 和 AAAA 记录
+  }
+}
+```
+
+::: tip TIP 1
+全局 `"queryStrategy"` 值优先，当子项中的 `"queryStrategy"` 值与全局 `"queryStrategy"` 值冲突时，子项的查询将空响应。
+:::
+
+::: tip TIP 2
+当子项中不写 `"queryStrategy"` 参数时，使用全局 `"queryStrategy"` 参数值。与 Xray-core v1.8.6 以前版本行为相同。
+:::
+
+例如：
+全局 `"queryStrategy": "UseIPv6"` 与 子项 `"queryStrategy": "UseIPv4"` 冲突。
+全局 `"queryStrategy": "UseIPv4"` 与 子项 `"queryStrategy": "UseIPv6"` 冲突。
+全局 `"queryStrategy": "UseIP"` 与 子项 `"queryStrategy": "UseIPv6"` 不冲突。
+全局 `"queryStrategy": "UseIP"` 与 子项 `"queryStrategy": "UseIPv4"` 不冲突。
+
+```json
+{
+  "dns": {
+    "servers": [
+      "https://1.1.1.1/dns-query",
+      {
+        "address": "https://8.8.8.8/dns-query",
+        "domains": ["geosite:netflix"],
+        "skipFallback": true,
+        "queryStrategy": "UseIPv6" // 全局 "UseIPv4" 与 子项 "UseIPv6" 冲突
+      }
+    ],
+    "queryStrategy": "UseIPv4"
+  }
+}
+```
+
+子项 netflix 的域名查询由于 `"queryStrategy"` 值冲突，得到空响应。netflix 的域名由 `https://1.1.1.1/dns-query` 查询，得到 A 记录。
+
+> `disableCache`: true | false
+
+`true` 禁用 DNS 缓存，默认为 `false`，即不禁用。
+
+它不会对 `localhost` DNS (系统 DNS) 生效，它总是跟随 golang 的 DNS 缓存行为(cgo 与 pure go 可能略有不同)。
+
+> `serveStale`: true | false
+
+`true` 启用 DNS 乐观缓存，默认为 `false`，即不启用。
+
+仅服务器启用 DNS 缓存时才有效，也就是此选项受 `disableCache` 的约束。
+
+> `serveExpiredTTL`: number
+
+乐观缓存有效期，单位是秒，默认为 0 即永不过期。
+
+若服务器已启用了缓存，并开启了乐观缓存。当缓存已过期，但乐观缓存未过期时，立即返回缓存中陈旧的 DNS 记录，并后台刷新缓存。这样可以降低延迟。
+
+> `disableFallback`: true | false
+
+`true` 禁用 DNS 的 fallback 查询，默认为 `false`，即不禁用。
+
+> `disableFallbackIfMatch`: true | false
+
+`true` 当 DNS 服务器的优先匹配域名列表命中时，禁用 fallback 查询，默认为 `false`，即不禁用。
+
+> `enableParallelQuery`: true | false
+
+`true` 启用并行查询，默认为 `false`，即不启用。
+
+DNS 回退（failover）默认是串行的，即默认仅在选中的 DNS 服务器查询失败或 `expectedIPs` 和 `unexpectedIPs` 不匹配后才向下一台服务器发起查询。
+
+启用并行查询后，会预先向所有被选中的 DNS 服务器异步发起查询，并执行“动态分组，组内竞速，组间回退”的策略。
+
+动态分组，被选中的服务器列表中**相邻**的服务器如果 `clientIP` `skipFallback` `queryStrategy` `tag` `domains` `expectedIPs` `unexpectedIPs` **完全**一样，被视为同一个组。
+
+组内竞速，同组内只要任意一 DNS 服务器查询成功且 `expectedIPs` 和 `unexpectedIPs` 匹配到了 IP，则本组视为成功，同时忽略本组其它服务器的结果。
+
+组间回退，若第一个组还在查询，则等待。若第一个组成功，则返回 IP。若第一个组所有服务器都查询失败或 IP 不匹配，则回退到下一个组。最终若所有组都失败，则返回空解析。
+
+> `useSystemHosts`: true | false
+
+如果为真，将系统 hosts 文件附加到内置 DNS 的 hosts 中。
+
+> `tag`: string
+
+由内置 DNS 发出的查询流量，除 `localhost`、`fakedns`、`TCPL`、`DOHL` 和 `DOQL` 模式外，都可以用此标识在路由使用 `inboundTag` 进行匹配。
+
+### DnsServerObject
+
+```json
+{
+  "address": "1.2.3.4",
+  "port": 5353,
+  "domains": ["domain:xray.com"],
+  "expectedIPs": ["geoip:cn"],
+  "unexpectedIPs": ["geoip:cloudflare"],
+  "skipFallback": false,
+  "finalQuery": false,
+  "tag": "dns-tag",
+  "clientIP": "1.2.3.4",
+  "queryStrategy": "UseIPv4",
+  "disableCache": false
+}
+```
+
+> `address`: address
+
+一个 DNS 服务器列表，支持的类型有两种：DNS 地址（字符串形式）和 DnsServerObject 。
+
+当值为 `"localhost"` 时，表示使用本机预设的 DNS 配置。
+
+当它的值是一个 DNS `"IP"` 地址时，如 `"8.8.8.8"`，Xray 会使用此地址的指定 UDP 端口进行 DNS 查询。该查询遵循路由规则。默认使用 53 端口。
+
+当值是 `"tcp://host"` 的形式，如 `"tcp://8.8.8.8"`，Xray 会使用 `DNS over TCP` 进行查询。该查询遵循路由规则。默认使用 53 端口。
+
+当值是 `"tcp+local://host"` 的形式，如 `"tcp+local://8.8.8.8"`，Xray 会使用 `TCP 本地模式 (TCPL)` 进行查询。即 DNS 请求不会经过路由组件，直接通过 Freedom outbound 对外请求，以降低耗时。不指定端口时，默认使用 53 端口。
+
+当值是 `"https://host:port/dns-query"` 的形式，如 `"https://dns.google/dns-query"`，Xray 会使用 `DNS over HTTPS` (RFC8484, 简称 DOH) 进行查询。有些服务商拥有 IP 别名的证书，可以直接写 IP 形式，比如 `https://1.1.1.1/dns-query`。也可使用非标准端口和路径，如 `"https://a.b.c.d:8443/my-dns-query"`
+
+当值是 `"https+local://host:port/dns-query"` 的形式，如 `"https+local://dns.google/dns-query"`，Xray 会使用 `DOH 本地模式 (DOHL)` 进行查询，即 DOH 请求不会经过路由组件，直接通过 Freedom outbound 对外请求，以降低耗时。一般适合在服务端使用。也可使用非标端口和路径。
+
+当值是 `"quic+local://host:port"` 的形式，如 `"quic+local://dns.adguard.com"`，Xray 会使用 `DOQ 本地模式 (DOQL)` 进行查询，即 DNS 请求不会经过路由组件，直接通过 Freedom outbound 对外请求。该方式需要 DNS 服务器支持 DNS over QUIC。默认使用 853 端口进行查询，可以使用非标端口。
+
+当值是 `fakedns` 时，将使用 FakeDNS 功能进行查询。
+
+::: tip 关于 local 模式和 DNS 服务器本身的域名
+由 DNS 模块发出的 DNS 请求有两种情况：
+
+local 模式将直接由核心向外连接，这种情况下如果地址是一个域名将交由系统本身进行解析，逻辑较为简单。
+
+非 local 模式下，DNS 查询会作为内部请求进入路由系统，其 `inboundTag` 由 DNS 配置的 `tag` 指定。若请求被路由到本地 Freedom 出站，DNS 服务器的自身的域名会按该出站的 `sockopt.domainStrategy` 解析（注意可能的回环）；若请求被路由到远端代理出站，则可将域名交给远端解析。
+
+由于普通人可能难以理清其中的逻辑，建议(特别是在透明代理的环境下)，直接在 DNS 模块的 host 选项中直接为带域名的服务器设置它们对应的 IP 防止出现回环。
+
+顺便 DNS 模块非 local 模式发出的 DNS 请求将会自动在路由模块中跳过 IPIfNonMatch 和 IPOnDemand 的解析过程，防止它们的解析会被送回 DNS 模块导致回环。
+:::
+
+> `port`: number
+
+DNS 服务器端口，如 `53`。此项缺省时默认为 `53`。当使用 DOH、DOHL、DOQL 模式时该项无效，非标端口应在 URL 中指定。
+
+> `domains`: \[string]
+
+一个域名列表，此列表包含的域名，将优先使用此服务器进行查询。域名格式和 [路由配置](./routing.md#ruleobject) 中相同。
+
+> `expectedIPs`:\[string]
+
+一个 IP 范围列表，格式和 [路由配置](./routing.md#ruleobject) 中相同。
+
+当配置此项时，Xray DNS 会对返回的 IP 的进行校验，只返回包含 expectedIPs 列表中的地址。
+
+如果列表中存在 \* 那么如果过滤后不存在 IP, 仍然返回原 IP 使请求不至于失败。
+
+> `unexpectedIPs`: \[string]
+
+`expectedIPs` 的反向版本，去掉包含于这个列表的 IP. 星号的作用相同。
+
+> `skipFallback`: true | false
+
+`true`，在进行 DNS fallback 查询时将跳过此服务器, 默认为 `false`，即不跳过。
+
+> `timeoutMs`: number
+
+DNS 服务器超时时间，默认 4000 ms.
+
+它不会对 `localhost` DNS (系统 DNS) 生效，它总是跟随 golang 的 DNS 超时行为(cgo 与 pure go 可能略有不同)。
+
+> `finalQuery`: true | false
+
+如果设置为真，该 DNS 服务器的请求会是最终尝试，不会触发 fallback 行为。
+
+> `queryStrategy`: "UseIP" | "UseIPv4" | "UseIPv6" | "UseSystem"
+
+若未指定，将继承自全局配置；若指定，则允许更进一步限制此服务器能力，以及设置由 Xray 自身发起的 IP 查询类型的默认值。
+
+注意：它始终受全局 `queryStrategy` 的约束。
+
+### 以下配置项若未指定，将继承自全局配置，也可以在这里覆盖全局配置
+
+> `tag`: string
+
+> `clientIP`: \[string]
+
+> `disableCache`: true | false
+
+> `serveStale`: true | false
+
+> `serveExpiredTTL`: number
