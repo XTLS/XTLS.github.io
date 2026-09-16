@@ -1,0 +1,468 @@
+---
+url: /config/routing.md
+---
+# 路由
+
+路由功能模块可以将入站数据按不同规则由不同的出站连接发出，以达到按需代理的目的。
+
+如常见用法是分流国内外流量，Xray 可以通过内部机制判断不同地区的流量，然后将它们发送到不同的出站代理。
+
+有关路由功能更详细的解析：[路由 (routing) 功能简析](../document/level-1/routing-lv1-part1.md)。
+
+## RoutingObject
+
+`RoutingObject` 对应配置文件的 `routing` 项。
+
+```json
+{
+  "routing": {
+    "domainStrategy": "AsIs",
+    "rules": [],
+    "balancers": []
+  }
+}
+```
+
+> `domainStrategy`: "AsIs" | "IPIfNonMatch" | "IPOnDemand"
+
+域名解析策略，根据不同的设置使用不同的策略。
+
+* `"AsIs"`：不进行 DNS 解析。默认值；
+* `"IPIfNonMatch"`：先不进行域名解析，若一整轮匹配结束后未命中任何规则且目标包含域名，则重新开始第二轮匹配；第二轮遇到包含 `ip` 条件的规则时，使用内置 DNS 将域名解析为 IP 后进行匹配；
+* `"IPOnDemand"`：若目标包含域名，遇到包含 `ip` 条件的规则时，使用内置 DNS 将域名解析为 IP 后进行匹配；若解析失败，则使用原始目标 IP 进行匹配；
+
+解析结果将同时包含 IPv4 与 IPv6（可通过内置 DNS 的 `queryStrategy` 进一步限制）。域名解析出多个 IP 时，每条规则会依次尝试所有 IP；任一 IP 符合条件，即视为命中该规则。
+
+原始目标可能是 IP，也可能是域名。当开启 [`sniffing`](./inbound.md#sniffingobject) 且启用 `routeOnly` 时，路由系统除了原始目标外，还能看到嗅探得到的域名。因此，即使没有进行 DNS 解析，只要原始目标中已有 IP，路由系统仍可使用该 IP 进行规则匹配。当原始目标域名与嗅探结果同时存在时，无论用于 DNS 解析还是域名匹配，嗅探结果的优先级始终更高。
+
+无论解析与否，路由系统不会影响真正目标地址，请求的目标仍然是原始目标。
+
+> `rules`: \[[RuleObject](#ruleobject)]
+
+对应一个数组，数组中每一项是一个规则。
+
+对于每一个连接，路由将根据这些规则从上到下依次进行判断，当遇到第一个生效规则时，即将这个连接转发至它所指定的 `outboundTag` 或 `balancerTag`。
+
+::: tip
+当没有匹配到任何规则时，流量默认由第一个 outbound 发出。
+:::
+
+> `balancers`: \[ [BalancerObject](#balancerobject) ]
+
+一个数组，数组中每一项是一个负载均衡器的配置。
+
+当一个规则指向一个负载均衡器时，Xray 会通过此负载均衡器选出一个 outbound, 然后由它转发流量。
+
+### RuleObject
+
+```json
+{
+  "domain": ["baidu.com", "qq.com", "geosite:cn"],
+  "ip": ["0.0.0.0/8", "10.0.0.0/8", "fc00::/7", "fe80::/10", "geoip:cn"],
+  "port": "53,443,1000-2000",
+  "sourcePort": "53,443,1000-2000",
+  "localPort": "53,443,1000-2000",
+  "network": "tcp",
+  "sourceIP": ["10.0.0.1"],
+  "localIP": ["192.168.0.25"],
+  "user": ["love@xray.com"],
+  "vlessRoute": "53,443,1000-2000",
+  "inboundTag": ["tag-vmess"],
+  "protocol": ["http", "tls", "quic", "bittorrent"],
+  "attrs": { ":method": "GET" },
+  "process": ["curl"],
+  "outboundTag": "direct",
+  "balancerTag": "balancer",
+  "ruleTag": "rule name",
+  "webhook": {
+    "url": "https://api.example.com/alert",
+    "deduplication": 300
+  }
+}
+```
+
+::: danger
+当多个属性同时指定时，这些属性需要**同时**满足，才可以使当前规则生效。
+:::
+
+> `domain`: \[string]
+
+* 纯字符串：同下面的子串，但可以省略前面的 `"keyword:"` 开头。
+* 正则表达式：由 `"regexp:"` 开始，余下部分是一个正则表达式。当此正则表达式匹配目标域名时，该规则生效。例如 "regexp:\\\\.goo.\*\\\\.com$" 匹配 "www.google.com"、"fonts.googleapis.com"，但不匹配 "google.com"。大小写敏感。
+* 子域名 (推荐)：由 `"domain:"` 开始，余下部分是一个域名。当此域名是目标域名或其子域名时，该规则生效。例如 "domain:xray.com" 匹配 "www.xray.com" 与 "xray.com"，但不匹配 "wxray.com"。
+* 子串：由 `"keyword:"` 开始，余下部分是一个字符串。当此字符串匹配目标域名中任意部分，该规则生效。例如 "keyword:sina.com" 可以匹配 "sina.com"、"sina.com.cn" 和 "www.sina.com"，但不匹配 "sina.cn"。
+* 完整匹配：由 `"full:"` 开始，余下部分是一个域名。当此域名完整匹配目标域名时，该规则生效。例如 "full:xray.com" 匹配 "xray.com" 但不匹配 "www.xray.com"。
+* 无点域名：由 `"dotless:"` 开头，余下部分是一个不能含有 `.` 的字符串。当域名不含 `.` 且此字符串匹配目标域名中任意部分，该规则生效。例如 "dotless:pc-" 可以匹配 "pc-alice"、"mypc-alice"，适用于内网 NetBIOS 域等。大小写敏感。
+* 预定义域名列表：由 `"geosite:"` 开头，余下部分是一个名称，如 `geosite:google` 或者 `geosite:cn`。名称及域名列表参考 [预定义域名列表](#预定义域名列表)。
+* 从文件中加载域名：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](./env.md#资源文件路径) 中，文件格式与 `geosite.dat` 相同，标签必须在文件中存在。
+
+::: tip
+`"ext:geoip.dat:cn"` 等价于 `"geoip:cn"`
+:::
+
+> `ip`: \[string]
+
+一个数组，数组内每一项代表一个 IP 范围。当某一项匹配目标 IP 时，此规则生效。有以下几种形式：
+
+* IP：形如 `"127.0.0.1"`。
+* [CIDR](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing)：形如 `"10.0.0.0/8"`，也可以用 `"0.0.0.0/0"` `"::/0"` 来指定所有 IPv4 或者 IPv6。
+* 预定义 IP 列表：此列表预置于每一个 Xray 的安装包中，文件名为 `geoip.dat`。使用方式形如 `"geoip:cn"`，必须以 `geoip:`（小写）开头，后面跟双字符国家代码，支持几乎所有可以上网的国家。
+  * 特殊值：`"geoip:private"`，包含所有私有地址，如 `127.0.0.1`。
+* 从文件中加载 IP：形如 `"ext:file:tag"`，必须以 `ext:`（小写）开头，后面跟文件名和标签，文件存放在 [资源目录](./env.md#资源文件路径) 中，文件格式与 `geoip.dat` 相同标签必须在文件中存在。
+* 反选 `!` 功能：`"!10.0.0.0/8"` 表示非 `10.0.0.0/8`，`"!geoip:cn"` 表示非 `geoip:cn` 中的结果。多个反选项之间是 `AND` 关系，而正选项、正选项和所有的反选项之间是 `OR` 关系，例如 `ip: ["!geoip:cn", "!geoip:us", "geoip:telegram"]` 匹配非美国并且非中国的 IP，或者是 telegram 的 IP。
+
+> `port`：number | string
+
+目标端口范围，有三种形式：
+
+* `"a-b"`：a 和 b 均为正整数，且小于 65536。这个范围是一个前后闭合区间，当目标端口落在此范围内时，此规则生效。
+* `a`：a 为正整数，且小于 65536。当目标端口为 a 时，此规则生效。
+* 以上两种形式的混合，以逗号 "," 分隔。形如：`"53,443,1000-2000"`。
+
+> `sourcePort`：number | string
+
+来源端口，有三种形式：
+
+* `"a-b"`：a 和 b 均为正整数，且小于 65536。这个范围是一个前后闭合区间，当目标端口落在此范围内时，此规则生效。
+* `a`：a 为正整数，且小于 65536。当目标端口为 a 时，此规则生效。
+* 以上两种形式的混合，以逗号 "," 分隔。形如：`"53,443,1000-2000"`。
+
+> `localPort`：number | string
+
+本地入站的端口，格式和 `port`/`sourcePort` 一致，在入站监听一个端口范围时可能有用。
+
+> `network`: "tcp" | "udp" | "tcp,udp"
+
+可选的值有 "tcp"、"udp" 或 "tcp,udp"，当连接方式是指定的方式时，此规则生效。
+
+由于核心很明显只支持 tcp 和 udp 两种四层协议，所以一个仅包含 `"network": "tcp,udp"` 条件的路由可以用于 catch all 匹配任何流量。一个使用例子是放在所有路由规则的最末尾用于指定没有任何其他规则时使用的默认出站（否则核心默认走第一个出站）
+
+当然其他很明显能匹配任何流量的写法，比如指定 1-65535 的 port，也有类似作用。
+
+> `sourceIP`: \[string]
+
+一个数组，数组内每一项代表一个 IP 范围，形式有 IP、CIDR、GeoIP 和从文件中加载 IP。当某一项匹配来源 IP 时，此规则生效。
+
+别名: `source`
+
+> `localIP`: \[string]
+
+格式同其他 IP, 用以指定本地入站使用的 IP(使用 0.0.0.0 监听全部 IP 时不同的实际进入 IP 将产生不同的 localIP).
+
+对 UDP 无效(UDP 面向报文的原因无法跟踪), 总是看到 listen 的 IP
+
+> `user`: \[string]
+
+一个数组，数组内每一项是一个邮箱地址。当某一项匹配来源用户时，此规则生效。
+
+类似于域名，其也支持类似 `regexp:` 开头的正则进行匹配。（同样需要替换`\`为`\\`, 见 domain 部分的解释）
+
+> `vlessRoute`: number | string
+
+VLESS 入站会允许配置的 UUID 第七和第八个字节被客户端修改为任何字节，服务端路由会将其作为 vlessRoute 数据，允许用户不更改任何外部字段的情况下根据需求自定义部分服务端路由。
+
+```
+--------------↓↓↓↓------------------
+xxxxxxxx-xxxx-0000-xxxx-xxxxxxxxxxxx
+```
+
+配置中使用的是大端序编码为 uint16 后的数据(听不懂的话，把这四位当成一个十六进制数并化为十进制) 如 `0001→1` `000e→14` `38b2→14514`. 这么做的原因是这里的写法同 `port`, 可以像指定 port 一样自由指定许多段进行路由。
+
+> `inboundTag`: \[string]
+
+一个数组，数组内每一项是一个标识。当某一项匹配入站协议的标识时，此规则生效。
+
+> `protocol`: \[ "http" | "tls" | "quic" | "bittorrent" ]
+
+一个数组，数组内每一项表示一种协议。当某一个协议匹配当前连接的协议类型时，此规则生效。
+
+`http` 仅支持 1.0 和 1.1 暂不支持 h2. (明文 h2 流量也非常少见)
+
+`tls` TLS 1.0 ~ 1.3
+
+`quic` 由于该协议复杂性，嗅探有时可能失效。
+
+`bittorrent` 只有最基础的嗅探，对很多加密和混淆可能不会奏效。
+
+::: tip
+必须开启入站代理中的 `sniffing` 选项, 才能嗅探出连接所使用的协议类型.
+:::
+
+> `attrs`: object
+
+一个 json object，键名字和值皆为字符串，用于检测 HTTP 流量的属性值(由于显而易见的原因，只支持 1.0 和 1.1)。当 HTTP headers 包含所有指定的键，并且值包含指定的子字符串，则命中此规则。键大小写不敏感。值支持使用正则表达式。
+
+同时也支持类似 h2 的伪头部 `:method` 和 `:path` 用于匹配方法和路径(尽管在 HTTP/1.1 中是不存在这些 header 的)
+
+对于 HTTP 入站的非 CONNECT 方法，可以直接获取到 attrs, 对于其他入站则需要开启 sniffing 嗅探才能获得这些值用于匹配。
+
+示例：
+
+* 检测 HTTP GET：`{":method": "GET"}`
+* 检测 HTTP Path：`{":path": "/test"}`
+* 检测 Content Type：`{"accept": "text/html"}`
+
+> `process`: \[string]
+
+如果连接来自本机，匹配其进程。如果不来自本机则直接视作匹配失败。仅支持 Windows 和 Linux.
+
+特别的，安卓需要客户端 app 调用 `github.com/xtls/xray-core/common/net.RegisterAndroidProcessFinder()` 注入 Android API 提供的查找器。该 hook 可以自定义向核心返回的字符串以实现 app 匹配等功能。
+
+该选项为一个数组，数组内每一项有三种匹配模式。
+
+1. 不包含斜杠，匹配进程名字。
+2. 包含斜杠，不以斜杠结尾，匹配绝对路径。
+3. 包含斜杠，以斜杠结尾，匹配文件夹，该文件夹下的进程都视为命中。
+
+注：
+
+* 所有选项均大小写敏感。
+* Windows 上使用反斜杠 `\` 表示路径，这里统一要求使用普通斜杠 `/`，如：`C:/Windows/System32/curl.exe`，因为反斜杠在 json 中会被视作转义符，使用不便（除非你选择把出现的反斜杠写两遍，如果这么做也可以正常识别）。
+* 使用进程名匹配时核心会自动删去 `.exe` 后缀，同样的 `["curl"]` 可以在 Linux 和 Windows 上都命中 curl，使用绝对路径时仍不能忽略 `.exe` 后缀。
+
+特殊语法糖
+
+* `self/` 用于匹配当前核心进程，对于避免回环路由非常有用。
+* `xray/` 会被替换为当前核心所在的绝对路径，将会命中所有从该二进制启动的 Xray 进程。
+
+> `outboundTag`: string
+
+对应一个 outbound 的标识。
+
+> `balancerTag`: string
+
+对应一个 Balancer 的标识。
+
+::: tip
+`balancerTag` 和 `outboundTag` 须二选一。当同时指定时，`outboundTag` 生效。
+:::
+
+> `ruleTag`: string
+
+可选，无实际作用，仅用于标识这条规则的名字
+
+如果设置，则命中该条规则时会在 Info 等级输出相关信息，用于调试路由具体命中了哪条规则。
+
+> `webhook`: [WebhookObject](#webhookobject)
+
+可选。如果设置，则命中该条规则时会向指定 URL 发送 POST 请求。
+
+POST 请求中发送的数据示例：
+
+```json
+{
+  "email": "2", // string | null
+  "level": null, // number | null
+  "protocol": "tls", // string | null
+  "network": "tcp", // string
+  "source": "tcp:127.0.0.1:54203", // string | null
+  "destination": "tcp:dns.google:443", // string
+  "routeTarget": null, // string | null
+  "originalTarget": "tcp:8.8.8.8:443", // string | null
+  "inboundTag": "VLESS_TCP", // string | null
+  "inboundName": "vless", // string | null
+  "inboundLocal": "tcp:192.168.108.1:443", // string | null
+  "outboundTag": "notify-bittorrent", // string | null
+  "ts": 1771886901 // number
+}
+```
+
+#### WebhookObject
+
+```json
+{
+  "url": "http://127.0.0.1:8080/api/webhook",
+  "deduplication": 10,
+  "headers": {
+    "X-API-Key": "your-secret-key"
+  }
+}
+```
+
+> `url`: string
+
+发送通知的目标 URL。支持标准网址和本地 Unix socket 路径。
+
+* `https://api.example.com/alert` — 通过 HTTP(S) 发送通知的标准 URL。用于与外部 Web 服务或 API 集成。
+* `/var/run/webhook.sock` — 通过 Unix socket 发送通知，POST 请求将发送到该 socket 的根路径 `/`。
+* `/var/run/webhook.sock:/alert` — 通过 Unix socket 向特定端点 `/alert` 发送通知。这允许直接与本地服务集成，无需使用网络接口。
+* `@abstract:/webhook` — abstract socket（lock-free，仅 Linux/Android）。
+* `@@padded:/webhook` — 带 padding 的 abstract socket，用于 HAProxy 兼容。
+
+> `deduplication`: number
+
+事件去重的时间（单位：秒）。在此时间段内触发的多个相同事件，重复请求将被忽略。
+
+> `headers`: object
+
+HTTP 请求头。
+
+### BalancerObject
+
+负载均衡器配置。当一个负载均衡器生效时，它会从指定的 outbound 中，按配置选出一个最合适的 outbound，进行流量转发。
+
+部分功能需要两个观测站 [observatory](./observatory.md#observatoryobject) 或者 [burstObservatory](./observatory.md#burstobservatoryobject) 的其中一个的信息，见具体说明。
+
+```json
+{
+  "tag": "balancer",
+  "selector": [],
+  "fallbackTag": "outbound",
+  "strategy": {}
+}
+```
+
+> `tag`: string
+
+此负载均衡器的标识，用于匹配 `RuleObject` 中的 `balancerTag`。
+
+> `selector`: \[ string ]
+
+一个字符串数组，其中每一个字符串将用于和 outbound 标识的前缀匹配。在以下几个 outbound 标识中：`[ "a", "ab", "c", "ba" ]`，`"selector": ["a"]` 将匹配到 `[ "a", "ab" ]`。
+
+一般匹配到多个 outbound，使他们均衡的承担负载。
+
+> `fallbackTag`: string
+
+如果根据连接观测结果所有 outbound 都无法连接，则使用这个配置项指定的 outbound。
+
+> `strategy`: [StrategyObject](#strategyobject)
+
+#### StrategyObject
+
+```json
+{
+  "type": "roundRobin",
+  "settings": {}
+}
+```
+
+> `type` : "random" | "roundRobin" | "leastPing" | "leastLoad"
+
+* `random` 默认值。随机选择匹配到的出站代理。
+* `roundRobin` 按顺序选择匹配到的出站代理。
+
+以上两种可选拥有观测站，如果设置了 `fallbackTag` 且有观测站会自动排除掉被观测为不可用的出站（没有观测数据的会假设存活）。
+
+* `leastPing` 根据连接观测结果选择延迟最小的匹配到的出站代理。
+* `leastLoad` 根据连接观测结果选择最稳定的出站代理。
+
+以上两种必须配合观测站使用，并且未被观测站覆盖的节点会被直接排除。如果全部不可用且 `fallbackTag` 也未设置则会选择默认出站
+
+> `settings`: [StrategySettingsObject](#strategysettingsobject)
+
+##### StrategySettingsObject
+
+这是一个可选配置项，不同负载均衡策略的配置格式有所不同。目前只有 `leastLoad` 负载均衡策略可以添加这个配置项。
+
+```json
+{
+  "expected": 2,
+  "maxRTT": "1s",
+  "tolerance": 0.01,
+  "baselines": ["1s"],
+  "costs": [
+    {
+      "regexp": false,
+      "match": "tag",
+      "value": 0.5
+    }
+  ]
+}
+```
+
+> `expected`: number
+
+负载均衡器选出最优节点的个数，流量将在这几个节点中随机分配。
+
+> `maxRTT`: string
+
+最高可接受的测速 RTT 时长。
+
+> `tolerance`: float number
+
+最多可接受的测速失败比例，例如 0.01 指可接受百分之一测速失败。
+
+> `baselines`: \[ string ]
+
+最高可接受的测速 RTT 标准差时长。
+
+> `costs`: \[ CostObject ]
+
+可选配置项，一个数组，可以给所有出站指定权重。
+
+> `regexp`: true | false
+
+是否用正则表达式选择出站 `Tag`。
+
+> `match`: string
+
+匹配出站 `Tag`。
+
+> `value`: float number
+
+权重值，值越大，对应节点越不易被选中。
+
+### 负载均衡配置示例
+
+```json
+{
+  "routing": {
+    "rules": [
+      {
+        "inboundTag": ["in"],
+        "balancerTag": "round"
+      }
+    ],
+    "balancers": [
+      {
+        "selector": ["out"],
+        "strategy": {
+          "type": "roundRobin"
+        },
+        "tag": "round"
+      }
+    ]
+  },
+
+  "inbounds": [
+    {
+      // 入站配置
+      "tag": "in"
+    }
+  ],
+
+  "outbounds": [
+    {
+      // 出站配置
+      "tag": "out1"
+    },
+    {
+      // 出站配置
+      "tag": "out2"
+    }
+  ]
+}
+```
+
+### 预定义域名列表
+
+此列表预置于每一个 Xray 的安装包中，文件名为 `geosite.dat`。这个文件包含了一些常见的域名，使用方式：`geosite:xxx`，如 `geosite:google` 表示对文件内符合 `google` 内包含的域名，进行路由筛选或 DNS 筛选。
+
+常见的域名有：
+
+* `category-ads`：包含了常见的广告域名。
+* `category-ads-all`：包含了常见的广告域名，以及广告提供商的域名。
+* `cn`：相当于 `geolocation-cn` 和 `tld-cn` 的合集。
+* `apple`：包含了 Apple 旗下绝大部分域名。
+* `google`：包含了 Google 旗下绝大部分域名。
+* `microsoft`：包含了 Microsoft 旗下绝大部分域名。
+* `facebook`：包含了 Facebook 旗下绝大部分域名。
+* `twitter`：包含了 Twitter 旗下绝大部分域名。
+* `telegram`：包含了 Telegram 旗下绝大部分域名。
+* `geolocation-cn`：包含了常见的大陆站点域名。
+* `geolocation-!cn`：包含了常见的非大陆站点域名。
+* `tld-cn`：包含了 CNNIC 管理的用于中国大陆的顶级域名，如以 `.cn`、`.中国` 结尾的域名。
+* `tld-!cn`：包含了非中国大陆使用的顶级域名，如以 `.tw`（台湾）、`.jp`（日本）、`.sg`（新加坡）、`.us`（美国）`.ca`（加拿大）等结尾的域名。
+
+你也可以在这里查看完整的域名列表 [Domain list community](https://github.com/v2fly/domain-list-community)。
